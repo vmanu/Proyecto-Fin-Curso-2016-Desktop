@@ -9,7 +9,7 @@ import java.util.HashMap;
  * Created by Victor on 29/03/2016.
  */
 public class DataContainer {
-    private int roundsCounter;
+    private int roundsCounters;
     private int roundsLimit;
     private int victoriesP1;
     private int victoriesP2;
