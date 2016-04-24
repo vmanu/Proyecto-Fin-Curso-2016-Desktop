@@ -51,14 +51,14 @@ public class PreferencesManager {
         changeStateRadioButton(nodoGame, prefs.get("GameOptionNormal", ""));
         player1.setText(prefs.get("playerJ1Name", ""));
         System.out.println("el numero de rondas son: "+roundsOption);
+        player2.setText(prefs.get("playerJ2Name", ""));
         if (playerNumber.equals(ID_RADIOBUTTON_2_PLAYERS)) {
-            player2.setText(prefs.get("playerJ2Name", ""));
             player2.setManaged(true);
             player2.setVisible(true);
             player1.setPrefWidth(230.0);
         }
+        roundCustomed.setText(prefs.get("roundCustomized", ""));
         if (roundsOption.equals(ID_RADIOBUTTON_ROUND_CUSTOMIZED)) {
-            roundCustomed.setText(prefs.get("roundCustomized", ""));
             roundCustomed.setManaged(true);
             roundCustomed.setVisible(true);
         }
