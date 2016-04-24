@@ -6,5 +6,5 @@ package com.mycompany.datapptgame;
 public enum Fichas3 {
     PAPEL,
     PIEDRA,
-    TIJERA,CUNYA
+    TIJERA
 }
