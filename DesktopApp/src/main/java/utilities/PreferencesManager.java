@@ -75,4 +75,18 @@ public class PreferencesManager {
         }
     }
 
+    public static void setPreferencesOnline(String roundsOption, String gameOption, String player1Name) {
+        Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
+        prefs.put("roundsOnline", roundsOption);
+        prefs.put("GameOptionOnline", gameOption);
+        prefs.put("playerJ1NameOnline", player1Name);
+    }
+
+    public static void getPreferencesOnline(ObservableList<Node> nodoRound, ObservableList<Node> nodoGame, TextField player1) {
+        Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
+        changeStateRadioButton(nodoRound, prefs.get("roundsOnline", ""));
+        changeStateRadioButton(nodoGame, prefs.get("GameOptionOnline", ""));
+        player1.setText(prefs.get("playerJ1NameOnline", ""));
+    }
+
 }
