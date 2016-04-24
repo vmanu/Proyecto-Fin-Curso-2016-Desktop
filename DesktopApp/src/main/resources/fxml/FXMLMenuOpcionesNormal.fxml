@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import constantes.Constantes ?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="608.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.FXMLController">
+    <content>
+        <VBox alignment="CENTER" minHeight="300.0" minWidth="500.0" prefHeight="60.0" prefWidth="1080.0">
+            <children>
+                <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="590.0" prefWidth="1080.0">
+                    <content>
+                        <VBox fx:id="VBoxParentOnlineOptions" alignment="TOP_CENTER" fillWidth="false" prefHeight="590.0" prefWidth="1080.0">
+                            <children>
+                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%ChooseOption">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets bottom="20.0" top="20.0" />
+                                    </padding>
+                                </Label>
+                                <VBox fx:id="RadioGroup_Games_Normal" alignment="TOP_CENTER">
+                                    <children>
+                                        <RadioButton mnemonicParsing="false" selected="true" text="%GameOf3">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="GAME_RB" />
+                                            </toggleGroup>
+                                            <id>
+                                                <Constantes fx:constant="ID_RADIOBUTTON_GAME_OF_3"/>
+                                            </id>
+                                        </RadioButton>
+                                        <RadioButton mnemonicParsing="false" text="%GameOf5" toggleGroup="$GAME_RB">
+                                            <id>
+                                                <Constantes fx:constant="ID_RADIOBUTTON_GAME_OF_5"/>
+                                            </id>
+                                        </RadioButton>
+                                        <RadioButton mnemonicParsing="false" text="%GameOf9" toggleGroup="$GAME_RB">
+                                            <id>
+                                                <Constantes fx:constant="ID_RADIOBUTTON_GAME_OF_9"/>
+                                            </id>
+                                        </RadioButton>
+                                    </children>
+                                </VBox>
+                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%ChooseNumberOfPlayers">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets bottom="20.0" top="20.0" />
+                                    </padding>
+                                </Label>
+                                <VBox fx:id="RadioGroup_Player_Normal" alignment="TOP_CENTER">
+                                    <children>
+                                        <RadioButton mnemonicParsing="false" onAction="#handleRadioButtonsAction" selected="true" text="%Player1">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="PLAYER_RB" />
+                                            </toggleGroup>
+                                            <id>
+                                                <Constantes fx:constant="ID_RADIOBUTTON_1_PLAYERS"/>
+                                            </id>
+                                        </RadioButton>
+                                        <RadioButton mnemonicParsing="false" onAction="#handleRadioButtonsAction" text="%Player2" toggleGroup="$PLAYER_RB">
+                                            <id>
+                                                <Constantes fx:constant="ID_RADIOBUTTON_2_PLAYERS"/>
+                                            </id>
+                                            <padding>
+                                                <Insets bottom="20.0" />
+                                            </padding>
+                                        </RadioButton>
+                                    </children>
+                                </VBox>
+                                <HBox alignment="TOP_CENTER" fillHeight="true" prefWidth="490.0">
+                                    <children>
+                                        <TextField fx:id="TxtFieldP1" alignment="CENTER" minWidth="245.0" prefWidth="490.0" promptText="%Player1"/>
+                                        <TextField fx:id="TxtFieldP2" alignment="CENTER" managed="false" minWidth="245.0" prefWidth="245.0" promptText="%Player2" visible="false"/>
+                                    </children>
+                                </HBox>
+                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%ChooseNumberOfRounds">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets bottom="20.0" top="20.0" />
+                                    </padding>
+                                </Label>
+                                <VBox fx:id="RadioGroup_Rounds_Normal" alignment="TOP_CENTER">
+                                    <children>
+                                        <RadioButton mnemonicParsing="false" selected="true" text="%Rounds1" onAction="#handleRadioButtonsAction">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="ROUND_RB" />
+                                            </toggleGroup>
+                                            <id>
+                                                <Constantes fx:constant="ID_RADIOBUTTON_ROUND_OF_1"/>
+                                            </id>
+                                        </RadioButton>
+                                        <RadioButton mnemonicParsing="false" text="%Rounds3" toggleGroup="$ROUND_RB" onAction="#handleRadioButtonsAction">
+                                            <id>
+                                                <Constantes fx:constant="ID_RADIOBUTTON_ROUND_OF_3"/>
+                                            </id>
+                                        </RadioButton>
+                                        <RadioButton mnemonicParsing="false" text="%Rounds5" toggleGroup="$ROUND_RB" onAction="#handleRadioButtonsAction">
+                                            <id>
+                                                <Constantes fx:constant="ID_RADIOBUTTON_ROUND_OF_5"/>
+                                            </id>
+                                        </RadioButton>
+                                        <RadioButton mnemonicParsing="false" text="%CustomedRounds" toggleGroup="$ROUND_RB" onAction="#handleRadioButtonsAction">
+                                            <id>
+                                                <Constantes fx:constant="ID_RADIOBUTTON_ROUND_CUSTOMIZED"/>
+                                            </id>
+                                        </RadioButton>
+                                    </children>
+                                </VBox>
+                                <TextField fx:id="NumberRoundsCustom" alignment="CENTER" minWidth="490.0" prefWidth="490.0" promptText="%PlaceholderNumRounds" visible="false"/>
+                            </children>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+                <FlowPane alignment="BOTTOM_CENTER" columnHalignment="CENTER" hgap="20.0" maxWidth="1080.0" minHeight="65.0" prefHeight="65.0" prefWidth="1080.0" prefWrapLength="640.0">
+                    <children>
+                        <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoNormalAction" prefHeight="25.0" prefWidth="150.0" text="%Back">
+                            <id>
+                                <Constantes fx:constant="ID_BOTON_BACK_OPCIONES_MENU_NORMAL"/>
+                            </id>
+                            <font>
+                                <Font name="Arial Narrow" size="18.0" />
+                            </font>
+                        </Button>
+                        <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoNormalAction" prefHeight="25.0" prefWidth="150.0" text="%Play">
+                            <id>
+                                <Constantes fx:constant="ID_BOTON_PLAY_OPCIONES_MENU_NORMAL"/>
+                            </id>
+                            <font>
+                                <Font name="Arial Narrow" size="18.0" />
+                            </font>
+                        </Button>
+                    </children>
+                    <padding>
+                        <Insets bottom="20.0" />
+                    </padding>
+                </FlowPane>
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>

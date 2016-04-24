@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import constantes.Constantes ?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="608.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.FXMLController">
+    <content>
+        <VBox alignment="CENTER" prefHeight="608.0" prefWidth="1080.0">
+            <children>
+                <FlowPane alignment="CENTER" columnHalignment="CENTER" orientation="HORIZONTAL" prefHeight="608.0" prefWidth="1080.0" vgap="20.0" maxWidth="461.0">
+                    <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%OnlineModeTitle">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+               
+                        </Label>
+                        <Button mnemonicParsing="false" onAction="#handleButtonsMenuOnlineAction" prefHeight="25.0" prefWidth="461.0" text="%Play">
+                            <id>
+                                <Constantes fx:constant="ID_BOTON_PLAY_MENU_JUEGO_ONLINE"/>
+                            </id>
+                            <font>
+                                <Font name="Arial Narrow" size="18.0" />
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleButtonsMenuOnlineAction" prefHeight="25.0" prefWidth="461.0" text="%Scores">
+                            <id>
+                                <Constantes fx:constant="ID_BOTON_SCORES_MENU_JUEGO_ONLINE"/>
+                            </id>
+                            <font>
+                                <Font name="Arial Narrow" size="18.0" />
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleButtonsMenuOnlineAction" prefHeight="25.0" prefWidth="461.0" text="%Back">
+                            <id>
+                                <Constantes fx:constant="ID_BOTON_BACK_MENU_JUEGO_ONLINE"/>
+                            </id>
+                            <font>
+                                <Font name="Arial Narrow" size="18.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </FlowPane>
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>

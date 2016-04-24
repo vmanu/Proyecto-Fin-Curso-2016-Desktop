@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="608.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.FXMLController">
+    <content>
+        <VBox alignment="CENTER" minHeight="300.0" minWidth="500.0" prefHeight="608.0" prefWidth="1080.0">
+            <children>
+                <HBox alignment="CENTER">
+                    <children>
+                        <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" visible="false" fx:id="ImagenJ1ChoosedG5">
+                            <image>
+                                <Image url="@../imagenes/helpsymbolazul.png" />
+                            </image>
+                        </ImageView>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="126.0" prefWidth="100.0" text="/">
+                            <font>
+                                <Font name="System Bold" size="96.0" />
+                            </font>
+                            <padding>
+                                <Insets bottom="20.0" />
+                            </padding>
+                        </Label>
+                        <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="ImagenJ2ChoosedG5">
+                            <image>
+                                <Image url="@../imagenes/helpsymbolrojo.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+                <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true"  fx:id="lagarto5" onMouseClicked="#gestionaJuego">
+                                    <image>
+                                        <Image url="@../imagenes/lizardrojo.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets bottom="20.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="171.0" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="piedra5" onMouseClicked="#gestionaJuego">
+                                    <image>
+                                        <Image url="@../imagenes/piedraroja.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets right="20.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="papel5" onMouseClicked="#gestionaJuego">
+                                    <image>
+                                        <Image url="@../imagenes/papelrojo.png" />
+                                    </image>
+                                </ImageView>
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="tijera5" onMouseClicked="#gestionaJuego">
+                                    <image>
+                                        <Image url="@../imagenes/tijerasrojo.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets left="20.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="516.0" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="113.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" fx:id="spock5" onMouseClicked="#gestionaJuego">
+                                    <image>
+                                        <Image url="@../imagenes/spockrojo.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>
