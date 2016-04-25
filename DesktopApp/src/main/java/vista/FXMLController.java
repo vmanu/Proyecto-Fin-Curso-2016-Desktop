@@ -122,7 +122,7 @@ public class FXMLController implements Initializable {
 
     @OnMessage
     public void onMessage(String input) {
-        ObjectMapper mapper = new ObjectMapper();
+        /*ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         MetaMessage mt = null;
         try {
@@ -176,7 +176,7 @@ public class FXMLController implements Initializable {
 
                 }
             }
-        }
+        }*/
     }
 
     @OnClose
@@ -752,7 +752,7 @@ public class FXMLController implements Initializable {
                         changeSceneRoot(loader, stage);
                     }
                     msg.setContent(oj);
-                    sendMessage(msg);
+                    //sendMessage(msg);
                 }
             }
         } else {
