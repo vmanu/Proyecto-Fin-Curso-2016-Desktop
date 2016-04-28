@@ -74,6 +74,7 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
+import org.glassfish.tyrus.spi.ClientContainer;
 import static utilities.UtilidadesJavaFX.*;
 
 /**
@@ -127,7 +128,7 @@ public class FXMLController implements Initializable {
 
     @OnMessage
     public void onMessage(String input) {
-        /*ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         MetaMessage mt = null;
         try {
@@ -160,7 +161,7 @@ public class FXMLController implements Initializable {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mWebSocketClient.close();
+                        ((ClientContainer)container).stop();
                         finish();
                     }
                 });
@@ -179,7 +180,7 @@ public class FXMLController implements Initializable {
 
                 }
             }
-        }*/
+        }
     }
 
     @OnClose
@@ -627,37 +628,6 @@ public class FXMLController implements Initializable {
                 ((ImageView) stage.getScene().lookup("#fuego9")).setImage(new Image("imagenes/fireazul.png"));
                 break;
         }
-    }
-
-    private Enum getEnumFromOrdinal(int ordinal, DataContainer datos) {
-        Enum res = null;
-        boolean sal = false;
-        switch (datos.getFactorAlgoritmo()) {
-            case 1:
-                for (int i = 0; i < Fichas3.values().length && !sal; i++) {
-                    if (i == ordinal) {
-                        res = Fichas3.values()[i];
-                        sal = true;
-                    }
-                }
-            case 2:
-                for (int i = 0; i < Fichas5.values().length && !sal; i++) {
-                    if (i == ordinal) {
-                        res = Fichas5.values()[i];
-                        sal = true;
-                    }
-                }
-                break;
-            case 4:
-                for (int i = 0; i < Fichas9.values().length && !sal; i++) {
-                    if (i == ordinal) {
-                        res = Fichas9.values()[i];
-                        sal = true;
-                    }
-                }
-                break;
-        }
-        return res;
     }
 
     private void comunEvaluacionGanador(DataContainer datos, boolean online, ResourceBundle rb) {

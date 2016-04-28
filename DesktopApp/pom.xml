@@ -127,5 +127,11 @@
             <version>2.2.3</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-spi</artifactId>
+            <version>1.12</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 </project>
