@@ -5,6 +5,9 @@
  */
 package vista;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.datapptgame.MetaMessage;
 import com.sun.webkit.Timer;
 import java.net.URL;
@@ -71,6 +74,7 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
+import static utilities.UtilidadesJavaFX.*;
 
 /**
  *
@@ -81,6 +85,7 @@ public class FXMLController implements Initializable {
 
     private static DataContainer datos;
     private final String RUTA_IMAGENES = "imagenes";
+    private WebSocketContainer container;
 
     @FXML
     private ComboBox cbox;
@@ -126,26 +131,24 @@ public class FXMLController implements Initializable {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         MetaMessage mt = null;
         try {
-            mt = mapper.readValue(s, new TypeReference<MetaMessage>() {
-            });
+            mt = mapper.readValue(input, new TypeReference<MetaMessage>() {});
         } catch (IOException e) {
             e.printStackTrace();
         }
         if (mt != null && mt.getType() == TypeMessage.RESPUESTA) {
             OpcionJuego oj = null;
             try {
-                oj = mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<OpcionJuego>() {
-                });
+                oj = mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<OpcionJuego>() {});
             } catch (IOException e) {
                 e.printStackTrace();
             }
             if (oj != null) {
-                datos.setChosen2(getEnumFromOrdinal(oj.getOpcion()));
-                datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2()));
-                Log.d("PRUEBA", "LLEGA AQUI, O SEA, QUE RECIBE BIEN EL DATO, este es: " + datos.getNombreJ1() + " el mensaje recibido es: " + s);
+                datos.setChosen2(getEnumFromOrdinal(oj.getOpcion(),datos));
+                datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(),datos));
                 if (datos.getChosen1() != null) {
-                    ((ImageView) findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
-                    comunEvaluacionGanador(datos.getChosen2(), false);
+                    //TODO GESTIONAR CAMBIO DE VISTA, EN LA QUE MUESTRA RESULT
+                    //((ImageView) findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
+                    //comunEvaluacionGanador(datos.getChosen2(), false);
                 }
             }
         } else {
@@ -190,7 +193,7 @@ public class FXMLController implements Initializable {
     }
 
     private void connectToWebSocket() {
-        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        container = ContainerProvider.getWebSocketContainer();
         try {
             URI uri = URI.create("ws://localhost:8080/BinaryWebSocketServer/images");
             container.connectToServer(this, uri);
