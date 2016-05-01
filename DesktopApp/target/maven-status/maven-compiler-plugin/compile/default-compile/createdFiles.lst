@@ -1,5 +1,6 @@
 utilities\porJugadas.class
 utilities\PreferencesManager.class
+utilities\MyClientEndpoint.class
 utilities\porPromedios.class
 utilities\UtilidadesJavaFX.class
 utilities\ComparadorJugadores.class
@@ -7,6 +8,7 @@ vista\FXMLController.class
 modelo\Jugador.class
 vista\FXMLController$1.class
 modelo\DataContainer.class
+utilities\MyClientEndpoint$1.class
 vista\DesktopApp.class
 utilities\porVictorias.class
 constantes\Constantes.class

@@ -133,5 +133,10 @@
             <version>1.12</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-grizzly-client</artifactId>
+            <version>1.8.3</version>
+        </dependency>
     </dependencies>
 </project>

@@ -50,7 +50,6 @@ public class PreferencesManager {
         changeStateRadioButton(nodoPlayers, playerNumber);
         changeStateRadioButton(nodoGame, prefs.get("GameOptionNormal", ""));
         player1.setText(prefs.get("playerJ1Name", ""));
-        System.out.println("el numero de rondas son: "+roundsOption);
         player2.setText(prefs.get("playerJ2Name", ""));
         if (playerNumber.equals(ID_RADIOBUTTON_2_PLAYERS)) {
             player2.setManaged(true);
@@ -67,7 +66,6 @@ public class PreferencesManager {
     private static void changeStateRadioButton(ObservableList<Node> nodos, String valueToSet){
         for(int i=0;i<nodos.size();i++){
             RadioButton button=(RadioButton)nodos.get(i);
-            System.out.println("radiobutton: "+button.getText());
             if(button.getId().equals(valueToSet)){
                 i=nodos.size();
                 button.setSelected(true);

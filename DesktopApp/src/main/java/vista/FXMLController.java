@@ -75,6 +75,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 import org.glassfish.tyrus.spi.ClientContainer;
+import utilities.MyClientEndpoint;
 import static utilities.UtilidadesJavaFX.*;
 
 /**
@@ -87,6 +88,7 @@ public class FXMLController implements Initializable {
     private static DataContainer datos;
     private final String RUTA_IMAGENES = "imagenes";
     private WebSocketContainer container;
+    private MyClientEndpoint websocket;
 
     @FXML
     private ComboBox cbox;
@@ -121,88 +123,88 @@ public class FXMLController implements Initializable {
     @FXML
     private TextField TxtFieldP1Online;
 
-    @OnOpen
-    public void onOpen(Session session) {
-
-    }
-
-    @OnMessage
-    public void onMessage(String input) {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        MetaMessage mt = null;
-        try {
-            mt = mapper.readValue(input, new TypeReference<MetaMessage>() {});
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (mt != null && mt.getType() == TypeMessage.RESPUESTA) {
-            OpcionJuego oj = null;
-            try {
-                oj = mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<OpcionJuego>() {});
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (oj != null) {
-                datos.setChosen2(getEnumFromOrdinal(oj.getOpcion(),datos));
-                datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(),datos));
-                if (datos.getChosen1() != null) {
-                    //TODO GESTIONAR CAMBIO DE VISTA, EN LA QUE MUESTRA RESULT
-                    //((ImageView) findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
-                    //comunEvaluacionGanador(datos.getChosen2(), false);
-                }
-            }
-        } else {
-            if (mt != null && mt.getType() == TypeMessage.DESCONEXION) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(JuegoOnline.this);
-                dialog.setTitle(R.string.dialogoTitle);
-                dialog.setMessage(R.string.dialogoMessage);
-                dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ((ClientContainer)container).stop();
-                        finish();
-                    }
-                });
-                dialog.show();
-            } else {
-                if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
-                    try {
-                        datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
-                        }));
-                        //tarea.notify();
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        }
-    }
-
-    @OnClose
-    public void onClose() {
-
-    }
-
-    @OnError
-    public void onError() {
-
-    }
-
-    private void connectToWebSocket() {
-        container = ContainerProvider.getWebSocketContainer();
-        try {
-            URI uri = URI.create("ws://localhost:8080/BinaryWebSocketServer/images");
-            container.connectToServer(this, uri);
-        } catch (DeploymentException | IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-            System.exit(-1);
-        }
-    }
+//    @OnOpen
+//    public void onOpen(Session session) {
+//
+//    }
+//
+//    @OnMessage
+//    public void onMessage(String input) {
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//        MetaMessage mt = null;
+//        try {
+//            mt = mapper.readValue(input, new TypeReference<MetaMessage>() {});
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        if (mt != null && mt.getType() == TypeMessage.RESPUESTA) {
+//            OpcionJuego oj = null;
+//            try {
+//                oj = mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<OpcionJuego>() {});
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            if (oj != null) {
+//                datos.setChosen2(getEnumFromOrdinal(oj.getOpcion(),datos));
+//                datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(),datos));
+//                if (datos.getChosen1() != null) {
+//                    //TODO GESTIONAR CAMBIO DE VISTA, EN LA QUE MUESTRA RESULT
+//                    //((ImageView) findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
+//                    //comunEvaluacionGanador(datos.getChosen2(), false);
+//                }
+//            }
+//        } else {
+//            if (mt != null && mt.getType() == TypeMessage.DESCONEXION) {
+//                /*AlertDialog.Builder dialog = new AlertDialog.Builder(JuegoOnline.this);
+//                dialog.setTitle(R.string.dialogoTitle);
+//                dialog.setMessage(R.string.dialogoMessage);
+//                dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        ((ClientContainer)container).stop();
+//                        finish();
+//                    }
+//                });
+//                dialog.show();*/
+//            } else {
+//                if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
+//                    /*try {
+//                        datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
+//                        }));
+//                        //tarea.notify();
+//                    } catch (JsonProcessingException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//*/
+//                }
+//            }
+//        }
+//    }
+//
+//    @OnClose
+//    public void onClose() {
+//
+//    }
+//
+//    @OnError
+//    public void onError() {
+//
+//    }
+//
+//    private void connectToWebSocket() {
+//        container = ContainerProvider.getWebSocketContainer();
+//        try {
+//            URI uri = URI.create("ws://localhost:8080/BinaryWebSocketServer/images");
+//            container.connectToServer(this, uri);
+//        } catch (DeploymentException | IOException ex) {
+//            LOGGER.log(Level.SEVERE, null, ex);
+//            System.exit(-1);
+//        }
+//    }
 
     @FXML
     private void handleButtonsMenuPrincipalAction(ActionEvent event) {
@@ -454,7 +456,6 @@ public class FXMLController implements Initializable {
                     datos.setNombreJ2("CPU");
                     datos.setModalidadJuego(ModalidadJuego.UNO.ordinal());
                 }
-                System.out.println("nombreJ1: " + datos.getNombreJ1() + ", nombreJ2: " + datos.getNombreJ2() + ", roundLim: " + datos.getRoundsLimit() + ", gameType: " + datos.getModalidadJuego());
                 break;
             case ID_BOTON_BACK_OPCIONES_MENU_NORMAL:
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoNormal.fxml"), bundle);
@@ -478,12 +479,14 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+//                    websocket=new MyClientEndpoint("paco", datos);
+//            websocket.sendMessage("CAGO EN TO, ME CONECTÉ");
+        
+        
         if (datos == null) {
-            System.out.println("ESTA NULL");
             datos = new DataContainer();
         }
         if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLScores.fxml")) {
-            System.out.println("SCORES");
             //ENTRA EN SCORES
             List<String> list = new ArrayList<String>();
             list.add(rb.getString("VictoriesOption"));
@@ -511,6 +514,9 @@ public class FXMLController implements Initializable {
         if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLMenuOpcionesJuegoOnline.fxml")) {
             PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren(), TxtFieldP1Online);
         }
+        if(url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLMenuOpcionesJuegoOnline.fxml")){
+            websocket=new MyClientEndpoint("paco", datos);
+        }
     }
 
     public static String getSelectedRadioButtonID(ObservableList<Node> lista) {
@@ -522,7 +528,6 @@ public class FXMLController implements Initializable {
                 break;
             }
         }
-        System.out.println("devuelve es: " + devuelve);
         return devuelve;
     }
 
@@ -533,7 +538,6 @@ public class FXMLController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Pasa por aqui, y si lo hace en la segunda, soy un puto crack");
         if (root != null) {
             stage.getScene().setRoot(root);
         }
@@ -594,7 +598,6 @@ public class FXMLController implements Initializable {
         switch (datos.getFactorAlgoritmo()) {
             case 1:
                 //SET IMAGENES PARA 3 y cambiar visibilidad de los Opciones
-                System.out.println("ENTRA EN OPCION 3");
                 ((Node) stage.getScene().lookup("#ImagenJ1ChoosedG3")).setVisible(true);
                 ((Node) stage.getScene().lookup("#ImagenJ2ChoosedG3")).setVisible(false);
                 ((ImageView) stage.getScene().lookup("#piedra3")).setImage(new Image("imagenes/piedraazul.png"));
@@ -603,7 +606,6 @@ public class FXMLController implements Initializable {
                 break;
             case 2:
                 //SET IMAGENES PARA 5 y cambiar visibilidad de los Opciones
-                System.out.println("ENTRA EN OPCION 5");
                 ((Node) stage.getScene().lookup("#ImagenJ1ChoosedG5")).setVisible(true);
                 ((Node) stage.getScene().lookup("#ImagenJ2ChoosedG5")).setVisible(false);
                 ((ImageView) stage.getScene().lookup("#piedra5")).setImage(new Image("imagenes/piedraazul.png"));
@@ -614,7 +616,6 @@ public class FXMLController implements Initializable {
                 break;
             case 4:
                 //SET IMAGENES PARA 9 y cambiar visibilidad de los Opciones
-                System.out.println("ENTRA EN OPCION 9");
                 ((Node) stage.getScene().lookup("#ImagenJ1ChoosedG9")).setVisible(true);
                 ((Node) stage.getScene().lookup("#ImagenJ2ChoosedG9")).setVisible(false);
                 ((ImageView) stage.getScene().lookup("#piedra9")).setImage(new Image("imagenes/piedraazul.png"));
@@ -631,8 +632,6 @@ public class FXMLController implements Initializable {
     }
 
     private void comunEvaluacionGanador(DataContainer datos, boolean online, ResourceBundle rb) {
-        //TODO
-        //((ImageView) activity.findViewById(R.id.player1Muestra)).setImageResource(datos.getIdImagenPulsada1());
         switch (logicaJuego(datos.getChosen2().ordinal(), datos)) {
             case 0:
                 //empata
@@ -649,7 +648,6 @@ public class FXMLController implements Initializable {
                 datos.sumaVictoriasP2();
                 break;
         }
-        //cambiarVistaAResult(activity, datos, online);
     }
 
     private int logicaJuego(int chosen, DataContainer datos) {
@@ -660,10 +658,6 @@ public class FXMLController implements Initializable {
         } else {
             boolean ganaChosen = false;
             datos.avanzaRonda();
-            //TODO
-            if (datos.rondasFinalizadas()) {
-                //activity.findViewById(R.id.buttonNextResult).setEnabled(false);
-            }
             for (int j = ((chosen + 1) % ((datos.getFactorAlgoritmo() * 2) + 1)), i = 0; i < (datos.getFactorAlgoritmo()) && !ganaChosen; i++, j = ((j + 1) % ((datos.getFactorAlgoritmo() * 2) + 1))) {
                 if (datos.getOrdinalChosen1() == j) {
                     //CHOSEN GANA
@@ -682,16 +676,13 @@ public class FXMLController implements Initializable {
     @FXML
     private void gestionaJuego(MouseEvent event) {
         Node nodo = (Node) event.getSource();
-        System.out.println("EN LA GESTION JUEGO: " + datos.getModalidadJuego() + " ");
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
         MetaMessage msg = null;
         Enum chosen = datos.getMapFichas().get(nodo.getId());
-        System.out.println("turno: " + datos.isTurno());
         if (datos.isTurno() && chosen != null) {
             datos.setChosen1(chosen);
             String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();
             datos.setIdImagenPulsada1(RUTA_IMAGENES.concat(fullURL.substring(fullURL.lastIndexOf("/"))));
-            System.out.println("imagen: " + datos.getIdImagenPulsada1());
             if (datos.getModalidadJuego() == ModalidadJuego.DOS.ordinal()) {
                 cambiaAzul(event);
                 datos.cambiaTurno();
@@ -699,10 +690,8 @@ public class FXMLController implements Initializable {
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
             } else {//JUEGA MAQUINA
                 if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
-                    System.out.println("ENTRA EN EVALUACION 1 JUGADOR");
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
                     datos.setIdImagenPulsada2(datos.getMapFichasMaquina().get(datos.getChosen2().toString()));
-                    System.out.println("chosen2: " + datos.getChosen2() + ", idImagen: " + datos.getIdImagenPulsada2());
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
                     changeSceneRoot(loader, stage);
@@ -725,7 +714,7 @@ public class FXMLController implements Initializable {
                         changeSceneRoot(loader, stage);
                     }
                     msg.setContent(oj);
-                    //sendMessage(msg);
+                    websocket.sendMessage(msg);
                 }
             }
         } else {
