@@ -53,12 +53,16 @@ import modelo.DataContainer;
 import com.mycompany.datapptgame.Fichas3;
 import com.mycompany.datapptgame.Fichas5;
 import com.mycompany.datapptgame.Fichas9;
+import com.mycompany.datapptgame.GameType;
 import com.mycompany.datapptgame.ModalidadJuego;
 import com.mycompany.datapptgame.OpcionJuego;
+import com.mycompany.datapptgame.Player;
+import com.mycompany.datapptgame.RoundsNumber;
 import com.mycompany.datapptgame.TypeMessage;
 import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.prefs.Preferences;
 import javafx.collections.ObservableMap;
 import javafx.event.EventType;
@@ -87,7 +91,6 @@ public class FXMLController implements Initializable {
 
     private static DataContainer datos;
     private final String RUTA_IMAGENES = "imagenes";
-    private WebSocketContainer container;
     private MyClientEndpoint websocket;
 
     @FXML
@@ -122,89 +125,6 @@ public class FXMLController implements Initializable {
     private VBox RadioGroup_Rounds_Online;
     @FXML
     private TextField TxtFieldP1Online;
-
-//    @OnOpen
-//    public void onOpen(Session session) {
-//
-//    }
-//
-//    @OnMessage
-//    public void onMessage(String input) {
-//        ObjectMapper mapper = new ObjectMapper();
-//        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//        MetaMessage mt = null;
-//        try {
-//            mt = mapper.readValue(input, new TypeReference<MetaMessage>() {});
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        if (mt != null && mt.getType() == TypeMessage.RESPUESTA) {
-//            OpcionJuego oj = null;
-//            try {
-//                oj = mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<OpcionJuego>() {});
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            if (oj != null) {
-//                datos.setChosen2(getEnumFromOrdinal(oj.getOpcion(),datos));
-//                datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(),datos));
-//                if (datos.getChosen1() != null) {
-//                    //TODO GESTIONAR CAMBIO DE VISTA, EN LA QUE MUESTRA RESULT
-//                    //((ImageView) findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
-//                    //comunEvaluacionGanador(datos.getChosen2(), false);
-//                }
-//            }
-//        } else {
-//            if (mt != null && mt.getType() == TypeMessage.DESCONEXION) {
-//                /*AlertDialog.Builder dialog = new AlertDialog.Builder(JuegoOnline.this);
-//                dialog.setTitle(R.string.dialogoTitle);
-//                dialog.setMessage(R.string.dialogoMessage);
-//                dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        ((ClientContainer)container).stop();
-//                        finish();
-//                    }
-//                });
-//                dialog.show();*/
-//            } else {
-//                if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
-//                    /*try {
-//                        datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
-//                        }));
-//                        //tarea.notify();
-//                    } catch (JsonProcessingException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//*/
-//                }
-//            }
-//        }
-//    }
-//
-//    @OnClose
-//    public void onClose() {
-//
-//    }
-//
-//    @OnError
-//    public void onError() {
-//
-//    }
-//
-//    private void connectToWebSocket() {
-//        container = ContainerProvider.getWebSocketContainer();
-//        try {
-//            URI uri = URI.create("ws://localhost:8080/BinaryWebSocketServer/images");
-//            container.connectToServer(this, uri);
-//        } catch (DeploymentException | IOException ex) {
-//            LOGGER.log(Level.SEVERE, null, ex);
-//            System.exit(-1);
-//        }
-//    }
 
     @FXML
     private void handleButtonsMenuPrincipalAction(ActionEvent event) {
@@ -339,12 +259,15 @@ public class FXMLController implements Initializable {
                 switch (gameOption) {
                     case ID_RADIOBUTTON_GAME_OF_3:
                         loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame3.fxml"), bundle);
+                        datos.setFactorAlgoritmo(1);
                         break;
                     case ID_RADIOBUTTON_GAME_OF_5:
                         loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame5.fxml"), bundle);
+                        datos.setFactorAlgoritmo(2);
                         break;
                     case ID_RADIOBUTTON_GAME_OF_9:
                         loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame9.fxml"), bundle);
+                        datos.setFactorAlgoritmo(4);
                         break;
                 }
                 roundsOption = getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Rounds_Online")).getChildren()));
@@ -370,16 +293,19 @@ public class FXMLController implements Initializable {
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
         } else //BACK
-        if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
-            setVisibilitiesStateMenuOpcionesOnline(stage, true);
-            cargarPantalla = false;
-        } else {
-            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
-            datos = null;
+        {
+            if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
+                setVisibilitiesStateMenuOpcionesOnline(stage, true);
+                cargarPantalla = false;
+            } else {
+                loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+                datos = null;
+            }
         }
         if (cargarPantalla) {
             changeSceneRoot(loader, stage);
             datos.setTurno(true);
+            datos.setJugando(true);
             PreferencesManager.setPreferencesOnline(roundsOption, gameOption, player1Name);
         }
     }
@@ -469,6 +395,7 @@ public class FXMLController implements Initializable {
             changeSceneRoot(loader, stage);
             if (((Node) event.getSource()).getId() == ID_BOTON_PLAY_OPCIONES_MENU_NORMAL) {
                 datos.setTurno(true);
+                datos.setJugando(true);
                 notificacionToast(datos.getNombreJ1() + bundle.getString("Turno"));
                 PreferencesManager.setPreferencesNormal(roundsOption, playerNumber, gameOption, player1Name, player2Name, customRounds);
             }
@@ -479,14 +406,17 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//                    websocket=new MyClientEndpoint("paco", datos);
-//            websocket.sendMessage("CAGO EN TO, ME CONECTÉ");
-        
-        
+//      websocket=new MyClientEndpoint("paco", datos);
+//      websocket.sendMessage("CAGO EN TO, ME CONECTÉ");
+        String urlComprueba = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
+        HashMap<Integer, String> compruebaJuego = new HashMap();
+        compruebaJuego.put(1, "FXMLJuegoGame3.fxml");
+        compruebaJuego.put(2, "FXMLJuegoGame5.fxml");
+        compruebaJuego.put(4, "FXMLJuegoGame9.fxml");
         if (datos == null) {
             datos = new DataContainer();
         }
-        if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLScores.fxml")) {
+        if (urlComprueba.equals("FXMLScores.fxml")) {
             //ENTRA EN SCORES
             List<String> list = new ArrayList<String>();
             list.add(rb.getString("VictoriesOption"));
@@ -498,7 +428,7 @@ public class FXMLController implements Initializable {
             cbox.setValue(list.get(0));
         }
         //TODO: PONER UN IF CONDICIONANDO LA VISTA DEL RESULT A EL NUMERO DE PARTIDAS JUGADAS Y TAMBIEN MOSTRANDO LAS IMAGENES CORRECTAS
-        if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLResult.fxml")) {
+        if (urlComprueba.equals("FXMLResult.fxml")) {
             comunEvaluacionGanador(datos, false, rb);
             resultImagenJ1Choosed.setImage(new Image(datos.getIdImagenPulsada1()));
             resultImagenJ2Choosed.setImage(new Image(datos.getIdImagenPulsada2()));
@@ -508,14 +438,33 @@ public class FXMLController implements Initializable {
                 buttonContinueResult.setDisable(true);
             }
         }
-        if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLMenuOpcionesNormal.fxml")) {
+        if (urlComprueba.equals("FXMLMenuOpcionesNormal.fxml")) {
             PreferencesManager.getPreferencesNormal(RadioGroup_Rounds_Normal.getChildren(), RadioGroup_Player_Normal.getChildren(), RadioGroup_Games_Normal.getChildren(), TxtFieldP1, TxtFieldP2, NumberRoundsCustom);
         }
-        if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLMenuOpcionesJuegoOnline.fxml")) {
+        if (urlComprueba.equals("FXMLMenuOpcionesJuegoOnline.fxml")) {
             PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren(), TxtFieldP1Online);
         }
-        if(url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLMenuOpcionesJuegoOnline.fxml")){
-            websocket=new MyClientEndpoint("paco", datos);
+        if (urlComprueba.equals(compruebaJuego.get(datos.getFactorAlgoritmo())) && datos.getRoundsCounter() == 0) {
+            websocket = new MyClientEndpoint(datos);
+            HashMap<Integer, GameType> compruebaTipoJuego = new HashMap();
+            compruebaTipoJuego.put(1, GameType.JUEGO3);
+            compruebaTipoJuego.put(2, GameType.JUEGO5);
+            compruebaTipoJuego.put(4, GameType.JUEGO9);
+            compruebaTipoJuego.put(-1, GameType.ANY);
+            HashMap<Integer, RoundsNumber> compruebaRondas = new HashMap();
+            compruebaRondas.put(1, RoundsNumber.UNA);
+            compruebaRondas.put(3, RoundsNumber.TRES);
+            compruebaRondas.put(5, RoundsNumber.CINCO);
+            compruebaRondas.put(-1, RoundsNumber.ANY);
+            MetaMessage msg = new MetaMessage();
+            msg.setType(TypeMessage.CONEXION);
+            Player p = new Player();
+            p.setNamePlayer(datos.getNombreJ1());
+            p.setPlaying(false);
+            p.setNumberOfRounds(compruebaRondas.get(datos.getRoundsLimit()));
+            p.setTipoJuego(compruebaTipoJuego.get(datos.getFactorAlgoritmo()));
+            msg.setContent(p);
+            websocket.sendMessage(msg);
         }
     }
 
@@ -688,8 +637,8 @@ public class FXMLController implements Initializable {
                 datos.cambiaTurno();
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
-            } else {//JUEGA MAQUINA
-                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+            } else//JUEGA MAQUINA
+             if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
                     datos.setIdImagenPulsada2(datos.getMapFichasMaquina().get(datos.getChosen2().toString()));
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -716,24 +665,20 @@ public class FXMLController implements Initializable {
                     msg.setContent(oj);
                     websocket.sendMessage(msg);
                 }
-            }
-        } else {
-            if (!datos.isTurno() && chosen != null) {
-                datos.setChosen2(chosen);
-                String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();
-                datos.setIdImagenPulsada2(RUTA_IMAGENES.concat(fullURL.substring(fullURL.lastIndexOf("/"))));
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
-                changeSceneRoot(loader, stage);
-                datos.cambiaTurno();
-                //cambiaRojo(activity, datos);
-                //datos.setJugando(false);
-                //((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
+        } else if (!datos.isTurno() && chosen != null) {
+            datos.setChosen2(chosen);
+            String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();
+            datos.setIdImagenPulsada2(RUTA_IMAGENES.concat(fullURL.substring(fullURL.lastIndexOf("/"))));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
+            changeSceneRoot(loader, stage);
+            datos.cambiaTurno();
+            //cambiaRojo(activity, datos);
+            //datos.setJugando(false);
+            //((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
 //         comunEvaluacionGanador(datos.getChosen2(), datos, false);
 //         datos.cambiaTurno();
-            }
-            //        return msg;
-        }
+        } //        return msg;
     }
 
     @FXML
