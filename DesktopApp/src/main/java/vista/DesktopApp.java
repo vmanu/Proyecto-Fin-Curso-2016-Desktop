@@ -19,9 +19,12 @@ import javafx.stage.Stage;
  * @author Victor
  */
 public class DesktopApp extends Application {
-    
+
+    private static Stage stage;
+
     @Override
     public void start(Stage stage) throws Exception {
+        this.stage = stage;
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");//GESTIONA IDIOMAS
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
         Parent root = loader.load();
@@ -29,7 +32,7 @@ public class DesktopApp extends Application {
         stage.setScene(scene);
         stage.setTitle(bundle.getString("AppName"));
         stage.show();
-        
+
     }
 
     /**
@@ -37,6 +40,10 @@ public class DesktopApp extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static Stage getStage(){
+        return stage;
     }
     
 }

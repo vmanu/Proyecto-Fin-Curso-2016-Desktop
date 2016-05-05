@@ -19,6 +19,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
@@ -29,6 +30,7 @@ import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 import modelo.DataContainer;
 import static utilities.UtilidadesJavaFX.*;
+import vista.DesktopApp;
 
 /**
  *
@@ -76,6 +78,7 @@ public class MyClientEndpoint extends Endpoint {
                             //CARGAR EL FXML. TODO
                             ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
+                            changeSceneRoot(loader, DesktopApp.getStage());
                         }
                     }
                 } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION) {
@@ -94,7 +97,7 @@ public class MyClientEndpoint extends Endpoint {
 //TODO: LLAMAR A LA FUNCION DEL ALERT QUE ESTÁ GENERADO
                     ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
                     System.out.println("HA ENTRADO EN FIN DE CONEXION");
-                    showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+                    showAlertFields("", bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), "");
                 } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
                     try {
                         datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {

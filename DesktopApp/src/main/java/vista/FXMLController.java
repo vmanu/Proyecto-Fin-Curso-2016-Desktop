@@ -480,17 +480,17 @@ public class FXMLController implements Initializable {
         return devuelve;
     }
 
-    private void changeSceneRoot(FXMLLoader loader, Stage stage) {
-        Parent root = null;
-        try {
-            root = loader.load();
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (root != null) {
-            stage.getScene().setRoot(root);
-        }
-    }
+//    private void changeSceneRoot(FXMLLoader loader, Stage stage) {
+//        Parent root = null;
+//        try {
+//            root = loader.load();
+//        } catch (IOException ex) {
+//            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        if (root != null) {
+//            stage.getScene().setRoot(root);
+//        }
+//    }
 
     private void setVisibilitiesStateMenuOpcionesOnline(Stage stage, boolean visibilityButton) {
         ObservableList<Node> nodos = ((ObservableList<Node>) ((VBox) stage.getScene().lookup("#VBoxParentOnlineOptions")).getChildren());

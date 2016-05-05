@@ -6,14 +6,21 @@
 package utilities;
 
 import com.mycompany.datapptgame.*;
+import java.io.IOException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.stage.Stage;
 import modelo.DataContainer;
+import vista.FXMLController;
 
 /**
  *
@@ -99,5 +106,17 @@ public class UtilidadesJavaFX {
         System.out.println("PREFIN");
         alert.showAndWait();
         System.out.println("FIN");
+    }
+    
+    public static void changeSceneRoot(FXMLLoader loader, Stage stage) {
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (root != null) {
+            stage.getScene().setRoot(root);
+        }
     }
 }
