@@ -40,7 +40,16 @@ import com.mycompany.datapptgame.OpcionJuego;
 import com.mycompany.datapptgame.Player;
 import com.mycompany.datapptgame.RoundsNumber;
 import com.mycompany.datapptgame.TypeMessage;
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.transform.BaseTransform;
+import com.sun.javafx.jmx.MXNodeAlgorithm;
+import com.sun.javafx.jmx.MXNodeAlgorithmContext;
+import com.sun.javafx.sg.prism.NGNode;
 import java.util.HashMap;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.event.Event;
+import javafx.stage.WindowEvent;
 import utilities.PreferencesManager;
 import javax.websocket.ClientEndpoint;
 import utilities.MyClientEndpoint;
@@ -264,13 +273,15 @@ public class FXMLController implements Initializable {
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
         } else //BACK
-         if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
+        {
+            if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, true);
                 cargarPantalla = false;
             } else {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
                 datos = null;
             }
+        }
         if (cargarPantalla) {
             changeSceneRoot(loader, stage);
             datos.setTurno(true);
@@ -375,15 +386,14 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         String urlComprobar = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
-//        if (comprobarGameType == null) {
-//            comprobarGameType = new HashMap();
-//            comprobarGameType.put(1, "FXMLJuegoGame3.fxml");
-//            comprobarGameType.put(1, "FXMLJuegoGame5.fxml");
-//            comprobarGameType.put(1, "FXMLJuegoGame9.fxml");
-//        }
         if (datos == null) {
             datos = new DataContainer();
         }
+//        if(urlComprobar.equals("FXMLMenuPrincipal.fxml")&&datos.isConexionFallida()){
+//            datos.changeConexionFallida();
+//            ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+//            showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+//        }
         if (urlComprobar.equals("FXMLScores.fxml")) {
             //ENTRA EN SCORES
             List<String> list = new ArrayList<String>();
@@ -430,6 +440,11 @@ public class FXMLController implements Initializable {
             msg.setContent(player);
             websocket.sendMessage(msg);
         }
+        System.out.println("SALIMOS DEL INITIALIZE");
+    }
+
+    public static DataContainer getDatos() {
+        return datos;
     }
 
     public static String getSelectedRadioButtonID(ObservableList<Node> lista) {
@@ -455,7 +470,6 @@ public class FXMLController implements Initializable {
 //            stage.getScene().setRoot(root);
 //        }
 //    }
-
     private void setVisibilitiesStateMenuOpcionesOnline(Stage stage, boolean visibilityButton) {
         ObservableList<Node> nodos = ((ObservableList<Node>) ((VBox) stage.getScene().lookup("#VBoxParentOnlineOptions")).getChildren());
         for (int i = 1; i < nodos.size(); i++) {
@@ -582,8 +596,7 @@ public class FXMLController implements Initializable {
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
             } else//JUEGA MAQUINA
-            {
-                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+             if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
                     datos.setIdImagenPulsada2(datos.getMapFichasMaquina().get(datos.getChosen2().toString()));
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -610,7 +623,6 @@ public class FXMLController implements Initializable {
                     msg.setContent(oj);
                     websocket.sendMessage(msg);
                 }
-            }
         } else if (!datos.isTurno() && chosen != null) {
             datos.setChosen2(chosen);
             String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();
