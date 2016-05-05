@@ -93,7 +93,11 @@ public class FXMLController implements Initializable {
     private final String RUTA_IMAGENES = "imagenes";
     private WebSocketContainer container;
     private MyClientEndpoint websocket;
-    private HashMap<Integer, String> comprobarGameType;
+    private static HashMap<Integer, String> comprobarGameType = new HashMap(){{
+        put(1, "FXMLJuegoGame3.fxml");
+        put(2, "FXMLJuegoGame5.fxml");
+        put(4, "FXMLJuegoGame9.fxml");
+    }};
 
     @FXML
     private ComboBox cbox;
@@ -489,12 +493,13 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         String urlComprobar = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
-        if (comprobarGameType == null) {
-            comprobarGameType = new HashMap();
-            comprobarGameType.put(1, "FXMLJuegoGame3.fxml");
-            comprobarGameType.put(1, "FXMLJuegoGame5.fxml");
-            comprobarGameType.put(1, "FXMLJuegoGame9.fxml");
-        }
+//        if (comprobarGameType == null) {
+//            comprobarGameType = new HashMap();
+//            comprobarGameType.put(1, "FXMLJuegoGame3.fxml");
+//            comprobarGameType.put(1, "FXMLJuegoGame5.fxml");
+//            comprobarGameType.put(1, "FXMLJuegoGame9.fxml");
+//        }
+System.out.println("EL MAP DE LA DISCORDIA DICE: "+comprobarGameType);
         if (datos == null) {
             datos = new DataContainer();
         }

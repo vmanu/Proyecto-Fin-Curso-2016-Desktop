@@ -4,6 +4,7 @@ utilities\MyClientEndpoint.class
 utilities\porPromedios.class
 utilities\UtilidadesJavaFX.class
 utilities\ComparadorJugadores.class
+vista\FXMLController$2.class
 vista\FXMLController.class
 modelo\Jugador.class
 vista\FXMLController$1.class
