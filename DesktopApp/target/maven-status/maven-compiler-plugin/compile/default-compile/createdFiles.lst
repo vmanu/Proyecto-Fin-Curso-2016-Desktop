@@ -7,9 +7,12 @@ utilities\ComparadorJugadores.class
 vista\FXMLController$2.class
 vista\FXMLController.class
 modelo\Jugador.class
+utilities\MyClientEndpoint$1$2.class
 vista\FXMLController$1.class
 modelo\DataContainer.class
+utilities\MyClientEndpoint$1$1.class
 utilities\MyClientEndpoint$1.class
 vista\DesktopApp.class
 utilities\porVictorias.class
 constantes\Constantes.class
+utilities\MyClientEndpoint$1$3.class

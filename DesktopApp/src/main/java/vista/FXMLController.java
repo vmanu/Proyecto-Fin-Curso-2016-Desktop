@@ -93,11 +93,13 @@ public class FXMLController implements Initializable {
     private final String RUTA_IMAGENES = "imagenes";
     private WebSocketContainer container;
     private MyClientEndpoint websocket;
-    private static HashMap<Integer, String> comprobarGameType = new HashMap(){{
-        put(1, "FXMLJuegoGame3.fxml");
-        put(2, "FXMLJuegoGame5.fxml");
-        put(4, "FXMLJuegoGame9.fxml");
-    }};
+    private static HashMap<Integer, String> comprobarGameType = new HashMap() {
+        {
+            put(1, "FXMLJuegoGame3.fxml");
+            put(2, "FXMLJuegoGame5.fxml");
+            put(4, "FXMLJuegoGame9.fxml");
+        }
+    };
 
     @FXML
     private ComboBox cbox;
@@ -381,19 +383,18 @@ public class FXMLController implements Initializable {
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
         } else //BACK
-        {
-            if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
+         if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, true);
                 cargarPantalla = false;
             } else {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
                 datos = null;
             }
-        }
         if (cargarPantalla) {
             changeSceneRoot(loader, stage);
             datos.setTurno(true);
             PreferencesManager.setPreferencesOnline(roundsOption, gameOption, player1Name);
+            datos.setModalidadJuego(ModalidadJuego.ONLINE.ordinal());
         }
     }
 
@@ -708,7 +709,6 @@ public class FXMLController implements Initializable {
     private void gestionaJuego(MouseEvent event) {
         Node nodo = (Node) event.getSource();
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-        MetaMessage msg = null;
         Enum chosen = datos.getMapFichas().get(nodo.getId());
         if (datos.isTurno() && chosen != null) {
             datos.setChosen1(chosen);
@@ -720,7 +720,8 @@ public class FXMLController implements Initializable {
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
             } else//JUEGA MAQUINA
-             if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+            {
+                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
                     datos.setIdImagenPulsada2(datos.getMapFichasMaquina().get(datos.getChosen2().toString()));
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -733,7 +734,7 @@ public class FXMLController implements Initializable {
                     /*((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());//Posiblemente para borrar, pasar al onload de la vista de RESULT*/
                 } else {
                     //JUEGO ONLINE
-                    msg = new MetaMessage();
+                    MetaMessage msg = new MetaMessage();
                     msg.setType(TypeMessage.PARTIDA);
                     OpcionJuego oj = new OpcionJuego();
                     oj.setOpcion(datos.getChosen1().ordinal());
@@ -747,6 +748,7 @@ public class FXMLController implements Initializable {
                     msg.setContent(oj);
                     websocket.sendMessage(msg);
                 }
+            }
         } else if (!datos.isTurno() && chosen != null) {
             datos.setChosen2(chosen);
             String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();
@@ -768,7 +770,7 @@ public class FXMLController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader loader = null;
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-        if (((Button) event.getSource()).getText().equals(ResourceBundle.getBundle("strings.UIResources").getString("Continue"))) {
+        if (((Button) event.getSource()).getText().equals(bundle.getString("Continue"))) {
             switch (datos.getFactorAlgoritmo()) {
                 case 1:
                     loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame3.fxml"), bundle);
@@ -787,7 +789,6 @@ public class FXMLController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
             }
             datos.setValoresIniciales();
-
         }
         changeSceneRoot(loader, stage);
     }
