@@ -499,7 +499,6 @@ public class FXMLController implements Initializable {
 //            comprobarGameType.put(1, "FXMLJuegoGame5.fxml");
 //            comprobarGameType.put(1, "FXMLJuegoGame9.fxml");
 //        }
-System.out.println("EL MAP DE LA DISCORDIA DICE: "+comprobarGameType);
         if (datos == null) {
             datos = new DataContainer();
         }
