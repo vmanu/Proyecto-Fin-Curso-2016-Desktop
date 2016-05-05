@@ -21,7 +21,7 @@
 
     <build>
         <plugins>
-            <plugin>
+            <!--<plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -33,7 +33,7 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
-            </plugin>
+            </plugin>-->
             
             
             <plugin>

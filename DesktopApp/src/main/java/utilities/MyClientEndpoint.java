@@ -30,10 +30,10 @@ public class MyClientEndpoint extends Endpoint{
     private Session session;
     private WebSocketContainer container;
     
-    public MyClientEndpoint(String nombreUsuario, final DataContainer datos){
+    public MyClientEndpoint(final DataContainer datos){
         try {
             //192.168.206.1 PORTATIL - 192.168.1.104 CASA
-            URI uri =new URI("ws://192.168.206.1:8080/ServerPPTGame/ppt?user="+nombreUsuario);
+            URI uri =new URI("ws://192.168.206.1:8080/ServerPPTGame/ppt?user="+datos.getNombreJ1());
             connectToWebSocket(uri);
             session.addMessageHandler(new MessageHandler.Whole<String>() {
 

@@ -53,12 +53,16 @@ import modelo.DataContainer;
 import com.mycompany.datapptgame.Fichas3;
 import com.mycompany.datapptgame.Fichas5;
 import com.mycompany.datapptgame.Fichas9;
+import com.mycompany.datapptgame.GameType;
 import com.mycompany.datapptgame.ModalidadJuego;
 import com.mycompany.datapptgame.OpcionJuego;
+import com.mycompany.datapptgame.Player;
+import com.mycompany.datapptgame.RoundsNumber;
 import com.mycompany.datapptgame.TypeMessage;
 import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.prefs.Preferences;
 import javafx.collections.ObservableMap;
 import javafx.event.EventType;
@@ -89,6 +93,7 @@ public class FXMLController implements Initializable {
     private final String RUTA_IMAGENES = "imagenes";
     private WebSocketContainer container;
     private MyClientEndpoint websocket;
+    private HashMap<Integer, String> comprobarGameType;
 
     @FXML
     private ComboBox cbox;
@@ -205,7 +210,6 @@ public class FXMLController implements Initializable {
 //            System.exit(-1);
 //        }
 //    }
-
     @FXML
     private void handleButtonsMenuPrincipalAction(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -339,12 +343,15 @@ public class FXMLController implements Initializable {
                 switch (gameOption) {
                     case ID_RADIOBUTTON_GAME_OF_3:
                         loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame3.fxml"), bundle);
+                        datos.setFactorAlgoritmo(1);
                         break;
                     case ID_RADIOBUTTON_GAME_OF_5:
                         loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame5.fxml"), bundle);
+                        datos.setFactorAlgoritmo(2);
                         break;
                     case ID_RADIOBUTTON_GAME_OF_9:
                         loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame9.fxml"), bundle);
+                        datos.setFactorAlgoritmo(4);
                         break;
                 }
                 roundsOption = getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup("#RadioGroup_Rounds_Online")).getChildren()));
@@ -370,12 +377,14 @@ public class FXMLController implements Initializable {
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
         } else //BACK
-        if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
-            setVisibilitiesStateMenuOpcionesOnline(stage, true);
-            cargarPantalla = false;
-        } else {
-            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
-            datos = null;
+        {
+            if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
+                setVisibilitiesStateMenuOpcionesOnline(stage, true);
+                cargarPantalla = false;
+            } else {
+                loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+                datos = null;
+            }
         }
         if (cargarPantalla) {
             changeSceneRoot(loader, stage);
@@ -479,14 +488,17 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//                    websocket=new MyClientEndpoint("paco", datos);
-//            websocket.sendMessage("CAGO EN TO, ME CONECTÉ");
-        
-        
+        String urlComprobar = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
+        if (comprobarGameType == null) {
+            comprobarGameType = new HashMap();
+            comprobarGameType.put(1, "FXMLJuegoGame3.fxml");
+            comprobarGameType.put(1, "FXMLJuegoGame5.fxml");
+            comprobarGameType.put(1, "FXMLJuegoGame9.fxml");
+        }
         if (datos == null) {
             datos = new DataContainer();
         }
-        if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLScores.fxml")) {
+        if (urlComprobar.equals("FXMLScores.fxml")) {
             //ENTRA EN SCORES
             List<String> list = new ArrayList<String>();
             list.add(rb.getString("VictoriesOption"));
@@ -498,7 +510,7 @@ public class FXMLController implements Initializable {
             cbox.setValue(list.get(0));
         }
         //TODO: PONER UN IF CONDICIONANDO LA VISTA DEL RESULT A EL NUMERO DE PARTIDAS JUGADAS Y TAMBIEN MOSTRANDO LAS IMAGENES CORRECTAS
-        if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLResult.fxml")) {
+        if (urlComprobar.equals("FXMLResult.fxml")) {
             comunEvaluacionGanador(datos, false, rb);
             resultImagenJ1Choosed.setImage(new Image(datos.getIdImagenPulsada1()));
             resultImagenJ2Choosed.setImage(new Image(datos.getIdImagenPulsada2()));
@@ -508,14 +520,29 @@ public class FXMLController implements Initializable {
                 buttonContinueResult.setDisable(true);
             }
         }
-        if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLMenuOpcionesNormal.fxml")) {
+        if (urlComprobar.equals("FXMLMenuOpcionesNormal.fxml")) {
             PreferencesManager.getPreferencesNormal(RadioGroup_Rounds_Normal.getChildren(), RadioGroup_Player_Normal.getChildren(), RadioGroup_Games_Normal.getChildren(), TxtFieldP1, TxtFieldP2, NumberRoundsCustom);
         }
-        if (url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLMenuOpcionesJuegoOnline.fxml")) {
+        if (urlComprobar.equals("FXMLMenuOpcionesJuegoOnline.fxml")) {
             PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren(), TxtFieldP1Online);
         }
-        if(url.getPath().substring(url.getPath().lastIndexOf("/") + 1).equals("FXMLMenuOpcionesJuegoOnline.fxml")){
-            websocket=new MyClientEndpoint("paco", datos);
+        if (urlComprobar.equals(comprobarGameType.get(datos.getFactorAlgoritmo()))) {
+            HashMap<Integer, GameType> obtenerGameTypeFromFactor = new HashMap();
+            obtenerGameTypeFromFactor.put(1, GameType.JUEGO3);
+            obtenerGameTypeFromFactor.put(2, GameType.JUEGO5);
+            obtenerGameTypeFromFactor.put(4, GameType.JUEGO9);
+            obtenerGameTypeFromFactor.put(-1, GameType.ANY);
+            HashMap<Integer, RoundsNumber> obtenerNumberOfRounds = new HashMap();
+            obtenerNumberOfRounds.put(1, RoundsNumber.UNA);
+            obtenerNumberOfRounds.put(3, RoundsNumber.TRES);
+            obtenerNumberOfRounds.put(5, RoundsNumber.CINCO);
+            obtenerNumberOfRounds.put(-1, RoundsNumber.ANY);
+            websocket = new MyClientEndpoint(datos);
+            Player player = new Player(datos.getNombreJ1(), obtenerGameTypeFromFactor.get(datos.getFactorAlgoritmo()), obtenerNumberOfRounds.get(datos.getRoundsLimit()), false, 0);
+            MetaMessage msg = new MetaMessage();
+            msg.setType(TypeMessage.CONEXION);
+            msg.setContent(player);
+            websocket.sendMessage(msg);
         }
     }
 
@@ -688,8 +715,8 @@ public class FXMLController implements Initializable {
                 datos.cambiaTurno();
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
-            } else {//JUEGA MAQUINA
-                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+            } else//JUEGA MAQUINA
+             if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
                     datos.setIdImagenPulsada2(datos.getMapFichasMaquina().get(datos.getChosen2().toString()));
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -716,24 +743,20 @@ public class FXMLController implements Initializable {
                     msg.setContent(oj);
                     websocket.sendMessage(msg);
                 }
-            }
-        } else {
-            if (!datos.isTurno() && chosen != null) {
-                datos.setChosen2(chosen);
-                String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();
-                datos.setIdImagenPulsada2(RUTA_IMAGENES.concat(fullURL.substring(fullURL.lastIndexOf("/"))));
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
-                changeSceneRoot(loader, stage);
-                datos.cambiaTurno();
-                //cambiaRojo(activity, datos);
-                //datos.setJugando(false);
-                //((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
+        } else if (!datos.isTurno() && chosen != null) {
+            datos.setChosen2(chosen);
+            String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();
+            datos.setIdImagenPulsada2(RUTA_IMAGENES.concat(fullURL.substring(fullURL.lastIndexOf("/"))));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
+            changeSceneRoot(loader, stage);
+            datos.cambiaTurno();
+            //cambiaRojo(activity, datos);
+            //datos.setJugando(false);
+            //((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
 //         comunEvaluacionGanador(datos.getChosen2(), datos, false);
 //         datos.cambiaTurno();
-            }
-            //        return msg;
-        }
+        } //        return msg;
     }
 
     @FXML
