@@ -25,10 +25,12 @@ public class DataContainer {
     private boolean jugando;
     private HashMap <String,Enum> mapFichas;
     private HashMap <String,String> mapFichasMaquina;
+    private boolean conexionFallida;
 
     public DataContainer() {
         inicializaMapFichas();
         inicializaMapFichasMaquina();
+        conexionFallida=false;
     }
 
     //<editor-fold defaultState="Collapsed" desc="GETTERS Y SETTERS">
@@ -288,6 +290,13 @@ public class DataContainer {
         idImagenPulsada2="";
     }
 
+    public boolean isConexionFallida() {
+        return conexionFallida;
+    }
+
+    public void changeConexionFallida() {
+        conexionFallida = !conexionFallida;
+    }
     /*public void asignarTagsRojos(AppCompatActivity activity){
         HashMap<String, String> tags=inicializaMapImageTagsRojo();
         for(String key:tags.keySet()){

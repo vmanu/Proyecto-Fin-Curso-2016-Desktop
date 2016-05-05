@@ -8,18 +8,10 @@ package utilities;
 import static constantes.Constantes.*;
 import java.util.prefs.Preferences;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import vista.FXMLController;
-import static vista.FXMLController.getSelectedRadioButtonID;
 
 /**
  *

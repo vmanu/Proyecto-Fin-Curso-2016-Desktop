@@ -19,7 +19,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
-import javafx.stage.Stage;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
@@ -44,7 +43,7 @@ public class MyClientEndpoint extends Endpoint {
     public MyClientEndpoint(final DataContainer datos) {
         try {
             //192.168.206.1 PORTATIL - 192.168.1.104 CASA
-            URI uri = new URI("ws://192.168.206.1:8080/ServerPPTGame/ppt?user=" + datos.getNombreJ1());
+            URI uri = new URI("ws://192.168.1.104:8080/ServerPPTGame/ppt?user=" + datos.getNombreJ1());
             connectToWebSocket(uri);
         } catch (URISyntaxException ex) {
             Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,9 +94,10 @@ public class MyClientEndpoint extends Endpoint {
 //                        });
 //                        dialog.show();
 //TODO: LLAMAR A LA FUNCION DEL ALERT QUE ESTÁ GENERADO
-                    ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+//                    ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
                     System.out.println("HA ENTRADO EN FIN DE CONEXION");
-                    showAlertFields("", bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), "");
+//                    showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+                    
                 } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
                     try {
                         datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
