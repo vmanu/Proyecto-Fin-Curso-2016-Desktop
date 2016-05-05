@@ -91,7 +91,6 @@ public class FXMLController implements Initializable {
 
     private static DataContainer datos;
     private final String RUTA_IMAGENES = "imagenes";
-    private WebSocketContainer container;
     private MyClientEndpoint websocket;
     private static HashMap<Integer, String> comprobarGameType = new HashMap() {
         {
@@ -134,88 +133,6 @@ public class FXMLController implements Initializable {
     @FXML
     private TextField TxtFieldP1Online;
 
-//    @OnOpen
-//    public void onOpen(Session session) {
-//
-//    }
-//
-//    @OnMessage
-//    public void onMessage(String input) {
-//        ObjectMapper mapper = new ObjectMapper();
-//        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//        MetaMessage mt = null;
-//        try {
-//            mt = mapper.readValue(input, new TypeReference<MetaMessage>() {});
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        if (mt != null && mt.getType() == TypeMessage.RESPUESTA) {
-//            OpcionJuego oj = null;
-//            try {
-//                oj = mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<OpcionJuego>() {});
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            if (oj != null) {
-//                datos.setChosen2(getEnumFromOrdinal(oj.getOpcion(),datos));
-//                datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(),datos));
-//                if (datos.getChosen1() != null) {
-//                    //TODO GESTIONAR CAMBIO DE VISTA, EN LA QUE MUESTRA RESULT
-//                    //((ImageView) findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
-//                    //comunEvaluacionGanador(datos.getChosen2(), false);
-//                }
-//            }
-//        } else {
-//            if (mt != null && mt.getType() == TypeMessage.DESCONEXION) {
-//                /*AlertDialog.Builder dialog = new AlertDialog.Builder(JuegoOnline.this);
-//                dialog.setTitle(R.string.dialogoTitle);
-//                dialog.setMessage(R.string.dialogoMessage);
-//                dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        ((ClientContainer)container).stop();
-//                        finish();
-//                    }
-//                });
-//                dialog.show();*/
-//            } else {
-//                if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
-//                    /*try {
-//                        datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
-//                        }));
-//                        //tarea.notify();
-//                    } catch (JsonProcessingException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//*/
-//                }
-//            }
-//        }
-//    }
-//
-//    @OnClose
-//    public void onClose() {
-//
-//    }
-//
-//    @OnError
-//    public void onError() {
-//
-//    }
-//
-//    private void connectToWebSocket() {
-//        container = ContainerProvider.getWebSocketContainer();
-//        try {
-//            URI uri = URI.create("ws://localhost:8080/BinaryWebSocketServer/images");
-//            container.connectToServer(this, uri);
-//        } catch (DeploymentException | IOException ex) {
-//            LOGGER.log(Level.SEVERE, null, ex);
-//            System.exit(-1);
-//        }
-//    }
     @FXML
     private void handleButtonsMenuPrincipalAction(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -377,7 +294,7 @@ public class FXMLController implements Initializable {
                     datos.setNombreJ1(((TextField) stage.getScene().lookup("#TxtFieldP1Online")).getText());
                 } else {
                     cargarPantalla = false;
-                    showAlertFields(bundle, bundle.getString("P1NoSetted"));
+                    showAlertFieldsWithExpandable(bundle, bundle.getString("P1NoSetted"));
                 }
             }
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
@@ -487,7 +404,7 @@ public class FXMLController implements Initializable {
                 PreferencesManager.setPreferencesNormal(roundsOption, playerNumber, gameOption, player1Name, player2Name, customRounds);
             }
         } else {
-            showAlertFields(bundle, excepcion.toString());
+            showAlertFieldsWithExpandable(bundle, excepcion.toString());
         }
     }
 
@@ -584,27 +501,8 @@ public class FXMLController implements Initializable {
         ((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).setManaged(visibilityButton);
     }
 
-    private void showAlertFields(ResourceBundle bundle, String excepcion) {
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle(bundle.getString("Warning"));
-        alert.setHeaderText(null);
-        alert.setContentText(bundle.getString("HaveWrongFields"));
-        Label label = new Label(bundle.getString("TheWarningsAre"));
-        TextArea textArea = new TextArea(excepcion);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
-        GridPane expContent = new GridPane();
-        expContent.setMaxWidth(Double.MAX_VALUE);
-        expContent.add(label, 0, 0);
-        expContent.add(textArea, 0, 1);
-        // Set expandable Exception into the dialog pane.
-        alert.getDialogPane().setExpandableContent(expContent);
-        alert.showAndWait();
-
+    private void showAlertFieldsWithExpandable(ResourceBundle bundle, String excepcion) {
+        showAlertFields(excepcion, bundle.getString("HaveWrongFields"), bundle.getString("Warning"), bundle.getString("TheWarningsAre"));
     }
 
     private void notificacionToast(String mensaje) {

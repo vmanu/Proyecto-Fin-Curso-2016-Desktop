@@ -15,8 +15,10 @@ import com.mycompany.datapptgame.TypeMessage;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
@@ -42,36 +44,41 @@ public class MyClientEndpoint extends Endpoint {
             //192.168.206.1 PORTATIL - 192.168.1.104 CASA
             URI uri = new URI("ws://192.168.206.1:8080/ServerPPTGame/ppt?user=" + datos.getNombreJ1());
             connectToWebSocket(uri);
-            session.addMessageHandler(new MessageHandler.Whole<String>() {
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        session.addMessageHandler(new MessageHandler.Whole<String>() {
 
-                @Override
-                public void onMessage(String t) {
-                    System.out.println("onMessage: "+t);
-                    ObjectMapper mapper = new ObjectMapper();
-                    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                    MetaMessage mt = null;
+            @Override
+            public void onMessage(String t) {
+                System.out.println("onMessage: " + t);
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                MetaMessage mt = null;
+                try {
+                    mt = mapper.readValue(t, new TypeReference<MetaMessage>() {
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (mt != null && mt.getType() == TypeMessage.RESPUESTA) {
+                    OpcionJuego oj = null;
                     try {
-                        mt = mapper.readValue(t, new TypeReference<MetaMessage>() {
+                        oj = mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<OpcionJuego>() {
                         });
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    if (mt != null && mt.getType() == TypeMessage.RESPUESTA) {
-                        OpcionJuego oj = null;
-                        try {
-                            oj = mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<OpcionJuego>() {
-                            });
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    if (oj != null) {
+                        datos.setChosen2(getEnumFromOrdinal(oj.getOpcion(), datos));
+                        datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
+                        if (datos.getChosen1() != null) {
+                            //CARGAR EL FXML. TODO
+                            ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
                         }
-                        if (oj != null) {
-                            datos.setChosen2(getEnumFromOrdinal(oj.getOpcion(), datos));
-                            datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
-                            if (datos.getChosen1() != null) {
-                                //CARGAR EL FXML. TODO
-                            }
-                        }
-                    } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION) {
+                    }
+                } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION) {
 //                        AlertDialog.Builder dialog = new AlertDialog.Builder(JuegoOnline.this);
 //                        dialog.setTitle(R.string.dialogoTitle);
 //                        dialog.setMessage(R.string.dialogoMessage);
@@ -85,25 +92,24 @@ public class MyClientEndpoint extends Endpoint {
 //                        });
 //                        dialog.show();
 //TODO: LLAMAR A LA FUNCION DEL ALERT QUE ESTÁ GENERADO
-                        System.out.println("HA ENTRADO EN FIN DE CONEXION");
-                    } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
-                        try {
-                            datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
-                            }));
-                            //tarea.notify();
-                        } catch (JsonProcessingException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
+                    ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+                    System.out.println("HA ENTRADO EN FIN DE CONEXION");
+                    showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+                } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
+                    try {
+                        datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
+                        }));
+                        //tarea.notify();
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }
-            });
 
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                }
+            }
+        });
+
     }
 
     private void connectToWebSocket(URI uri) {
