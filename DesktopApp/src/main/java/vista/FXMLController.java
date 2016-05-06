@@ -45,7 +45,10 @@ import com.sun.javafx.geom.transform.BaseTransform;
 import com.sun.javafx.jmx.MXNodeAlgorithm;
 import com.sun.javafx.jmx.MXNodeAlgorithmContext;
 import com.sun.javafx.sg.prism.NGNode;
+import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.event.Event;
@@ -273,15 +276,13 @@ public class FXMLController implements Initializable {
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
         } else //BACK
-        {
-            if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
+         if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, true);
                 cargarPantalla = false;
             } else {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
                 datos = null;
             }
-        }
         if (cargarPantalla) {
             changeSceneRoot(loader, stage);
             datos.setTurno(true);
@@ -389,11 +390,11 @@ public class FXMLController implements Initializable {
         if (datos == null) {
             datos = new DataContainer();
         }
-//        if(urlComprobar.equals("FXMLMenuPrincipal.fxml")&&datos.isConexionFallida()){
-//            datos.changeConexionFallida();
-//            ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-//            showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
-//        }
+        if(urlComprobar.equals("FXMLMenuPrincipal.fxml")&&datos.isConexionFallida()){
+            datos.changeConexionFallida();
+            ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+            showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+        }
         if (urlComprobar.equals("FXMLScores.fxml")) {
             //ENTRA EN SCORES
             List<String> list = new ArrayList<String>();
@@ -441,6 +442,20 @@ public class FXMLController implements Initializable {
             websocket.sendMessage(msg);
         }
         System.out.println("SALIMOS DEL INITIALIZE");
+    }
+
+    @FXML
+    public static void ejecutor() {
+        Platform.
+        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+//        try {
+//            initialize(new URL("/FXMLMenuPrincipal.fxml"),bundle);
+//        } catch (MalformedURLException ex) {
+//            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        System.out.println("HA ENTRADO EN FIN DE CONEXION");
+        //FXMLController.getDatos().changeConexionFallida();
+        showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
     }
 
     public static DataContainer getDatos() {
@@ -596,7 +611,8 @@ public class FXMLController implements Initializable {
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
             } else//JUEGA MAQUINA
-             if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+            {
+                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
                     datos.setIdImagenPulsada2(datos.getMapFichasMaquina().get(datos.getChosen2().toString()));
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -623,6 +639,7 @@ public class FXMLController implements Initializable {
                     msg.setContent(oj);
                     websocket.sendMessage(msg);
                 }
+            }
         } else if (!datos.isTurno() && chosen != null) {
             datos.setChosen2(chosen);
             String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();

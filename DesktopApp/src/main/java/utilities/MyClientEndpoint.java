@@ -96,12 +96,13 @@ public class MyClientEndpoint extends Endpoint {
 //                        });
 //                        dialog.show();
 //TODO: LLAMAR A LA FUNCION DEL ALERT QUE ESTÁ GENERADO
-                    ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+//                    ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
                     System.out.println("HA ENTRADO EN FIN DE CONEXION");
-                    FXMLController.getDatos().changeConexionFallida();
+                    FXMLController.ejecutor();
+//                    //FXMLController.getDatos().changeConexionFallida();
 //                    showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
-                    changeSceneRoot(loader, DesktopApp.getStage());
+//                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
+//                    changeSceneRoot(loader, DesktopApp.getStage());
                 } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
                     try {
                         datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
