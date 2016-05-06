@@ -94,25 +94,13 @@ public class UtilidadesJavaFX {
             // Set expandable Exception into the dialog pane.
             alert.getDialogPane().setExpandableContent(expContent);
         }
-        System.out.println("CASI ESTAMOS");
         alert.showAndWait();
-//        if (excepcion == null || (excepcion != null && excepcion.isEmpty())) {
-//            alert.hide();
-//        }
     }
 
     public static void changeSceneRoot(FXMLLoader loader, Stage stage) {
         Parent root = null;
         try {
             root = loader.load();
-//            System.out.println("En El change scene root");
-//            System.out.println("EL ISCONEXION DICE: " + FXMLController.getDatos().isConexionFallida());
-//            if (FXMLController.getDatos().isConexionFallida()) {
-//                System.out.println("ENTRAMOS EN CONEXION FALLIDA");
-//                FXMLController.getDatos().changeConexionFallida();
-//                ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-//                showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
-//            }
         } catch (IOException ex) {
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }

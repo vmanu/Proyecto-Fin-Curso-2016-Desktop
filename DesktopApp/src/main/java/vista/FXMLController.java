@@ -49,6 +49,7 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.event.Event;
@@ -111,7 +112,8 @@ public class FXMLController implements Initializable {
     @FXML
     private TextField TxtFieldP1Online;
     @FXML
-    private static Button botonAlert;
+    private Button botonAlert;
+    private static Button botonAlertStatic;
 
     @FXML
     private void handleButtonsMenuPrincipalAction(ActionEvent event) {
@@ -280,15 +282,13 @@ public class FXMLController implements Initializable {
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
         } else //BACK
-        {
-            if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
+         if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, true);
                 cargarPantalla = false;
             } else {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
                 datos = null;
             }
-        }
         if (cargarPantalla) {
             changeSceneRoot(loader, stage);
             datos.setTurno(true);
@@ -389,23 +389,34 @@ public class FXMLController implements Initializable {
             showAlertFieldsWithExpandable(bundle, excepcion.toString());
         }
     }
-    
+
     @FXML
     private void gestionaAlert(ActionEvent event) {
-        System.out.println("ENTRAMOS EN GESTIONA ALERT DEL BOTON");
-        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-        showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("ENTRAMOS EN GESTIONA ALERT DEL BOTON");
+                ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+                showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+            }
+        });
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("EL BOTONCITO EN EL INITIALIZE ES: " + botonAlert);
+        if (botonAlert != null) {
+            botonAlertStatic = botonAlert;
+            System.out.println("BotonAlertStatic es: " + botonAlertStatic);
+        }
         System.out.println("datos en initialize: " + datos);
         String urlComprobar = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
         if (datos == null) {
             datos = new DataContainer();
         }
         if (urlComprobar.equals("FXMLMenuPrincipal.fxml") && datos.isConexionFallida()) {
-            botonAlert.arm();
+            //botonAlert.arm();
 //            datos.changeConexionFallida();
             //pruebaEvento(new ActionEvent());
 //            ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
@@ -459,10 +470,11 @@ public class FXMLController implements Initializable {
         }
         System.out.println("SALIMOS DEL INITIALIZE");
     }
-    
-    public static void shootAlert(){
-        System.out.println("EN SHOOT ALERT"+botonAlert);
-        botonAlert.fire();
+
+    public static void shootAlert() {
+        System.out.println("EN SHOOT ALERT" + botonAlertStatic);
+        botonAlertStatic.fire();
+        System.out.println("SALIMOS DE SHOOT ALERT");
     }
 
 //    public static void ejecutor() {
@@ -476,7 +488,6 @@ public class FXMLController implements Initializable {
 //        //FXMLController.getDatos().changeConexionFallida();
 //        //showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null, alertas);
 //    }
-
 //    @FXML
 //    private void pruebaEvento(ActionEvent event) {
 ////        System.out.println("PRUEBAEVENTO");
@@ -493,7 +504,6 @@ public class FXMLController implements Initializable {
 //        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
 //        showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
 //    }
-
     public static DataContainer getDatos() {
         return datos;
     }
@@ -647,7 +657,8 @@ public class FXMLController implements Initializable {
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
             } else//JUEGA MAQUINA
-             if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+            {
+                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
                     datos.setIdImagenPulsada2(datos.getMapFichasMaquina().get(datos.getChosen2().toString()));
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -674,6 +685,7 @@ public class FXMLController implements Initializable {
                     msg.setContent(oj);
                     websocket.sendMessage(msg);
                 }
+            }
         } else if (!datos.isTurno() && chosen != null) {
             datos.setChosen2(chosen);
             String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();
