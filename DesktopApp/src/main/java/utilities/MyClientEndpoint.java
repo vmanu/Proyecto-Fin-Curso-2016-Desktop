@@ -44,7 +44,7 @@ public class MyClientEndpoint extends Endpoint {
     public MyClientEndpoint(final DataContainer datos) {
         try {
             //192.168.206.1 PORTATIL - 192.168.1.104 CASA
-            URI uri = new URI("ws://192.168.1.104:8080/ServerPPTGame/ppt?user=" + datos.getNombreJ1());
+            URI uri = new URI("ws://192.168.206.1:8080/ServerPPTGame/ppt?user=" + datos.getNombreJ1());
             connectToWebSocket(uri);
         } catch (URISyntaxException ex) {
             Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,12 +97,14 @@ public class MyClientEndpoint extends Endpoint {
 //                        dialog.show();
 //TODO: LLAMAR A LA FUNCION DEL ALERT QUE ESTÁ GENERADO
 //                    ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-                    System.out.println("HA ENTRADO EN FIN DE CONEXION");
-                    FXMLController.ejecutor();
-//                    //FXMLController.getDatos().changeConexionFallida();
-//                    showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+//                    System.out.println("HA ENTRADO EN FIN DE CONEXION");
+////                    FXMLController.ejecutor();
+//                    FXMLController.getDatos().changeConexionFallida();
+////                    showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
 //                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
 //                    changeSceneRoot(loader, DesktopApp.getStage());
+System.out.println("ENTRAMOS EN MYCLIENTENDPOINT SHOOTALERT");
+                    FXMLController.shootAlert();
                 } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
                     try {
                         datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {

@@ -59,6 +59,7 @@
                                 <Insets left="20.0" />
                             </HBox.margin>
                         </ImageView>
+                        <Button onAction="#gestionaAlert" prefHeight="0.1" prefWidth="0.1" text="" visible="false" fx:id="botonAlert"/>
                     </children>
                 </HBox>
             </children>

@@ -52,6 +52,8 @@ import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.event.Event;
+import javafx.event.EventType;
+import javafx.scene.control.Alert;
 import javafx.stage.WindowEvent;
 import utilities.PreferencesManager;
 import javax.websocket.ClientEndpoint;
@@ -108,6 +110,8 @@ public class FXMLController implements Initializable {
     private VBox RadioGroup_Rounds_Online;
     @FXML
     private TextField TxtFieldP1Online;
+    @FXML
+    private static Button botonAlert;
 
     @FXML
     private void handleButtonsMenuPrincipalAction(ActionEvent event) {
@@ -276,13 +280,15 @@ public class FXMLController implements Initializable {
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
         } else //BACK
-         if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
+        {
+            if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, true);
                 cargarPantalla = false;
             } else {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
                 datos = null;
             }
+        }
         if (cargarPantalla) {
             changeSceneRoot(loader, stage);
             datos.setTurno(true);
@@ -383,17 +389,27 @@ public class FXMLController implements Initializable {
             showAlertFieldsWithExpandable(bundle, excepcion.toString());
         }
     }
+    
+    @FXML
+    private void gestionaAlert(ActionEvent event) {
+        System.out.println("ENTRAMOS EN GESTIONA ALERT DEL BOTON");
+        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+        showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("datos en initialize: " + datos);
         String urlComprobar = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
         if (datos == null) {
             datos = new DataContainer();
         }
-        if(urlComprobar.equals("FXMLMenuPrincipal.fxml")&&datos.isConexionFallida()){
-            datos.changeConexionFallida();
-            ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-            showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+        if (urlComprobar.equals("FXMLMenuPrincipal.fxml") && datos.isConexionFallida()) {
+            botonAlert.arm();
+//            datos.changeConexionFallida();
+            //pruebaEvento(new ActionEvent());
+//            ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+//            showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
         }
         if (urlComprobar.equals("FXMLScores.fxml")) {
             //ENTRA EN SCORES
@@ -443,20 +459,40 @@ public class FXMLController implements Initializable {
         }
         System.out.println("SALIMOS DEL INITIALIZE");
     }
-
-    @FXML
-    public static void ejecutor() {
-        Platform.
-        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-//        try {
-//            initialize(new URL("/FXMLMenuPrincipal.fxml"),bundle);
-//        } catch (MalformedURLException ex) {
-//            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        System.out.println("HA ENTRADO EN FIN DE CONEXION");
-        //FXMLController.getDatos().changeConexionFallida();
-        showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+    
+    public static void shootAlert(){
+        System.out.println("EN SHOOT ALERT"+botonAlert);
+        botonAlert.fire();
     }
+
+//    public static void ejecutor() {
+//        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+////        try {
+////            initialize(new URL("/FXMLMenuPrincipal.fxml"),bundle);
+////        } catch (MalformedURLException ex) {
+////            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+////        }
+//        System.out.println("HA ENTRADO EN FIN DE CONEXION");
+//        //FXMLController.getDatos().changeConexionFallida();
+//        //showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null, alertas);
+//    }
+
+//    @FXML
+//    private void pruebaEvento(ActionEvent event) {
+////        System.out.println("PRUEBAEVENTO");
+////        Runnable shoot=new Runnable() {
+////            @Override
+////            public void run() {
+////                System.out.println("RUNNABLE");
+////                ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+////                showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+////            }
+////        };
+////        shoot.run();
+//
+//        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+//        showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+//    }
 
     public static DataContainer getDatos() {
         return datos;
@@ -611,8 +647,7 @@ public class FXMLController implements Initializable {
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
             } else//JUEGA MAQUINA
-            {
-                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+             if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
                     datos.setIdImagenPulsada2(datos.getMapFichasMaquina().get(datos.getChosen2().toString()));
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -639,7 +674,6 @@ public class FXMLController implements Initializable {
                     msg.setContent(oj);
                     websocket.sendMessage(msg);
                 }
-            }
         } else if (!datos.isTurno() && chosen != null) {
             datos.setChosen2(chosen);
             String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();

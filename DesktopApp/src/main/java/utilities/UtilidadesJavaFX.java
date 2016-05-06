@@ -16,9 +16,11 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -92,10 +94,11 @@ public class UtilidadesJavaFX {
             // Set expandable Exception into the dialog pane.
             alert.getDialogPane().setExpandableContent(expContent);
         }
+        System.out.println("CASI ESTAMOS");
         alert.showAndWait();
-        if (excepcion == null || (excepcion != null && excepcion.isEmpty())) {
-            alert.hide();
-        }
+//        if (excepcion == null || (excepcion != null && excepcion.isEmpty())) {
+//            alert.hide();
+//        }
     }
 
     public static void changeSceneRoot(FXMLLoader loader, Stage stage) {
@@ -116,27 +119,5 @@ public class UtilidadesJavaFX {
         if (root != null) {
             stage.getScene().setRoot(root);
         }
-        Node nodo=new Node() {
-            @Override
-            protected NGNode impl_createPeer() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            protected boolean impl_computeContains(double localX, double localY) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public Object impl_processMXNode(MXNodeAlgorithm alg, MXNodeAlgorithmContext ctx) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
-        nodo.fireEvent(new Event(WindowEvent.ANY));
     }
 }

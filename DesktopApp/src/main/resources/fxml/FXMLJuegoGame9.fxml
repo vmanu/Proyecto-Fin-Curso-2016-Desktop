@@ -114,6 +114,7 @@
                                         <Insets left="20.0" />
                                     </HBox.margin>
                                 </ImageView>
+                                <Button onAction="#gestionaAlert" prefHeight="0.1" prefWidth="0.1" text="" visible="false" fx:id="botonAlert"/>
                             </children>
                             <VBox.margin>
                                 <Insets top="20.0" />
@@ -123,5 +124,7 @@
                 </VBox>
             </children>
         </VBox>
+        
+                        
     </content>
 </ScrollPane>
