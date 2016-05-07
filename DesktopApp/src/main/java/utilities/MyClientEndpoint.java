@@ -113,6 +113,7 @@ public class MyClientEndpoint extends Endpoint {
 
     @Override
     public void onOpen(Session sn, EndpointConfig ec) {
+        System.out.println("ENTRAMOS EN EL ON_OPEN");
         session = sn;
     }
 
@@ -127,10 +128,18 @@ public class MyClientEndpoint extends Endpoint {
     }
 
     public void sendMessage(MetaMessage message) {
-        try {
-            session.getBasicRemote().sendText(new ObjectMapper().writeValueAsString(message));
-        } catch (IOException ex) {
-            Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+        boolean sal = false;
+        while (!sal) {
+            if (session != null) {
+                try {
+                    session.getBasicRemote().sendText(new ObjectMapper().writeValueAsString(message));
+                } catch (IOException ex) {
+                    Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                sal = true;
+            } else {
+                Logger.getLogger("NO CONECTADO AUN");
+            }
         }
     }
 }

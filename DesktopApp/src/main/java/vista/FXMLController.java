@@ -70,7 +70,7 @@ public class FXMLController implements Initializable {
 
     private static DataContainer datos;
     private final String RUTA_IMAGENES = "imagenes";
-    private MyClientEndpoint websocket;
+    private static MyClientEndpoint websocket;
     private static HashMap<Integer, String> comprobarGameType = new HashMap() {
         {
             put(1, "FXMLJuegoGame3.fxml");
@@ -442,7 +442,7 @@ public class FXMLController implements Initializable {
         if (urlComprobar.equals("FXMLMenuOpcionesJuegoOnline.fxml")) {
             PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren(), TxtFieldP1Online);
         }
-        if (urlComprobar.equals(comprobarGameType.get(datos.getFactorAlgoritmo()))) {
+        if (urlComprobar.equals(comprobarGameType.get(datos.getFactorAlgoritmo()))&&datos.getRoundsCounter()==0) {
             HashMap<Integer, GameType> obtenerGameTypeFromFactor = new HashMap();
             obtenerGameTypeFromFactor.put(1, GameType.JUEGO3);
             obtenerGameTypeFromFactor.put(2, GameType.JUEGO5);
@@ -716,6 +716,7 @@ public class FXMLController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoNormal.fxml"), bundle);
             } else {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+                //CERRAR SESION
             }
             datos.setValoresIniciales();
         }
