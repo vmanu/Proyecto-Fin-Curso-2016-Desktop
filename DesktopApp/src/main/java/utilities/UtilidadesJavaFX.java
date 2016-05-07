@@ -12,6 +12,7 @@ import com.sun.javafx.jmx.MXNodeAlgorithm;
 import com.sun.javafx.jmx.MXNodeAlgorithmContext;
 import com.sun.javafx.sg.prism.NGNode;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
@@ -78,7 +80,8 @@ public class UtilidadesJavaFX {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(contextText);
-        if (excepcion != null && !excepcion.isEmpty()) {
+        boolean isNormalMessage=excepcion != null && !excepcion.isEmpty();
+        if (isNormalMessage) {
             Label label = new Label(info);
             TextArea textArea = new TextArea(excepcion);
             textArea.setEditable(false);
@@ -93,7 +96,8 @@ public class UtilidadesJavaFX {
             expContent.add(textArea, 0, 1);
             // Set expandable Exception into the dialog pane.
             alert.getDialogPane().setExpandableContent(expContent);
-        }
+            
+        } 
         alert.showAndWait();
     }
 

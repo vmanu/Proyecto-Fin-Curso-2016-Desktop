@@ -391,13 +391,15 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    private void gestionaAlert(ActionEvent event) {
+    private void gestionaAlert(final ActionEvent event) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                System.out.println("ENTRAMOS EN GESTIONA ALERT DEL BOTON");
                 ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
                 showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                changeSceneRoot(loader, stage);
             }
         });
 
@@ -405,22 +407,12 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("EL BOTONCITO EN EL INITIALIZE ES: " + botonAlert);
         if (botonAlert != null) {
             botonAlertStatic = botonAlert;
-            System.out.println("BotonAlertStatic es: " + botonAlertStatic);
         }
-        System.out.println("datos en initialize: " + datos);
         String urlComprobar = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
         if (datos == null) {
             datos = new DataContainer();
-        }
-        if (urlComprobar.equals("FXMLMenuPrincipal.fxml") && datos.isConexionFallida()) {
-            //botonAlert.arm();
-//            datos.changeConexionFallida();
-            //pruebaEvento(new ActionEvent());
-//            ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-//            showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
         }
         if (urlComprobar.equals("FXMLScores.fxml")) {
             //ENTRA EN SCORES
@@ -468,13 +460,10 @@ public class FXMLController implements Initializable {
             msg.setContent(player);
             websocket.sendMessage(msg);
         }
-        System.out.println("SALIMOS DEL INITIALIZE");
     }
 
     public static void shootAlert() {
-        System.out.println("EN SHOOT ALERT" + botonAlertStatic);
         botonAlertStatic.fire();
-        System.out.println("SALIMOS DE SHOOT ALERT");
     }
 
 //    public static void ejecutor() {
@@ -718,6 +707,9 @@ public class FXMLController implements Initializable {
                 case 4:
                     loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame9.fxml"), bundle);
                     break;
+            }
+            if(datos.getModalidadJuego()==ModalidadJuego.ONLINE.ordinal()){
+                datos.setChosen2(null);
             }
         } else {
             if (datos.getModalidadJuego() != ModalidadJuego.ONLINE.ordinal()) {

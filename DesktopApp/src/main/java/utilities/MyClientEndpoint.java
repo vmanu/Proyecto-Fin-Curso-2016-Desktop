@@ -83,27 +83,6 @@ public class MyClientEndpoint extends Endpoint {
                         }
                     }
                 } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION) {
-//                        AlertDialog.Builder dialog = new AlertDialog.Builder(JuegoOnline.this);
-//                        dialog.setTitle(R.string.dialogoTitle);
-//                        dialog.setMessage(R.string.dialogoMessage);
-//                        dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-//
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                mWebSocketClient.close();
-//                                finish();
-//                            }
-//                        });
-//                        dialog.show();
-//TODO: LLAMAR A LA FUNCION DEL ALERT QUE ESTÁ GENERADO
-//                    ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-//                    System.out.println("HA ENTRADO EN FIN DE CONEXION");
-////                    FXMLController.ejecutor();
-//                    FXMLController.getDatos().changeConexionFallida();
-////                    showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
-//                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
-//                    changeSceneRoot(loader, DesktopApp.getStage());
-System.out.println("ENTRAMOS EN MYCLIENTENDPOINT SHOOTALERT");
                     FXMLController.shootAlert();
                 } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
                     try {
