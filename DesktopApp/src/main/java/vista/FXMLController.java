@@ -71,6 +71,7 @@ public class FXMLController implements Initializable {
     private static DataContainer datos;
     private final String RUTA_IMAGENES = "imagenes";
     private static MyClientEndpoint websocket;
+    private static boolean segundoMensaje;
     private static HashMap<Integer, String> comprobarGameType = new HashMap() {
         {
             put(1, "FXMLJuegoGame3.fxml");
@@ -708,8 +709,11 @@ public class FXMLController implements Initializable {
                     loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame9.fxml"), bundle);
                     break;
             }
-            if(datos.getModalidadJuego()==ModalidadJuego.ONLINE.ordinal()){
+            if(datos.getModalidadJuego()==ModalidadJuego.ONLINE.ordinal()&&!segundoMensaje){
                 datos.setChosen2(null);
+                datos.setChosen1(null);
+            }else if(segundoMensaje){
+                cambiaSegundoMensaje();
             }
         } else {
             if (datos.getModalidadJuego() != ModalidadJuego.ONLINE.ordinal()) {
@@ -721,5 +725,9 @@ public class FXMLController implements Initializable {
             datos.setValoresIniciales();
         }
         changeSceneRoot(loader, stage);
+    }
+    
+    public static void cambiaSegundoMensaje(){
+        segundoMensaje=!segundoMensaje;
     }
 }

@@ -72,14 +72,17 @@ public class MyClientEndpoint extends Endpoint {
                         e.printStackTrace();
                     }
                     if (oj != null) {
+                        boolean eraNull = datos.getChosen2() == null;
                         datos.setChosen2(getEnumFromOrdinal(oj.getOpcion(), datos));
                         datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
                         if (datos.getChosen1() != null) {
                             //CARGAR EL FXML. TODO
-                            DesktopApp.getStage().hide();
+                            //DesktopApp.getStage().hide();
                             ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
                             changeSceneRoot(loader, DesktopApp.getStage());
+                        } else if (!eraNull) {
+                            FXMLController.cambiaSegundoMensaje();
                         }
                     }
                 } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION) {
