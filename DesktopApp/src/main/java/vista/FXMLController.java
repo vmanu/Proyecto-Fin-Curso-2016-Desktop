@@ -719,8 +719,8 @@ public class FXMLController implements Initializable {
             if (datos.getModalidadJuego() != ModalidadJuego.ONLINE.ordinal()) {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoNormal.fxml"), bundle);
             } else {
-                loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
-                //CERRAR SESION
+                loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
+                websocket.closeWebsocket();
             }
             datos.setValoresIniciales();
         }

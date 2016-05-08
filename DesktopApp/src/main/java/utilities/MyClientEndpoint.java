@@ -145,4 +145,12 @@ public class MyClientEndpoint extends Endpoint {
             }
         }
     }
+
+    public void closeWebsocket() {
+        try {
+            session.close();
+        } catch (IOException ex) {
+            Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
