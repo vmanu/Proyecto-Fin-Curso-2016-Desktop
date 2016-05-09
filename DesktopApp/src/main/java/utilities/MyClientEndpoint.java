@@ -85,7 +85,7 @@ public class MyClientEndpoint extends Endpoint {
                             FXMLController.cambiaSegundoMensaje();
                         }
                     }
-                } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION&& !datos.rondasFinalizadas()) {
+                } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION && !datos.rondasFinalizadas()) {
                     FXMLController.shootAlert();
                 } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
                     try {
