@@ -44,7 +44,7 @@ public class MyClientEndpoint extends Endpoint {
     public MyClientEndpoint(final DataContainer datos) {
         try {
             //192.168.206.1 PORTATIL - 192.168.1.104 CASA - SERVIDOR (DEFINITIVO) ws://servidor-pptgame.rhcloud.com:8000/ServerPPTGame/ppt?user=
-            URI uri = new URI("ws://192.168.206.1:8080/ServerPPTGame/ppt?user=" + datos.getNombreJ1());
+            URI uri = new URI("ws://servidor-pptgame.rhcloud.com:8000/ServerPPTGame/ppt?user=" + datos.getNombreJ1()+"/");
             connectToWebSocket(uri);
         } catch (URISyntaxException ex) {
             Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
@@ -133,7 +133,7 @@ public class MyClientEndpoint extends Endpoint {
     public void sendMessage(MetaMessage message) {
         boolean sal = false;
         while (!sal) {
-            if (session != null) {
+            if (session != null&& session.isOpen()) {
                 try {
                     session.getBasicRemote().sendText(new ObjectMapper().writeValueAsString(message));
                 } catch (IOException ex) {
