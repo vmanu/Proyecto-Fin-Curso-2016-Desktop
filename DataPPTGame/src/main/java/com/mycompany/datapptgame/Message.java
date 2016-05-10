@@ -6,8 +6,8 @@
 package com.mycompany.datapptgame;
 
 /**
- *
- * @author dam2
+ * Esta clase me da que no se usa
+ * @author Victor e Ivan
  */
 public class Message {
     

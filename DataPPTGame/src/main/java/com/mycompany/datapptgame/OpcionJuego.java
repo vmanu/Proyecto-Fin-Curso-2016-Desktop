@@ -6,8 +6,9 @@
 package com.mycompany.datapptgame;
 
 /**
- *
- * @author ivanp
+ * Clase encargada de guardar el ordinal del enum de FichaX (siendo X: 3, 5 o 9)
+ * y el resultado si ya estuviera terminada la partida
+ * @author Victor e Ivan
  */
 public class OpcionJuego {
     private int opcion;

@@ -6,8 +6,9 @@
 package com.mycompany.datapptgame;
 
 /**
- *
- * @author Victor
+ * Gestiona la comunicación del resultado en una partida, de modo que permita
+ * guardar apropiadamente el resultado de la partida en la Base de datos
+ * @author Victor e Ivan
  */
 public enum Result {
     GANA, PIERDE, EMPATA

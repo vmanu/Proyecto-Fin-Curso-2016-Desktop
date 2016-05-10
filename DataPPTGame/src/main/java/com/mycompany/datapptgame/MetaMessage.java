@@ -7,8 +7,13 @@ package com.mycompany.datapptgame;
 
 
 /**
- *
- * @author oscar
+ * Esta clase será usada para comunicar cliente-servidor, está compuesta por dos
+ * atributos encargadas de dicha funcion
+ * @type Es el tipo de mensaje cuyas opciones dependen de las opciones de
+ * enum TypeMessage
+ * @content Es una variable tipo Object, ya que puede contener tanto objetos de
+ * clase OpcionJuego como de Player o User
+ * @author Victor e Ivan
  */
 public class MetaMessage {
     private TypeMessage type;

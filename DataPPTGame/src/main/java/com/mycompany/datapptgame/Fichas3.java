@@ -1,7 +1,8 @@
 package com.mycompany.datapptgame;
 
 /**
- * Created by Victor on 13/12/2015.
+ * Opciones de Juego posibles en el juego a 3
+ * @author Victor e Ivan
  */
 public enum Fichas3 {
     PAPEL,

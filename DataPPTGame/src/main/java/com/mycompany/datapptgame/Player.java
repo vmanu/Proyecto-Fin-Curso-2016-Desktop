@@ -6,8 +6,14 @@
 package com.mycompany.datapptgame;
 
 /**
- *
- * @author ivanp
+ * Clase contenedora de informacion relativa a los jugadores implicados en una
+ * partida del juego
+ * @namePlayer Nombre del jugador en cuestión
+ * @tipoJuego Indica la configuracion de la partida (elegida por el usuario) respecto
+ * al tipo de juego (Juego a 3, a 5 o a 9)
+ * @numberOfRounds Indica la configuracion de la partida (elegida por el usuario)
+ * respecto al numero de rondas elegidas (1,3,5)
+ * @author Victor e Ivan
  */
 public class Player {
     private String namePlayer;

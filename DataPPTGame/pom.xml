@@ -14,14 +14,12 @@
         <endorsed.dir2>${project.build.directory}/../../../PiedraPapelyTijera/app/libs/</endorsed.dir2>
     </properties>
     
-    <build>
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.4.1</version>
-                <configuration>
-                    <!-- get all project dependencies-->
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
@@ -29,7 +27,6 @@
                 <executions>
                     <execution>
                         <id>make-assembly</id>
-                        <!-- bind to the packaging phase -->
                         <phase>package</phase> 
                         <goals>
                             <goal>single</goal>
@@ -41,7 +38,6 @@
                     </execution>
                     <execution>
                         <id>make-assembly2</id>
-                        <!-- bind to the packaging phase -->
                         <phase>package</phase> 
                         <goals>
                             <goal>single</goal>
@@ -54,5 +50,5 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 </project>

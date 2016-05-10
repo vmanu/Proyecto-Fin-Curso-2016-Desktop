@@ -6,8 +6,9 @@
 package com.mycompany.datapptgame;
 
 /**
- *
- * @author IvPR
+ * Gestiona la informacion del logeo/registro de un usuario, transportandose entre
+ * cliente y servidor
+ * @author Victor e Ivan
  */
 public class User {
     private String login;
