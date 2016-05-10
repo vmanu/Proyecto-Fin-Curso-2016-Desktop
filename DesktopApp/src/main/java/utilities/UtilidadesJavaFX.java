@@ -6,40 +6,35 @@
 package utilities;
 
 import com.mycompany.datapptgame.*;
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.jmx.MXNodeAlgorithmContext;
-import com.sun.javafx.sg.prism.NGNode;
 import java.io.IOException;
-import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import modelo.DataContainer;
 import vista.FXMLController;
 
 /**
- *
- * @author Victor
+ * Clase con metodos y utilidades necesarias para el funcionamiento de JavaFX
+ * @author Victor e Ivan
  */
 public class UtilidadesJavaFX {
 
+    /**
+     * Devuelve el Enum a partir de su ordinal, analizando el parametro factorAlgoritmo
+     * de el objeto datos (Datacontainer) para determinar que enum debe ser revisado
+     * y a traves de su ordinal obtener el enum concreto
+     * @param ordinal integer que indica la posicion del Enum
+     * @param datos 
+     * @return 
+     */
     public static Enum getEnumFromOrdinal(int ordinal, DataContainer datos) {
         Enum res = null;
         boolean sal = false;

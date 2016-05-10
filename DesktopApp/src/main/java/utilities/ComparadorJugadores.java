@@ -5,7 +5,7 @@ import modelo.Jugador;
 import java.util.Comparator;
 
 /**
- * Created by Victor on 14/12/2015.
+ * @author Victor e Ivan
  */
 public class ComparadorJugadores {
 

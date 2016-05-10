@@ -40,29 +40,30 @@ import com.mycompany.datapptgame.OpcionJuego;
 import com.mycompany.datapptgame.Player;
 import com.mycompany.datapptgame.RoundsNumber;
 import com.mycompany.datapptgame.TypeMessage;
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.jmx.MXNodeAlgorithmContext;
-import com.sun.javafx.sg.prism.NGNode;
-import java.net.MalformedURLException;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.ReadOnlyBooleanWrapper;
-import javafx.event.Event;
-import javafx.event.EventType;
-import javafx.scene.control.Alert;
-import javafx.stage.WindowEvent;
 import utilities.PreferencesManager;
 import javax.websocket.ClientEndpoint;
 import utilities.MyClientEndpoint;
 import static utilities.UtilidadesJavaFX.*;
 
 /**
- *
+ * Controlador de la interfaz grafica (eventos)
+ * datos conserva todos los datos importantes para la funcionalidad de la
+ * aplicacion, especialmente los resultados, configuraciones y caracteristicas
+ * relativas a la funcionalidad de la partida/s
+ * websocket: se encarga de mantener las propiedades relativas a la conexion
+ * de websockets
+ * segundoMensaje: encargado de la gestion (online) del transito entre jugada
+ * y jugada, controlando el boton continue del menu de resultado, que en caso de
+ * que esta variable valga false determina que puede poner los valores a su estado
+ * inicial, si es true, mantendrá el valor de chosen2 (jugador ajeno). Esto sirve
+ * para controlar que si el otro usuario ha mandado ya su opcion, no borre dicha
+ * opcion y pueda determinar el resultado
+ * botonAlertStatic: gestiona un boton existente en las diferentes pantallas de juego
+ * y en result, que al necesitar ser estático, se guarda en una segunda variable
+ * para poder ser activada cuando llegue un mensaje de websocket con la partida del
+ * adversario, siendo que el jugador local ya ha elegido partida
  * @author Victor
  */
 @ClientEndpoint
@@ -116,6 +117,12 @@ public class FXMLController implements Initializable {
     private Button botonAlert;
     private static Button botonAlertStatic;
 
+    /**
+     * Gestiona los eventos del menu principal (los botones), tomará diferentes
+     * acciones dependiendo del id del boton que lance el evento
+     * @param event utilizado para gestionar la obtencion del id del boton pulsado
+     * y manejar los cambios de escena requerido
+     */
     @FXML
     private void handleButtonsMenuPrincipalAction(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -144,6 +151,13 @@ public class FXMLController implements Initializable {
         changeSceneRoot(loader, stage);
     }
 
+    /**
+     * Gestiona los eventos del boton back del los menus: Reglas, Reglas graficas,
+     * Desarrolladores y Puntuaciones. Se gestionan en un solo metodo ya que la
+     * funcionalidad es la misma
+     * @param event utilizado para gestionar la obtencion del id del boton pulsado
+     * y manejar los cambios de escena requerido
+     */
     @FXML
     private void handleButtonBackAction(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -152,6 +166,12 @@ public class FXMLController implements Initializable {
         changeSceneRoot(loader, stage);
     }
 
+    /**
+     * Gestiona los eventos del menu de la partida Normal (los botones), tomará
+     * diferentes acciones dependiendo del id del boton que lance el evento
+     * @param event utilizado para gestionar la obtencion del id del boton pulsado
+     * y manejar los cambios de escena requerido
+     */
     @FXML
     private void handleButtonsMenuNormalAction(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -177,6 +197,12 @@ public class FXMLController implements Initializable {
         changeSceneRoot(loader, stage);
     }
 
+    /**
+     * Gestiona los eventos del menu principal (los botones), tomará diferentes
+     * acciones dependiendo del id del boton que lance el evento
+     * @param event utilizado para gestionar la obtencion del id del boton pulsado
+     * y manejar los cambios de escena requerido
+     */
     @FXML
     private void handleButtonsMenuOnlineAction(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

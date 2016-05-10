@@ -33,8 +33,8 @@ import vista.DesktopApp;
 import vista.FXMLController;
 
 /**
- *
- * @author Victor
+ * Gestiona la conexion Websocket
+ * @author Victor e Ivan
  */
 public class MyClientEndpoint extends Endpoint {
 

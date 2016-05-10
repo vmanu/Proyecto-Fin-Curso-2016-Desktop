@@ -14,11 +14,22 @@ import javafx.scene.control.TextField;
 import vista.FXMLController;
 
 /**
- *
- * @author Victor
+ * Gestiona las preferencias o ultimos usos de configuraciones relativas a las
+ * partidas para recargarlas tal y como se aceptaron por ultima vez
+ * @author Victor e Ivan
  */
 public class PreferencesManager {
 
+    /**
+     * Guarda los valores de elección del jugador cuando el usuario se encuentra
+     * en el menu Opciones Normal
+     * @param roundsOption radioButton seleccionado relativo al numero de rondas
+     * @param playerNumber radioButton seleccionado relativo al numero de jugadores
+     * @param gameOption radioButton seleccionado relativo al tipo de juego
+     * @param player1Name textField con el nombre del Jugador 1
+     * @param player2Name textField con el nombre del Jugador 2
+     * @param customRounds  textField con el numero de rondas (personalizado)
+     */
     public static void setPreferencesNormal(String roundsOption, String playerNumber, String gameOption, String player1Name, String player2Name, String customRounds) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
         prefs.put("roundsNormal", roundsOption);
@@ -32,7 +43,17 @@ public class PreferencesManager {
             prefs.put("roundCustomized", customRounds);
         }
     }
-
+    
+    /**
+     * Carga los valores de elección del jugador cuando el usuario se encuentra
+     * en el menu Opciones Normal
+     * @param nodoRound radioButtons elegibles que determinan el numero de rondas
+     * @param nodoPlayers radioButtons elegibles que determinan el numero de jugadores
+     * @param nodoGame radioButtons elegibles que determinan el tipo de juego
+     * @param player1 textField que registra al Jugador 1
+     * @param player2 textField que registra al Jugador 2
+     * @param roundCustomed textField que registra el numero de rondas personalizadas
+     */
     public static void getPreferencesNormal(ObservableList<Node> nodoRound, ObservableList<Node> nodoPlayers, ObservableList<Node> nodoGame, TextField player1, TextField player2, TextField roundCustomed) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
         String roundsOption, playerNumber;
@@ -55,6 +76,12 @@ public class PreferencesManager {
         }
     }
     
+    /**
+     * Gestiona el cambio de los botones cuando la opcion elegida requiere una
+     * variacion en la seleccion del radioButton (nodo)
+     * @param nodos radioButtons posibles de seleccion
+     * @param valueToSet id del radioButton que debe ser seleccionado
+     */
     private static void changeStateRadioButton(ObservableList<Node> nodos, String valueToSet){
         for(int i=0;i<nodos.size();i++){
             RadioButton button=(RadioButton)nodos.get(i);
@@ -65,6 +92,13 @@ public class PreferencesManager {
         }
     }
 
+    /**
+     * Guarda los valores de elección del jugador cuando el usuario se encuentra
+     * en el menu Opciones Online
+     * @param roundsOption radioButton seleccionado relativo al numero de rondas
+     * @param gameOption radioButton seleccionado relativo al tipo de juego
+     * @param player1Name textField con el nombre del Jugador 1 (local)
+     */
     public static void setPreferencesOnline(String roundsOption, String gameOption, String player1Name) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
         prefs.put("roundsOnline", roundsOption);
@@ -72,6 +106,13 @@ public class PreferencesManager {
         prefs.put("playerJ1NameOnline", player1Name);
     }
 
+    /**
+     * Carga los valores de elección del jugador cuando el usuario se encuentra
+     * en el menu Opciones Online
+     * @param nodoRound radioButtons de Rondas que pueden ser seleccionados
+     * @param nodoGame radioButtons de Tipo Juego que pueden ser seleccionados
+     * @param player1 valor a poner en el textField que refiere al jugador 1 (local)
+     */
     public static void getPreferencesOnline(ObservableList<Node> nodoRound, ObservableList<Node> nodoGame, TextField player1) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
         changeStateRadioButton(nodoRound, prefs.get("roundsOnline", ""));
