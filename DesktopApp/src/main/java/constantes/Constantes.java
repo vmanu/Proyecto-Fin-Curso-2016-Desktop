@@ -6,8 +6,8 @@
 package constantes;
 
 /**
- *
- * @author Victor
+ * Clase con las constantes del programa
+ * @author Victor e Ivan
  */
 public class Constantes {
     public static final String ID_BOTON_PLAY_MENU_PRINCIPAL="PlayMenuPrincipalButton";

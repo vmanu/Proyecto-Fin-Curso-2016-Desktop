@@ -6,7 +6,8 @@ import com.mycompany.datapptgame.Fichas9;
 import java.util.HashMap;
 
 /**
- * Created by Victor on 29/03/2016.
+ * 
+ * @author Victor e Ivan
  */
 public class DataContainer {
     private int roundsCounter;
@@ -25,12 +26,10 @@ public class DataContainer {
     private boolean jugando;
     private HashMap <String,Enum> mapFichas;
     private HashMap <String,String> mapFichasMaquina;
-    private boolean conexionFallida;
 
     public DataContainer() {
         inicializaMapFichas();
         inicializaMapFichasMaquina();
-        conexionFallida=false;
     }
 
     //<editor-fold defaultState="Collapsed" desc="GETTERS Y SETTERS">
@@ -289,26 +288,5 @@ public class DataContainer {
         idImagenPulsada1="";
         idImagenPulsada2="";
     }
-
-    public boolean isConexionFallida() {
-        return conexionFallida;
-    }
-
-    public void changeConexionFallida() {
-        conexionFallida = !conexionFallida;
-    }
-    /*public void asignarTagsRojos(AppCompatActivity activity){
-        HashMap<String, String> tags=inicializaMapImageTagsRojo();
-        for(String key:tags.keySet()){
-            activity.findViewById(key).setTag(tags.get(key));
-        }
-    }
-
-    public void asignarTagsAzules(AppCompatActivity activity){
-        HashMap<Integer, Integer> tags=inicializaMapImageTagsAzul();
-        for(Integer key:tags.keySet()){
-            activity.findViewById(key).setTag(tags.get(key));
-        }
-    }*/
     //</editor-fold>
 }

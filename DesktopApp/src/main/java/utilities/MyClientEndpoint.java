@@ -41,6 +41,11 @@ public class MyClientEndpoint extends Endpoint {
     private Session session;
     private WebSocketContainer container;
 
+    /**
+     * Constructor del websocket y gestion del onMessage de éste
+     * @param datos necesario para la concatenacion del nombre del jugador a la ruta
+     * y otras utilizaciones en el on message
+     */
     public MyClientEndpoint(final DataContainer datos) {
         try {
             //192.168.206.1 PORTATIL - 192.168.1.104 CASA - SERVIDOR (DEFINITIVO) ws://servidor-pptgame.rhcloud.com:8000/ServerPPTGame/ppt?user=
@@ -104,6 +109,10 @@ public class MyClientEndpoint extends Endpoint {
 
     }
 
+    /**
+     * Constructor del container del websocket
+     * @param uri direccion a la que conectarse
+     */
     private void connectToWebSocket(URI uri) {
         container = ContainerProvider.getWebSocketContainer();
         try {
@@ -114,22 +123,42 @@ public class MyClientEndpoint extends Endpoint {
         }
     }
 
+    /**
+     * Gestiona el evento onOpen del websocket, ejecutado al abrir la conexion de
+     * websocket, se asigna la session para poder cerrarla cuando sea requerido
+     * @param sn
+     * @param ec 
+     */
     @Override
     public void onOpen(Session sn, EndpointConfig ec) {
         System.out.println("ENTRAMOS EN EL ON_OPEN");
         session = sn;
     }
 
+    /**
+     * Gestiona el evento onError del websocket
+     * @param session
+     * @param thr 
+     */
     @Override
     public void onError(Session session, Throwable thr) {
         super.onError(session, thr); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Gestiona el evento onClose del websocket
+     * @param session
+     * @param closeReason 
+     */
     @Override
     public void onClose(Session session, CloseReason closeReason) {
         super.onClose(session, closeReason); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Método encargado del envio de mensajes a través de websockets
+     * @param message 
+     */
     public void sendMessage(MetaMessage message) {
         boolean sal = false;
         while (!sal) {

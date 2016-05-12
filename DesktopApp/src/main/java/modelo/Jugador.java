@@ -3,7 +3,9 @@ package modelo;
 import java.util.Date;
 
 /**
- * Created by dam2 on 14/12/2015.
+ * Clase usada para la gestión de mostrar el score, ayudando a organizarlos segun
+ * se pida
+ * @author Victor e Ivan
  */
 public class Jugador{
     private int ganados;
