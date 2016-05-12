@@ -7,28 +7,25 @@ package vista;
 
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.concurrent.Worker;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import static utilities.UtilidadesJavaFX.showAlertFields;
 
 /**
- *
- * @author Victor
+ * Clase encargada de la creación del stage y la primera configuración para que
+ * arranque la aplicación
+ * @author Victor e Ivan
  */
 public class DesktopApp extends Application {
 
     private static Stage stage;
 
+    /**
+     * Carga de la primera visualizacion en la aplicacion los titulos y otras
+     * propiedades si se deseara
+     */
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
@@ -50,15 +47,5 @@ public class DesktopApp extends Application {
 
     public static Stage getStage() {
         return stage;
-    }
-
-//    public static void setStage(Stage newstage) {
-//        stage=newstage;
-//    }
-    private void testMethod() {
-        System.out.println("Entro en testMethod");
-        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-        showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
-        System.out.println("Salgo de testMethod");
     }
 }

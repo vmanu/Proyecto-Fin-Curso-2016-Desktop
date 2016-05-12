@@ -225,6 +225,11 @@ public class FXMLController implements Initializable {
         changeSceneRoot(loader, stage);
     }
 
+    /**
+     * Gestiona el evento de cambio de valor de un radioButton si éste debiera
+     * de generar ese cambio
+     * @param event 
+     */
     @FXML
     private void handleRadioButtonsAction(ActionEvent event) {
         String rb = ((Node) event.getSource()).getId();
@@ -258,6 +263,11 @@ public class FXMLController implements Initializable {
         }
     }
 
+    /**
+     * Gestiona las ejecuciones dependiendo del boton pulsado en el menú de Opciones
+     * en el juego Online
+     * @param event 
+     */
     @FXML
     private void handleButtonsMenuOpcionesJuegoOnlineAction(ActionEvent event) {
         boolean cargarPantalla = true;
@@ -324,6 +334,11 @@ public class FXMLController implements Initializable {
         }
     }
 
+    /**
+     * Gestiona las ejecuciones segun el boton pulsado en el el Menú de Opciones
+     * de Juego en Modo Local
+     * @param event 
+     */
     @FXML
     private void handleButtonsMenuOpcionesJuegoNormalAction(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -417,6 +432,11 @@ public class FXMLController implements Initializable {
         }
     }
 
+    /**
+     * Gestiona la emisión de un Alert concreto para cuando se ha perdido la conexion
+     * websocket con otro jugador
+     * @param event 
+     */
     @FXML
     private void gestionaAlert(final ActionEvent event) {
         Platform.runLater(new Runnable() {
@@ -432,6 +452,13 @@ public class FXMLController implements Initializable {
 
     }
 
+    /**
+     * Metodo que gestiona la precarga de la escena y donde se comprueba diferentes
+     * estados y condiciones para adaptar comportamientos/visualizaciones en esa
+     * nueva pantalla
+     * @param url
+     * @param rb 
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if (botonAlert != null) {
@@ -454,7 +481,7 @@ public class FXMLController implements Initializable {
         }
         //TODO: PONER UN IF CONDICIONANDO LA VISTA DEL RESULT A EL NUMERO DE PARTIDAS JUGADAS Y TAMBIEN MOSTRANDO LAS IMAGENES CORRECTAS
         if (urlComprobar.equals("FXMLResult.fxml")) {
-            comunEvaluacionGanador(datos, false, rb);
+            comunEvaluacionGanador(datos, rb);
             resultImagenJ1Choosed.setImage(new Image(datos.getIdImagenPulsada1()));
             resultImagenJ2Choosed.setImage(new Image(datos.getIdImagenPulsada2()));
             resultJ1.setText(datos.getNombreJ1() + rb.getString("won") + datos.getVictoriesP1());
@@ -489,41 +516,24 @@ public class FXMLController implements Initializable {
         }
     }
 
+    /**
+     * Metodo que lanza el evento del boton (oculto) que provoca un alert por
+     * desconexión del websocket
+     */
     public static void shootAlert() {
         botonAlertStatic.fire();
     }
 
-//    public static void ejecutor() {
-//        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-////        try {
-////            initialize(new URL("/FXMLMenuPrincipal.fxml"),bundle);
-////        } catch (MalformedURLException ex) {
-////            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-////        }
-//        System.out.println("HA ENTRADO EN FIN DE CONEXION");
-//        //FXMLController.getDatos().changeConexionFallida();
-//        //showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null, alertas);
-//    }
-//    @FXML
-//    private void pruebaEvento(ActionEvent event) {
-////        System.out.println("PRUEBAEVENTO");
-////        Runnable shoot=new Runnable() {
-////            @Override
-////            public void run() {
-////                System.out.println("RUNNABLE");
-////                ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-////                showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
-////            }
-////        };
-////        shoot.run();
-//
-//        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-//        showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
-//    }
     public static DataContainer getDatos() {
         return datos;
     }
 
+    /**
+     * Obtiene a partir de una lista de nodos (RadioButtons), cual de los radios
+     * están checkeados y devuelve su ID
+     * @param lista
+     * @return 
+     */
     public static String getSelectedRadioButtonID(ObservableList<Node> lista) {
         String devuelve = "";
         for (Node nodo : lista) {
@@ -536,17 +546,11 @@ public class FXMLController implements Initializable {
         return devuelve;
     }
 
-//    private void changeSceneRoot(FXMLLoader loader, Stage stage) {
-//        Parent root = null;
-//        try {
-//            root = loader.load();
-//        } catch (IOException ex) {
-//            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        if (root != null) {
-//            stage.getScene().setRoot(root);
-//        }
-//    }
+    /**
+     * Gestiona la visualizacion de nodos
+     * @param stage
+     * @param visibilityButton 
+     */
     private void setVisibilitiesStateMenuOpcionesOnline(Stage stage, boolean visibilityButton) {
         ObservableList<Node> nodos = ((ObservableList<Node>) ((VBox) stage.getScene().lookup("#VBoxParentOnlineOptions")).getChildren());
         for (int i = 1; i < nodos.size(); i++) {
@@ -556,10 +560,19 @@ public class FXMLController implements Initializable {
         ((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).setManaged(visibilityButton);
     }
 
+    /**
+     * Llama al showAlertFields, asignandole ciertos valores a los diferentes campos
+     * @param bundle
+     * @param excepcion 
+     */
     private void showAlertFieldsWithExpandable(ResourceBundle bundle, String excepcion) {
         showAlertFields(excepcion, bundle.getString("HaveWrongFields"), bundle.getString("Warning"), bundle.getString("TheWarningsAre"));
     }
 
+    /**
+     * Genera un toast con el nombre del jugador al que le corresponde el turno
+     * @param mensaje 
+     */
     private void notificacionToast(String mensaje) {
         ///////////////////////////////////////////
         Notification info = new Notification("", mensaje);
@@ -578,6 +591,11 @@ public class FXMLController implements Initializable {
 //        Notifier.INSTANCE.notifyWarning("Warning","This is a warning");
     }
 
+    /**
+     * Gestiona el cambio de color de los iconos de opciones del juego a azul,
+     * indicando así que el turno corresponde al segundo jugador
+     * @param event 
+     */
     private void cambiaAzul(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         switch (datos.getFactorAlgoritmo()) {
@@ -616,7 +634,15 @@ public class FXMLController implements Initializable {
         }
     }
 
-    private void comunEvaluacionGanador(DataContainer datos, boolean online, ResourceBundle rb) {
+    /**
+     * Gestiona la funcionalidad de evaluación del resultado de la partida e imprime
+     * los cambios requeridos a mostrar en la pantalla de FXMLResult, además de 
+     * sumar victoria si corresponde
+     * @param datos
+     * @param online
+     * @param rb 
+     */
+    private void comunEvaluacionGanador(DataContainer datos, ResourceBundle rb) {
         switch (logicaJuego(datos.getChosen2().ordinal(), datos)) {
             case 0:
                 //empata
@@ -635,8 +661,14 @@ public class FXMLController implements Initializable {
         }
     }
 
+    /**
+     * Devuelve el resultado del juego
+     * @param chosen
+     * @param datos
+     * @return 
+     */
     private int logicaJuego(int chosen, DataContainer datos) {
-        int res = 0;
+        int res = 1;//Se cambia de 0 a 1 para evitar el if posterior
         if (chosen == datos.getOrdinalChosen1()) {
             //EMPATA
             res = 0;
@@ -650,14 +682,19 @@ public class FXMLController implements Initializable {
                     res = 2;
                 }
             }
-            if (!ganaChosen) {
-                //GANA CHOSEN1
-                res = 1;
-            }
+//            if (!ganaChosen) {
+//                //GANA CHOSEN1
+//                res = 1;
+//            }
         }
         return res;
     }
 
+    /**
+     * Gestiona la pulsion sobre una de las opciones (piedra, papel, tijera...)
+     * en el juego
+     * @param event 
+     */
     @FXML
     private void gestionaJuego(MouseEvent event) {
         Node nodo = (Node) event.getSource();
@@ -718,6 +755,10 @@ public class FXMLController implements Initializable {
         } //        return msg;
     }
 
+    /**
+     * Gestiona los botones del FXMLResult
+     * @param event 
+     */
     @FXML
     private void gestionaResultButtons(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -753,6 +794,12 @@ public class FXMLController implements Initializable {
         changeSceneRoot(loader, stage);
     }
     
+    /**
+     * Gestiona el cambio de valor de la variable encargada de notificar si ha
+     * habido comunicacion previa del usuario online, para evitar errores por
+     * borrar el contenido de la elección del jugador online conservando dicha
+     * elección
+     */
     public static void cambiaSegundoMensaje(){
         segundoMensaje=!segundoMensaje;
     }

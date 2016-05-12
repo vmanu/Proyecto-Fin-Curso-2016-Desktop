@@ -66,10 +66,25 @@ public class UtilidadesJavaFX {
         return res;
     }
 
+    /**
+     * Método encargado de devolver el String de la ruta de la imagen a mostrar,
+     * acorde a lo obtenido aleatoriamente por la maquina
+     * @param chosen enum elegido
+     * @param datos necesario para la obtención del hashmap que retorna la ruta
+     * @return String con el valor de la ruta a la imagen adecuada
+     */
     public static String gestionaPulsadoMaquina(Enum chosen, DataContainer datos) {
         return datos.getMapFichasMaquina().get(chosen.name());
     }
 
+    /**
+     * Método encargado de los alert usados para notificar cualquier tipo de fallo
+     * o alerta que deba ser mostrado al usuario
+     * @param excepcion
+     * @param contextText
+     * @param title
+     * @param info 
+     */
     public static void showAlertFields(String excepcion, String contextText, String title, String info) {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle(title);
@@ -96,6 +111,12 @@ public class UtilidadesJavaFX {
         alert.showAndWait();
     }
 
+    /**
+     * Método encargado de la carga de la nueva escena, y por tanto, de la nueva
+     * visualización
+     * @param loader FXMLLoader con la ruta al FXML asignado al que se quiere cambiar
+     * @param stage Escenario en la que se carga la escena
+     */
     public static void changeSceneRoot(FXMLLoader loader, Stage stage) {
         Parent root = null;
         try {

@@ -6,7 +6,8 @@ import com.mycompany.datapptgame.Fichas9;
 import java.util.HashMap;
 
 /**
- * 
+ * Clase encargada de el almacenamiento de una serie de datos necesarios para
+ * la gestión de la partida
  * @author Victor e Ivan
  */
 public class DataContainer {
@@ -27,12 +28,15 @@ public class DataContainer {
     private HashMap <String,Enum> mapFichas;
     private HashMap <String,String> mapFichasMaquina;
 
+    /**
+     * Constructor que inicializa los dos hashMaps
+     */
     public DataContainer() {
         inicializaMapFichas();
         inicializaMapFichasMaquina();
     }
 
-    //<editor-fold defaultState="Collapsed" desc="GETTERS Y SETTERS">
+    //<editor-fold defaultstate="collapsed" desc="GETTERS Y SETTERS">
     public int getRoundsCounter() {
         return roundsCounter;
     }
@@ -154,21 +158,33 @@ public class DataContainer {
     }
     //</editor-fold>
 
-    //<editor-fold defaultState="Collapsed" desc="GESTION ASIGNACION ENUMS">
-    private Enum getCorrectEnum(Enum[] values,String valorBueno){
-        Enum devuelve=null;
-        boolean sal=false;
-        for(int i=0;i<values.length&&!sal;i++){
-            if(values[i].name().equalsIgnoreCase(valorBueno)){
-                sal=true;
-                devuelve=values[i];
-            }
-        }
-        return devuelve;
-    }
+    //<editor-fold defaultstate="collapsed" desc="GESTION ASIGNACION ENUMS">
+    /**
+     * Metodo que devuelve el enum al cual es referido en base a un String, que
+     * contiene el valor String que se le pasa
+     * @param values Array de valores de 
+     * @param valorBueno
+     * @return 
+     */
+//    private Enum getCorrectEnum(Enum[] values,String valorBueno){
+//        Enum devuelve=null;
+//        boolean sal=false;
+//        for(int i=0;i<values.length&&!sal;i++){
+//            if(values[i].name().equalsIgnoreCase(valorBueno)){
+//                sal=true;
+//                devuelve=values[i];
+//            }
+//        }
+//        return devuelve;
+//    }
     //</editor-fold>
 
-    //<editor-fold defaultState="Collapsed" desc="INICIALIZACION HASHMAP">
+    //<editor-fold defaultstate="collapsed" desc="INICIALIZACION HASHMAP">
+    /**
+     * Inicializacion del hashMap que reconoce todos los valores de los 3 posibles
+     * enums. Sirve para que solo con el id del imageView se pueda asignar el enum
+     * correspondiente
+     */
     private void inicializaMapFichas(){
         mapFichas=new HashMap();
         mapFichas.put("papel5",Fichas5.PAPEL);
@@ -190,6 +206,12 @@ public class DataContainer {
         mapFichas.put("tijera3",Fichas3.TIJERA);
     }
 
+    /**
+     * Inicializacion del hashMap que reconoce todos los valores de elección en
+     * una partida y el valor es la url para cargar la imagen correspondiente.
+     * Sirve para que solo con el id del imageView se pueda asignar el enum
+     * correspondiente
+     */
     private void inicializaMapFichasMaquina() {//Se usa para el setImagenPulsada en caso de jugar contra la maquina, con el .name del enum que sea elegido
         mapFichasMaquina=new HashMap();
         mapFichasMaquina.put("PAPEL","imagenes/papelazul.png");
@@ -205,60 +227,69 @@ public class DataContainer {
         mapFichasMaquina.put("ESPONJA","imagenes/spongeazul.png");
     }
 
-    private HashMap <String,String> inicializaMapImageTagsRojo() {
-        HashMap <String,String> mapImageTagsRojo=new HashMap();
-        mapImageTagsRojo.put("papel5","imagenes/papelrojo.png");
-        mapImageTagsRojo.put("spock5","imagenes/spockrojo.png");
-        mapImageTagsRojo.put("piedra5","imagenes/piedraroja.png");
-        mapImageTagsRojo.put("tijera5","imagenes/tijerasrojo.png");
-        mapImageTagsRojo.put("lagarto5","imagenes/lizardrojo.png");
-        mapImageTagsRojo.put("papel9","imagenes/papelrojo.png");
-        mapImageTagsRojo.put("aire9","imagenes/windrojo.png");
-        mapImageTagsRojo.put("agua9","imagenes/waterrojo.png");
-        mapImageTagsRojo.put("pistola9","imagenes/gunrojo.png");
-        mapImageTagsRojo.put("piedra9","imagenes/piedraroja.png");
-        mapImageTagsRojo.put("fuego9","imagenes/firerojo.png");
-        mapImageTagsRojo.put("tijera9","imagenes/tijerasrojo.png");
-        mapImageTagsRojo.put("humano9","imagenes/humanrojo.png");
-        mapImageTagsRojo.put("esponja9","imagenes/spongerojo.png");
-        mapImageTagsRojo.put("piedra3","imagenes/piedraroja.png");
-        mapImageTagsRojo.put("papel3","imagenes/papelrojo.png");
-        mapImageTagsRojo.put("tijera3","imagenes/tijerasrojo.png");
-        return  mapImageTagsRojo;
-    }
-
-    private HashMap <String,String> inicializaMapImageTagsAzul() {
-        HashMap <String,String> mapImageTagsAzul=new HashMap();
-        mapImageTagsAzul.put("papel5","imagenes/papelazul.png");
-        mapImageTagsAzul.put("spock5","imagenes/spockazul.png");
-        mapImageTagsAzul.put("piedra5","imagenes/piedraazul.png");
-        mapImageTagsAzul.put("tijera5","imagenes/tijerasazul.png");
-        mapImageTagsAzul.put("lagarto5","imagenes/lizardazul.png");
-        mapImageTagsAzul.put("papel9","imagenes/papelazul.png");
-        mapImageTagsAzul.put("aire9","imagenes/windazul.png");
-        mapImageTagsAzul.put("agua9","imagenes/waterazul.png");
-        mapImageTagsAzul.put("pistola9","imagenes/gunazul.png");
-        mapImageTagsAzul.put("piedra9","imagenes/piedraazul.png");
-        mapImageTagsAzul.put("fuego9","imagenes/fireazul.png");
-        mapImageTagsAzul.put("tijera9","imagenes/tijerasazul.png");
-        mapImageTagsAzul.put("humano9","imagenes/humanazul.png");
-        mapImageTagsAzul.put("esponja9","imagenes/spongeazul.png");
-        mapImageTagsAzul.put("piedra3","imagenes/piedraazul.png");
-        mapImageTagsAzul.put("papel3","imagenes/papelazul.png");
-        mapImageTagsAzul.put("tijera3","imagenes/tijerasazul.png");
-        return mapImageTagsAzul;
-    }
+//    private HashMap <String,String> inicializaMapImageTagsRojo() {
+//        HashMap <String,String> mapImageTagsRojo=new HashMap();
+//        mapImageTagsRojo.put("papel5","imagenes/papelrojo.png");
+//        mapImageTagsRojo.put("spock5","imagenes/spockrojo.png");
+//        mapImageTagsRojo.put("piedra5","imagenes/piedraroja.png");
+//        mapImageTagsRojo.put("tijera5","imagenes/tijerasrojo.png");
+//        mapImageTagsRojo.put("lagarto5","imagenes/lizardrojo.png");
+//        mapImageTagsRojo.put("papel9","imagenes/papelrojo.png");
+//        mapImageTagsRojo.put("aire9","imagenes/windrojo.png");
+//        mapImageTagsRojo.put("agua9","imagenes/waterrojo.png");
+//        mapImageTagsRojo.put("pistola9","imagenes/gunrojo.png");
+//        mapImageTagsRojo.put("piedra9","imagenes/piedraroja.png");
+//        mapImageTagsRojo.put("fuego9","imagenes/firerojo.png");
+//        mapImageTagsRojo.put("tijera9","imagenes/tijerasrojo.png");
+//        mapImageTagsRojo.put("humano9","imagenes/humanrojo.png");
+//        mapImageTagsRojo.put("esponja9","imagenes/spongerojo.png");
+//        mapImageTagsRojo.put("piedra3","imagenes/piedraroja.png");
+//        mapImageTagsRojo.put("papel3","imagenes/papelrojo.png");
+//        mapImageTagsRojo.put("tijera3","imagenes/tijerasrojo.png");
+//        return  mapImageTagsRojo;
+//    }
+//
+//    private HashMap <String,String> inicializaMapImageTagsAzul() {
+//        HashMap <String,String> mapImageTagsAzul=new HashMap();
+//        mapImageTagsAzul.put("papel5","imagenes/papelazul.png");
+//        mapImageTagsAzul.put("spock5","imagenes/spockazul.png");
+//        mapImageTagsAzul.put("piedra5","imagenes/piedraazul.png");
+//        mapImageTagsAzul.put("tijera5","imagenes/tijerasazul.png");
+//        mapImageTagsAzul.put("lagarto5","imagenes/lizardazul.png");
+//        mapImageTagsAzul.put("papel9","imagenes/papelazul.png");
+//        mapImageTagsAzul.put("aire9","imagenes/windazul.png");
+//        mapImageTagsAzul.put("agua9","imagenes/waterazul.png");
+//        mapImageTagsAzul.put("pistola9","imagenes/gunazul.png");
+//        mapImageTagsAzul.put("piedra9","imagenes/piedraazul.png");
+//        mapImageTagsAzul.put("fuego9","imagenes/fireazul.png");
+//        mapImageTagsAzul.put("tijera9","imagenes/tijerasazul.png");
+//        mapImageTagsAzul.put("humano9","imagenes/humanazul.png");
+//        mapImageTagsAzul.put("esponja9","imagenes/spongeazul.png");
+//        mapImageTagsAzul.put("piedra3","imagenes/piedraazul.png");
+//        mapImageTagsAzul.put("papel3","imagenes/papelazul.png");
+//        mapImageTagsAzul.put("tijera3","imagenes/tijerasazul.png");
+//        return mapImageTagsAzul;
+//    }
     //</editor-fold>
 
-    //<editor-fold defaultState="Collapsed" desc="OTROS METODOS">
+    //<editor-fold defaultstate="collapsed" desc="OTROS METODOS">
+    /**
+     * Método encargado de cambiar el valor del turno (boolean)
+     */
     public void cambiaTurno(){
         turno=!turno;
     }
 
+    /**
+     * Suma en 1 el valor de victoriesP1
+     */
     public void sumaVictoriasP1(){
         victoriesP1++;
     }
-
+    
+    /**
+     * Suma en 1 el valor de victoriesP1
+     */
     public void sumaVictoriasP2(){
         victoriesP2++;
     }
@@ -271,14 +302,25 @@ public class DataContainer {
         return chosen2.ordinal();
     }
 
+    /**
+     * Suma en 1 el valor de roundsCounter
+     */
     public void avanzaRonda(){
         roundsCounter++;
     }
 
+    /**
+     * Evalua si el contador de partidas ha llegado al valor del limite de rondas
+     * @return true si el valor del contador es igual al valor del limite
+     */
     public boolean rondasFinalizadas(){
         return roundsCounter==roundsLimit;
     }
 
+    /**
+     * Resetea ciertos valores a estados iniciales para indicar que, de producirse
+     * algún cambio, éste esté referido a otra partida y así evitar errores
+     */
     public void setValoresIniciales(){
         roundsCounter=0;
         victoriesP1=0;
