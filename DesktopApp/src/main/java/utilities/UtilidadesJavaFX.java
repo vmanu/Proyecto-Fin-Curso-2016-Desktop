@@ -86,7 +86,6 @@ public class UtilidadesJavaFX {
     /**
      * Método encargado de los alert usados para notificar cualquier tipo de
      * fallo o alerta que deba ser mostrado al usuario
-     *
      * @param excepcion
      * @param contextText
      * @param title
