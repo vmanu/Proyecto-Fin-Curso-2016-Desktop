@@ -41,7 +41,6 @@ import com.mycompany.datapptgame.Player;
 import com.mycompany.datapptgame.RoundsNumber;
 import com.mycompany.datapptgame.TypeMessage;
 import java.util.HashMap;
-import javafx.application.Platform;
 import utilities.PreferencesManager;
 import javax.websocket.ClientEndpoint;
 import utilities.MyClientEndpoint;
@@ -486,14 +485,6 @@ public class FXMLController implements Initializable {
         }
     }
 
-//    /**
-//     * Metodo que lanza el evento del boton (oculto) que provoca un alert por
-//     * desconexión del websocket
-//     */
-//    public static void shootAlert() {
-//        botonAlertStatic.fire();
-//    }
-
     public static DataContainer getDatos() {
         return datos;
     }
@@ -544,7 +535,6 @@ public class FXMLController implements Initializable {
      * @param mensaje 
      */
     private void notificacionToast(String mensaje) {
-        ///////////////////////////////////////////
         Notification info = new Notification("", mensaje);
         // Show the custom notification
         EventHandler<NotificationEvent> handler = new EventHandler<NotificationEvent>() {
@@ -557,8 +547,6 @@ public class FXMLController implements Initializable {
         Notifier.INSTANCE.setOnHideNotification(handler);
         Notifier.INSTANCE.setPopupLifetime(Duration.seconds(2));
         Notifier.INSTANCE.notify(info);
-        // Show a predefined Warning notification
-//        Notifier.INSTANCE.notifyWarning("Warning","This is a warning");
     }
 
     /**
@@ -652,10 +640,6 @@ public class FXMLController implements Initializable {
                     res = 2;
                 }
             }
-//            if (!ganaChosen) {
-//                //GANA CHOSEN1
-//                res = 1;
-//            }
         }
         return res;
     }
@@ -687,11 +671,6 @@ public class FXMLController implements Initializable {
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
                     changeSceneRoot(loader, stage);
-
-                    //comunEvaluacionGanador(datos.getChosen2(), datos, false);
-                    //datos.setJugando(false);
-                    //datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
-                    /*((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());//Posiblemente para borrar, pasar al onload de la vista de RESULT*/
                 } else {
                     //JUEGO ONLINE
                     MetaMessage msg = new MetaMessage();
@@ -699,8 +678,6 @@ public class FXMLController implements Initializable {
                     OpcionJuego oj = new OpcionJuego();
                     oj.setOpcion(datos.getChosen1().ordinal());
                     if (datos.getChosen2() != null) {
-                        //((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
-                        //comunEvaluacionGanador(datos.getChosen2(), false, activity, datos, true);
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
                         changeSceneRoot(loader, stage);
@@ -717,12 +694,7 @@ public class FXMLController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
             changeSceneRoot(loader, stage);
             datos.cambiaTurno();
-            //cambiaRojo(activity, datos);
-            //datos.setJugando(false);
-            //((ImageView) activity.findViewById(R.id.player2Muestra)).setImageResource(datos.getIdImagenPulsada2());
-//         comunEvaluacionGanador(datos.getChosen2(), datos, false);
-//         datos.cambiaTurno();
-        } //        return msg;
+        } 
     }
 
     /**
