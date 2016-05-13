@@ -60,10 +60,6 @@ import static utilities.UtilidadesJavaFX.*;
  * inicial, si es true, mantendrá el valor de chosen2 (jugador ajeno). Esto sirve
  * para controlar que si el otro usuario ha mandado ya su opcion, no borre dicha
  * opcion y pueda determinar el resultado
- * botonAlertStatic: gestiona un boton existente en las diferentes pantallas de juego
- * y en result, que al necesitar ser estático, se guarda en una segunda variable
- * para poder ser activada cuando llegue un mensaje de websocket con la partida del
- * adversario, siendo que el jugador local ya ha elegido partida
  * @author Victor e Ivan
  */
 @ClientEndpoint
