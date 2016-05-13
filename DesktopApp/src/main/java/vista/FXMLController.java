@@ -319,10 +319,10 @@ public class FXMLController implements Initializable {
                 datos = null;
             }
         if (cargarPantalla) {
-            changeSceneRoot(loader, stage);
             datos.setTurno(true);
             PreferencesManager.setPreferencesOnline(roundsOption, gameOption, player1Name);
             datos.setModalidadJuego(ModalidadJuego.ONLINE.ordinal());
+            changeSceneRoot(loader, stage);
         }
     }
 
@@ -416,7 +416,7 @@ public class FXMLController implements Initializable {
             changeSceneRoot(loader, stage);
             if (((Node) event.getSource()).getId() == ID_BOTON_PLAY_OPCIONES_MENU_NORMAL) {
                 datos.setTurno(true);
-                notificacionToast(datos.getNombreJ1() + bundle.getString("Turno"));
+                notificacionToast(bundle.getString("Turno").replace("X", datos.getNombreJ1()));
                 PreferencesManager.setPreferencesNormal(roundsOption, playerNumber, gameOption, player1Name, player2Name, customRounds);
             }
         } else {
@@ -465,7 +465,8 @@ public class FXMLController implements Initializable {
         if (urlComprobar.equals("FXMLMenuOpcionesJuegoOnline.fxml")) {
             PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren(), TxtFieldP1Online);
         }
-        if (urlComprobar.equals(comprobarGameType.get(datos.getFactorAlgoritmo()))&&datos.getRoundsCounter()==0) {
+        System.out.println("modalidad juego: "+datos.getModalidadJuego()+" y online vale: "+ModalidadJuego.ONLINE.ordinal());
+        if (urlComprobar.equals(comprobarGameType.get(datos.getFactorAlgoritmo()))&&datos.getRoundsCounter()==0&&datos.getModalidadJuego()==ModalidadJuego.ONLINE.ordinal()) {
             HashMap<Integer, GameType> obtenerGameTypeFromFactor = new HashMap();
             obtenerGameTypeFromFactor.put(1, GameType.JUEGO3);
             obtenerGameTypeFromFactor.put(2, GameType.JUEGO5);
@@ -662,7 +663,7 @@ public class FXMLController implements Initializable {
                 cambiaAzul(event);
                 datos.cambiaTurno();
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
-                notificacionToast(datos.getNombreJ2() + bundle.getString("Turno"));
+                notificacionToast(bundle.getString("Turno").replace("X", datos.getNombreJ2()));
             } else//JUEGA MAQUINA
             {
                 if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
@@ -724,6 +725,7 @@ public class FXMLController implements Initializable {
             }else if(segundoMensaje){
                 cambiaSegundoMensaje();
             }
+            notificacionToast(bundle.getString("Turno").replace("X", datos.getNombreJ1()));
         } else {
             if (datos.getModalidadJuego() != ModalidadJuego.ONLINE.ordinal()) {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoNormal.fxml"), bundle);
