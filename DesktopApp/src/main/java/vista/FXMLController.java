@@ -113,9 +113,6 @@ public class FXMLController implements Initializable {
     private VBox RadioGroup_Rounds_Online;
     @FXML
     private TextField TxtFieldP1Online;
-    @FXML
-    private Button botonAlert;
-    private static Button botonAlertStatic;
 
     /**
      * Gestiona los eventos del menu principal (los botones), tomará diferentes
@@ -433,26 +430,6 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * Gestiona la emisión de un Alert concreto para cuando se ha perdido la conexion
-     * websocket con otro jugador
-     * @param event 
-     */
-    @FXML
-    private void gestionaAlert(final ActionEvent event) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-                showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                changeSceneRoot(loader, stage);
-            }
-        });
-
-    }
-
-    /**
      * Metodo que gestiona la precarga de la escena y donde se comprueba diferentes
      * estados y condiciones para adaptar comportamientos/visualizaciones en esa
      * nueva pantalla
@@ -461,9 +438,6 @@ public class FXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (botonAlert != null) {
-            botonAlertStatic = botonAlert;
-        }
         String urlComprobar = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
         if (datos == null) {
             datos = new DataContainer();
@@ -516,13 +490,13 @@ public class FXMLController implements Initializable {
         }
     }
 
-    /**
-     * Metodo que lanza el evento del boton (oculto) que provoca un alert por
-     * desconexión del websocket
-     */
-    public static void shootAlert() {
-        botonAlertStatic.fire();
-    }
+//    /**
+//     * Metodo que lanza el evento del boton (oculto) que provoca un alert por
+//     * desconexión del websocket
+//     */
+//    public static void shootAlert() {
+//        botonAlertStatic.fire();
+//    }
 
     public static DataContainer getDatos() {
         return datos;

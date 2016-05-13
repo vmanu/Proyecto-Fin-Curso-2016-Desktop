@@ -18,7 +18,10 @@ import java.net.URISyntaxException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.stage.Stage;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
@@ -34,6 +37,7 @@ import vista.FXMLController;
 
 /**
  * Gestiona la conexion Websocket
+ *
  * @author Victor e Ivan
  */
 public class MyClientEndpoint extends Endpoint {
@@ -43,13 +47,14 @@ public class MyClientEndpoint extends Endpoint {
 
     /**
      * Constructor del websocket y gestion del onMessage de éste
-     * @param datos necesario para la concatenacion del nombre del jugador a la ruta
-     * y otras utilizaciones en el on message
+     *
+     * @param datos necesario para la concatenacion del nombre del jugador a la
+     * ruta y otras utilizaciones en el on message
      */
     public MyClientEndpoint(final DataContainer datos) {
         try {
             //192.168.206.1 PORTATIL - 192.168.1.104 CASA - SERVIDOR (DEFINITIVO) ws://servidor-pptgame.rhcloud.com:8000/ServerPPTGame/ppt?user=
-            URI uri = new URI("ws://servidor-pptgame.rhcloud.com:8000/ServerPPTGame/ppt?user=" + datos.getNombreJ1()+"/");
+            URI uri = new URI("ws://localhost:8080/ServerPPTGame/ppt?user=" + datos.getNombreJ1() + "/");
             connectToWebSocket(uri);
         } catch (URISyntaxException ex) {
             Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
@@ -91,7 +96,7 @@ public class MyClientEndpoint extends Endpoint {
                         }
                     }
                 } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION && !datos.rondasFinalizadas()) {
-                    FXMLController.shootAlert();
+                    UtilidadesJavaFX.shootAlert();
                 } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
                     try {
                         datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
@@ -111,6 +116,7 @@ public class MyClientEndpoint extends Endpoint {
 
     /**
      * Constructor del container del websocket
+     *
      * @param uri direccion a la que conectarse
      */
     private void connectToWebSocket(URI uri) {
@@ -124,10 +130,12 @@ public class MyClientEndpoint extends Endpoint {
     }
 
     /**
-     * Gestiona el evento onOpen del websocket, ejecutado al abrir la conexion de
-     * websocket, se asigna la session para poder cerrarla cuando sea requerido
+     * Gestiona el evento onOpen del websocket, ejecutado al abrir la conexion
+     * de websocket, se asigna la session para poder cerrarla cuando sea
+     * requerido
+     *
      * @param sn
-     * @param ec 
+     * @param ec
      */
     @Override
     public void onOpen(Session sn, EndpointConfig ec) {
@@ -137,8 +145,9 @@ public class MyClientEndpoint extends Endpoint {
 
     /**
      * Gestiona el evento onError del websocket
+     *
      * @param session
-     * @param thr 
+     * @param thr
      */
     @Override
     public void onError(Session session, Throwable thr) {
@@ -147,8 +156,9 @@ public class MyClientEndpoint extends Endpoint {
 
     /**
      * Gestiona el evento onClose del websocket
+     *
      * @param session
-     * @param closeReason 
+     * @param closeReason
      */
     @Override
     public void onClose(Session session, CloseReason closeReason) {
@@ -157,12 +167,13 @@ public class MyClientEndpoint extends Endpoint {
 
     /**
      * Método encargado del envio de mensajes a través de websockets
-     * @param message 
+     *
+     * @param message
      */
     public void sendMessage(MetaMessage message) {
         boolean sal = false;
         while (!sal) {
-            if (session != null&& session.isOpen()) {
+            if (session != null && session.isOpen()) {
                 try {
                     session.getBasicRemote().sendText(new ObjectMapper().writeValueAsString(message));
                 } catch (IOException ex) {
