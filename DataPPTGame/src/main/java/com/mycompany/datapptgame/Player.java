@@ -21,6 +21,8 @@ public class Player {
     private RoundsNumber numberOfRounds;
     private boolean playing;
     private int numPartidas;
+    private int numVictorias;
+    private double promedio;
 
     public Player() {
     }
@@ -76,6 +78,22 @@ public class Player {
 
     public void setNumPartidas(int numPartidas) {
         this.numPartidas = numPartidas;
+    }
+    
+    public int getNumVictorias() {
+        return numVictorias;
+    }
+
+    public void setNumVictorias(int numVictorias) {
+        this.numVictorias = numVictorias;
+    }
+
+    public double getPromedio() {
+        return promedio;
+    }
+
+    public void setPromedio(double promedio) {
+        this.promedio = promedio;
     }
 
     @Override
