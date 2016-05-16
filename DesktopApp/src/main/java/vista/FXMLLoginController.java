@@ -43,8 +43,12 @@ public class FXMLLoginController implements Initializable {
         String log = ((TextField) DesktopApp.getStage().getScene().lookup("#Login_User")).getText();
         String pass = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_Pass")).getText();
         String pass2 = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_rePass")).getText();
-        if (!log.isEmpty() && !pass.isEmpty() && (!registro || (registro && !pass2.isEmpty()))) {
-            
+        if (!log.isEmpty() && !pass.isEmpty() && (!registro || (registro && !pass2.isEmpty()&& pass.equals(pass2)))) {
+            if(registro){
+                //mensaje de registro
+            }else{
+                //mensaje de login
+            }
         }
     }
 
