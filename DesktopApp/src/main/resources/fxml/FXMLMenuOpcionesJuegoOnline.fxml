@@ -94,7 +94,7 @@
                 </ScrollPane>
                 <FlowPane alignment="BOTTOM_CENTER" columnHalignment="CENTER" hgap="20.0" maxWidth="1080.0" minHeight="65.0" prefHeight="65.0" prefWidth="1080.0" prefWrapLength="640.0">
                     <children>
-                        <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoOnlineAction" prefHeight="25.0" prefWidth="150.0" text="%Back">
+                        <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoOnlineAction" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" prefHeight="25.0" prefWidth="150.0" text="%Back">
                             <id>
                                 <Constantes fx:constant="ID_BOTON_BACK_OPCIONES_MENU_ONLINE"/>
                             </id>
@@ -102,7 +102,7 @@
                                 <Font name="Arial Narrow" size="18.0" />
                             </font>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoOnlineAction" prefHeight="25.0" prefWidth="150.0" text="%Randomly">
+                        <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoOnlineAction" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" prefHeight="25.0" prefWidth="150.0" text="%Randomly">
                             <id>
                                 <Constantes fx:constant="ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE"/>
                             </id>
@@ -110,7 +110,7 @@
                                 <Font name="Arial Narrow" size="18.0" />
                             </font>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoOnlineAction" prefHeight="25.0" prefWidth="150.0" text="%Play">
+                        <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoOnlineAction" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" prefHeight="25.0" prefWidth="150.0" text="%Play">
                             <id>
                                 <Constantes fx:constant="ID_BOTON_PLAY_OPCIONES_MENU_ONLINE"/>
                             </id>

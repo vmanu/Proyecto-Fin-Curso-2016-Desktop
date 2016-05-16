@@ -44,6 +44,7 @@ import java.util.HashMap;
 import utilities.PreferencesManager;
 import javax.websocket.ClientEndpoint;
 import utilities.MyClientEndpoint;
+import utilities.UtilidadesJavaFX;
 import static utilities.UtilidadesJavaFX.*;
 
 /**
@@ -125,7 +126,8 @@ public class FXMLController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoNormal.fxml"), bundle);
                 break;
             case ID_BOTON_PLAY_ONLINE_MENU_PRINCIPAL:
-                loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+//                loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+                loader = new FXMLLoader(getClass().getResource("/fxml/FXMLLogin.fxml"), bundle);
                 break;
             case ID_BOTON_RULES_MENU_PRINCIPAL:
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuRules.fxml"), bundle);
@@ -746,5 +748,15 @@ public class FXMLController implements Initializable {
      */
     public static void cambiaSegundoMensaje(){
         segundoMensaje=!segundoMensaje;
+    }
+    
+    @FXML
+    private void handleOnMouseOver(MouseEvent event){
+        gestionPunteroRatonOver();
+    }
+    
+    @FXML
+    private void handleOnMouseOut(MouseEvent event){
+        gestionPunteroRatonOut();
     }
 }

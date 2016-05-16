@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -153,5 +154,13 @@ public class UtilidadesJavaFX {
                 FXMLController.getDatos().setValoresIniciales();
             }
         });
+    }
+    
+    public static void gestionPunteroRatonOver(){
+        DesktopApp.getStage().getScene().setCursor(Cursor.HAND);
+    }
+    
+    public static void gestionPunteroRatonOut(){
+        DesktopApp.getStage().getScene().setCursor(Cursor.DEFAULT);
     }
 }
