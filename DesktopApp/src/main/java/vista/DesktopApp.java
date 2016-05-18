@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import static utilities.UtilidadesJavaFX.showAlertFields;
 
@@ -35,6 +36,7 @@ public class DesktopApp extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle(bundle.getString("AppName"));
+        stage.getIcons().add(new Image("/imagenes/fivegame.jpg"));
         stage.show();
     }
 
