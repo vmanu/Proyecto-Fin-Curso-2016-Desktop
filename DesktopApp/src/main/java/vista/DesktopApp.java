@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 /**
  * Clase encargada de la creación del stage y la primera configuración para que
@@ -51,7 +52,7 @@ public class DesktopApp extends Application {
             }
             
         });
-        //stage.setFullScreen(true);
+        httpclient=HttpClients.createDefault();
         stage.setTitle(bundle.getString("AppName"));
         stage.getIcons().add(new Image("/imagenes/fivegame.jpg"));
         stage.show();

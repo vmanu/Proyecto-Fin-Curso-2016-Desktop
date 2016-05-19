@@ -58,14 +58,18 @@ public class FXMLLoginController implements Initializable {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             CloseableHttpResponse response1;
-            HttpPost httpPost = new HttpPost("http://localhost:8080/seguridad");
+            HttpPost httpPost = new HttpPost("http://localhost:8080/ServerPPTGame/seguridad");
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
             nvps.add(new BasicNameValuePair("op", "security"));
             httpPost.setEntity(new UrlEncodedFormEntity(nvps));
             response1 = getHttpClient().execute(httpPost);
             HttpEntity entity1 = response1.getEntity();
             ok = EntityUtils.toString(entity1, "UTF-8");
+            System.out.println("veamos");
             ClaveComplemento keys = mapper.readValue(ok, new TypeReference<ClaveComplemento>() {});
+            String clave=keys.getClaves().get((int)Math.random()*keys.getClaves().size());
+            String complemento=keys.getComplementos().get((int)Math.random()*keys.getComplementos().size());
+            privateKey=clave+complemento;
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -76,6 +80,7 @@ public class FXMLLoginController implements Initializable {
     @FXML
     private void handleButtonLogin(ActionEvent event) {
         System.out.println("EN LOGIN");
+        boolean logueadoCorrectamente=true;
         boolean registro = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_rePass")).isVisible();
         String log = ((TextField) DesktopApp.getStage().getScene().lookup("#Login_User")).getText();
         String pass = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_Pass")).getText();
@@ -85,6 +90,10 @@ public class FXMLLoginController implements Initializable {
                 //mensaje de registro
             } else {
                 //mensaje de login
+                if(logueadoCorrectamente){
+                    ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+                }
             }
         }
     }
@@ -111,9 +120,8 @@ public class FXMLLoginController implements Initializable {
     @FXML
     private void handleButtonBack(ActionEvent event) {
         System.out.println("EN BACK");
-        FXMLLoader loader = null;
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-        loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
         changeSceneRoot(loader, DesktopApp.getStage());
     }
 
