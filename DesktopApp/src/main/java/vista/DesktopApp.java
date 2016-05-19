@@ -7,11 +7,18 @@ package vista;
 
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import static utilities.UtilidadesJavaFX.showAlertFields;
 
 /**
@@ -28,13 +35,25 @@ public class DesktopApp extends Application {
      * propiedades si se deseara
      */
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(final Stage stage) throws Exception {
         this.stage = stage;
         ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");//GESTIONA IDIOMAS
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setFullScreenExitHint("Para salir pulse ESC");
+        stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("ESC"));
+        stage.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.isAltDown()&&event.getCode()==KeyCode.ENTER){
+                    stage.setFullScreen(true);
+                }
+            }
+            
+        });
+        //stage.setFullScreen(true);
         stage.setTitle(bundle.getString("AppName"));
         stage.getIcons().add(new Image("/imagenes/fivegame.jpg"));
         stage.show();
