@@ -28,7 +28,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -36,6 +35,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import static utilities.UtilidadesJavaFX.*;
 import static vista.DesktopApp.getHttpClient;
+import static vista.DesktopApp.getStage;
 
 /**
  * FXML Controller class
@@ -66,10 +66,11 @@ public class FXMLLoginController implements Initializable {
             HttpEntity entity1 = response1.getEntity();
             ok = EntityUtils.toString(entity1, "UTF-8");
             System.out.println("veamos");
-            ClaveComplemento keys = mapper.readValue(ok, new TypeReference<ClaveComplemento>() {});
-            String clave=keys.getClaves().get((int)Math.random()*keys.getClaves().size());
-            String complemento=keys.getComplementos().get((int)Math.random()*keys.getComplementos().size());
-            privateKey=clave+complemento;
+            ClaveComplemento keys = mapper.readValue(ok, new TypeReference<ClaveComplemento>() {
+            });
+            String clave = keys.getClaves().get((int) Math.random() * keys.getClaves().size());
+            String complemento = keys.getComplementos().get((int) Math.random() * keys.getComplementos().size());
+            privateKey = clave + complemento;
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -80,7 +81,7 @@ public class FXMLLoginController implements Initializable {
     @FXML
     private void handleButtonLogin(ActionEvent event) {
         System.out.println("EN LOGIN");
-        boolean logueadoCorrectamente=true;
+        boolean logueadoCorrectamente = true;
         boolean registro = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_rePass")).isVisible();
         String log = ((TextField) DesktopApp.getStage().getScene().lookup("#Login_User")).getText();
         String pass = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_Pass")).getText();
@@ -88,13 +89,14 @@ public class FXMLLoginController implements Initializable {
         if (!log.isEmpty() && !pass.isEmpty() && (!registro || (registro && !pass2.isEmpty() && pass.equals(pass2)))) {
             if (registro) {
                 //mensaje de registro
-            } else {
-                //mensaje de login
-                if(logueadoCorrectamente){
-                    ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
-                }
+            } else //mensaje de login
+            if (logueadoCorrectamente) {
+                ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+                changeSceneRoot(loader, getStage());
             }
+        } else {
+            
         }
     }
 

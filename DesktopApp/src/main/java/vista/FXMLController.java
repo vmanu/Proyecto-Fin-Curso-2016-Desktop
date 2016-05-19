@@ -48,18 +48,17 @@ import utilities.UtilidadesJavaFX;
 import static utilities.UtilidadesJavaFX.*;
 
 /**
- * Controlador de la interfaz grafica (eventos)
- * datos conserva todos los datos importantes para la funcionalidad de la
- * aplicacion, especialmente los resultados, configuraciones y caracteristicas
- * relativas a la funcionalidad de la partida/s
- * websocket: se encarga de mantener las propiedades relativas a la conexion
- * de websockets
- * segundoMensaje: encargado de la gestion (online) del transito entre jugada
- * y jugada, controlando el boton continue del menu de resultado, que en caso de
- * que esta variable valga false determina que puede poner los valores a su estado
- * inicial, si es true, mantendrá el valor de chosen2 (jugador ajeno). Esto sirve
- * para controlar que si el otro usuario ha mandado ya su opcion, no borre dicha
- * opcion y pueda determinar el resultado
+ * Controlador de la interfaz grafica (eventos) datos conserva todos los datos
+ * importantes para la funcionalidad de la aplicacion, especialmente los
+ * resultados, configuraciones y caracteristicas relativas a la funcionalidad de
+ * la partida/s websocket: se encarga de mantener las propiedades relativas a la
+ * conexion de websockets segundoMensaje: encargado de la gestion (online) del
+ * transito entre jugada y jugada, controlando el boton continue del menu de
+ * resultado, que en caso de que esta variable valga false determina que puede
+ * poner los valores a su estado inicial, si es true, mantendrá el valor de
+ * chosen2 (jugador ajeno). Esto sirve para controlar que si el otro usuario ha
+ * mandado ya su opcion, no borre dicha opcion y pueda determinar el resultado
+ *
  * @author Victor e Ivan
  */
 @ClientEndpoint
@@ -113,8 +112,9 @@ public class FXMLController implements Initializable {
     /**
      * Gestiona los eventos del menu principal (los botones), tomará diferentes
      * acciones dependiendo del id del boton que lance el evento
-     * @param event utilizado para gestionar la obtencion del id del boton pulsado
-     * y manejar los cambios de escena requerido
+     *
+     * @param event utilizado para gestionar la obtencion del id del boton
+     * pulsado y manejar los cambios de escena requerido
      */
     @FXML
     private void handleButtonsMenuPrincipalAction(ActionEvent event) {
@@ -146,11 +146,12 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * Gestiona los eventos del boton back del los menus: Reglas, Reglas graficas,
-     * Desarrolladores y Puntuaciones. Se gestionan en un solo metodo ya que la
-     * funcionalidad es la misma
-     * @param event utilizado para gestionar la obtencion del id del boton pulsado
-     * y manejar los cambios de escena requerido
+     * Gestiona los eventos del boton back del los menus: Reglas, Reglas
+     * graficas, Desarrolladores y Puntuaciones. Se gestionan en un solo metodo
+     * ya que la funcionalidad es la misma
+     *
+     * @param event utilizado para gestionar la obtencion del id del boton
+     * pulsado y manejar los cambios de escena requerido
      */
     @FXML
     private void handleButtonBackAction(ActionEvent event) {
@@ -163,8 +164,9 @@ public class FXMLController implements Initializable {
     /**
      * Gestiona los eventos del menu de la partida Normal (los botones), tomará
      * diferentes acciones dependiendo del id del boton que lance el evento
-     * @param event utilizado para gestionar la obtencion del id del boton pulsado
-     * y manejar los cambios de escena requerido
+     *
+     * @param event utilizado para gestionar la obtencion del id del boton
+     * pulsado y manejar los cambios de escena requerido
      */
     @FXML
     private void handleButtonsMenuNormalAction(ActionEvent event) {
@@ -194,8 +196,9 @@ public class FXMLController implements Initializable {
     /**
      * Gestiona los eventos del menu principal (los botones), tomará diferentes
      * acciones dependiendo del id del boton que lance el evento
-     * @param event utilizado para gestionar la obtencion del id del boton pulsado
-     * y manejar los cambios de escena requerido
+     *
+     * @param event utilizado para gestionar la obtencion del id del boton
+     * pulsado y manejar los cambios de escena requerido
      */
     @FXML
     private void handleButtonsMenuOnlineAction(ActionEvent event) {
@@ -222,7 +225,8 @@ public class FXMLController implements Initializable {
     /**
      * Gestiona el evento de cambio de valor de un radioButton si éste debiera
      * de generar ese cambio
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void handleRadioButtonsAction(ActionEvent event) {
@@ -258,9 +262,10 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * Gestiona las ejecuciones dependiendo del boton pulsado en el menú de Opciones
-     * en el juego Online
-     * @param event 
+     * Gestiona las ejecuciones dependiendo del boton pulsado en el menú de
+     * Opciones en el juego Online
+     *
+     * @param event
      */
     @FXML
     private void handleButtonsMenuOpcionesJuegoOnlineAction(ActionEvent event) {
@@ -313,17 +318,21 @@ public class FXMLController implements Initializable {
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
         } else //BACK
-         if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
+        {
+            if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, true);
                 cargarPantalla = false;
             } else {
                 loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
                 datos = null;
             }
+        }
         if (cargarPantalla) {
-            datos.setTurno(true);
+            if(datos!=null){
+                datos.setTurno(true);
+                datos.setModalidadJuego(ModalidadJuego.ONLINE.ordinal());
+            }
             PreferencesManager.setPreferencesOnline(roundsOption, gameOption, player1Name);
-            datos.setModalidadJuego(ModalidadJuego.ONLINE.ordinal());
             changeSceneRoot(loader, stage);
         }
     }
@@ -331,7 +340,8 @@ public class FXMLController implements Initializable {
     /**
      * Gestiona las ejecuciones segun el boton pulsado en el el Menú de Opciones
      * de Juego en Modo Local
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void handleButtonsMenuOpcionesJuegoNormalAction(ActionEvent event) {
@@ -427,11 +437,12 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * Metodo que gestiona la precarga de la escena y donde se comprueba diferentes
-     * estados y condiciones para adaptar comportamientos/visualizaciones en esa
-     * nueva pantalla
+     * Metodo que gestiona la precarga de la escena y donde se comprueba
+     * diferentes estados y condiciones para adaptar
+     * comportamientos/visualizaciones en esa nueva pantalla
+     *
      * @param url
-     * @param rb 
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -467,8 +478,8 @@ public class FXMLController implements Initializable {
         if (urlComprobar.equals("FXMLMenuOpcionesJuegoOnline.fxml")) {
             PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren(), TxtFieldP1Online);
         }
-        System.out.println("modalidad juego: "+datos.getModalidadJuego()+" y online vale: "+ModalidadJuego.ONLINE.ordinal());
-        if (urlComprobar.equals(comprobarGameType.get(datos.getFactorAlgoritmo()))&&datos.getRoundsCounter()==0&&datos.getModalidadJuego()==ModalidadJuego.ONLINE.ordinal()) {
+        System.out.println("modalidad juego: " + datos.getModalidadJuego() + " y online vale: " + ModalidadJuego.ONLINE.ordinal());
+        if (urlComprobar.equals(comprobarGameType.get(datos.getFactorAlgoritmo())) && datos.getRoundsCounter() == 0 && datos.getModalidadJuego() == ModalidadJuego.ONLINE.ordinal()) {
             HashMap<Integer, GameType> obtenerGameTypeFromFactor = new HashMap();
             obtenerGameTypeFromFactor.put(1, GameType.JUEGO3);
             obtenerGameTypeFromFactor.put(2, GameType.JUEGO5);
@@ -495,8 +506,9 @@ public class FXMLController implements Initializable {
     /**
      * Obtiene a partir de una lista de nodos (RadioButtons), cual de los radios
      * están checkeados y devuelve su ID
+     *
      * @param lista
-     * @return 
+     * @return
      */
     public static String getSelectedRadioButtonID(ObservableList<Node> lista) {
         String devuelve = "";
@@ -512,8 +524,9 @@ public class FXMLController implements Initializable {
 
     /**
      * Gestiona la visualizacion de nodos
+     *
      * @param stage
-     * @param visibilityButton 
+     * @param visibilityButton
      */
     private void setVisibilitiesStateMenuOpcionesOnline(Stage stage, boolean visibilityButton) {
         ObservableList<Node> nodos = ((ObservableList<Node>) ((VBox) stage.getScene().lookup("#VBoxParentOnlineOptions")).getChildren());
@@ -525,9 +538,11 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * Llama al showAlertFields, asignandole ciertos valores a los diferentes campos
+     * Llama al showAlertFields, asignandole ciertos valores a los diferentes
+     * campos
+     *
      * @param bundle
-     * @param excepcion 
+     * @param excepcion
      */
     private void showAlertFieldsWithExpandable(ResourceBundle bundle, String excepcion) {
         showAlertFields(excepcion, bundle.getString("HaveWrongFields"), bundle.getString("Warning"), bundle.getString("TheWarningsAre"));
@@ -535,7 +550,8 @@ public class FXMLController implements Initializable {
 
     /**
      * Genera un toast con el nombre del jugador al que le corresponde el turno
-     * @param mensaje 
+     *
+     * @param mensaje
      */
     private void notificacionToast(String mensaje) {
         Notification info = new Notification("", mensaje);
@@ -555,7 +571,8 @@ public class FXMLController implements Initializable {
     /**
      * Gestiona el cambio de color de los iconos de opciones del juego a azul,
      * indicando así que el turno corresponde al segundo jugador
-     * @param event 
+     *
+     * @param event
      */
     private void cambiaAzul(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -596,12 +613,13 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * Gestiona la funcionalidad de evaluación del resultado de la partida e imprime
-     * los cambios requeridos a mostrar en la pantalla de FXMLResult, además de 
-     * sumar victoria si corresponde
+     * Gestiona la funcionalidad de evaluación del resultado de la partida e
+     * imprime los cambios requeridos a mostrar en la pantalla de FXMLResult,
+     * además de sumar victoria si corresponde
+     *
      * @param datos
      * @param online
-     * @param rb 
+     * @param rb
      */
     private void comunEvaluacionGanador(DataContainer datos, ResourceBundle rb) {
         switch (logicaJuego(datos.getChosen2().ordinal(), datos)) {
@@ -624,9 +642,10 @@ public class FXMLController implements Initializable {
 
     /**
      * Devuelve el resultado del juego
+     *
      * @param chosen
      * @param datos
-     * @return 
+     * @return
      */
     private int logicaJuego(int chosen, DataContainer datos) {
         int res = 1;//Se cambia de 0 a 1 para evitar el if posterior
@@ -650,7 +669,8 @@ public class FXMLController implements Initializable {
     /**
      * Gestiona la pulsion sobre una de las opciones (piedra, papel, tijera...)
      * en el juego
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void gestionaJuego(MouseEvent event) {
@@ -667,8 +687,7 @@ public class FXMLController implements Initializable {
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(bundle.getString("Turno").replace("X", datos.getNombreJ2()));
             } else//JUEGA MAQUINA
-            {
-                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+             if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
                     datos.setIdImagenPulsada2(datos.getMapFichasMaquina().get(datos.getChosen2().toString()));
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -688,7 +707,6 @@ public class FXMLController implements Initializable {
                     msg.setContent(oj);
                     websocket.sendMessage(msg);
                 }
-            }
         } else if (!datos.isTurno() && chosen != null) {
             datos.setChosen2(chosen);
             String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();
@@ -697,12 +715,13 @@ public class FXMLController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
             changeSceneRoot(loader, stage);
             datos.cambiaTurno();
-        } 
+        }
     }
 
     /**
      * Gestiona los botones del FXMLResult
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void gestionaResultButtons(ActionEvent event) {
@@ -721,10 +740,10 @@ public class FXMLController implements Initializable {
                     loader = new FXMLLoader(getClass().getResource("/fxml/FXMLJuegoGame9.fxml"), bundle);
                     break;
             }
-            if(datos.getModalidadJuego()==ModalidadJuego.ONLINE.ordinal()&&!segundoMensaje){
+            if (datos.getModalidadJuego() == ModalidadJuego.ONLINE.ordinal() && !segundoMensaje) {
                 datos.setChosen2(null);
                 datos.setChosen1(null);
-            }else if(segundoMensaje){
+            } else if (segundoMensaje) {
                 cambiaSegundoMensaje();
             }
             notificacionToast(bundle.getString("Turno").replace("X", datos.getNombreJ1()));
@@ -739,24 +758,24 @@ public class FXMLController implements Initializable {
         }
         changeSceneRoot(loader, stage);
     }
-    
+
     /**
      * Gestiona el cambio de valor de la variable encargada de notificar si ha
      * habido comunicacion previa del usuario online, para evitar errores por
      * borrar el contenido de la elección del jugador online conservando dicha
      * elección
      */
-    public static void cambiaSegundoMensaje(){
-        segundoMensaje=!segundoMensaje;
+    public static void cambiaSegundoMensaje() {
+        segundoMensaje = !segundoMensaje;
     }
-    
+
     @FXML
-    private void handleOnMouseOver(MouseEvent event){
+    private void handleOnMouseOver(MouseEvent event) {
         gestionPunteroRatonOver();
     }
-    
+
     @FXML
-    private void handleOnMouseOut(MouseEvent event){
+    private void handleOnMouseOut(MouseEvent event) {
         gestionPunteroRatonOut();
     }
 }
