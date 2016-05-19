@@ -7,19 +7,16 @@ package vista;
 
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import static utilities.UtilidadesJavaFX.showAlertFields;
+import org.apache.http.impl.client.CloseableHttpClient;
 
 /**
  * Clase encargada de la creación del stage y la primera configuración para que
@@ -29,6 +26,7 @@ import static utilities.UtilidadesJavaFX.showAlertFields;
 public class DesktopApp extends Application {
 
     private static Stage stage;
+    private static CloseableHttpClient httpclient;
 
     /**
      * Carga de la primera visualizacion en la aplicacion los titulos y otras
@@ -68,5 +66,9 @@ public class DesktopApp extends Application {
 
     public static Stage getStage() {
         return stage;
+    }
+    
+    public static CloseableHttpClient getHttpClient(){
+        return httpclient;
     }
 }

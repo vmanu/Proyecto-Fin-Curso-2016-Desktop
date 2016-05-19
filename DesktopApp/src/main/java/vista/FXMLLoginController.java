@@ -5,8 +5,18 @@
  */
 package vista;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.datapptgame.ClaveComplemento;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +26,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import static utilities.UtilidadesJavaFX.*;
+import static vista.DesktopApp.getHttpClient;
 
 /**
  * FXML Controller class
@@ -34,6 +53,24 @@ public class FXMLLoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Entramos en intialize Login");
         //Enviar solicitud de clave de cifrado
+        try {
+            String ok = "";
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            CloseableHttpResponse response1;
+            HttpPost httpPost = new HttpPost("http://localhost:8080/seguridad");
+            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+            nvps.add(new BasicNameValuePair("op", "security"));
+            httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+            response1 = getHttpClient().execute(httpPost);
+            HttpEntity entity1 = response1.getEntity();
+            ok = EntityUtils.toString(entity1, "UTF-8");
+            ClaveComplemento keys = mapper.readValue(ok, new TypeReference<ClaveComplemento>() {});
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
@@ -43,10 +80,10 @@ public class FXMLLoginController implements Initializable {
         String log = ((TextField) DesktopApp.getStage().getScene().lookup("#Login_User")).getText();
         String pass = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_Pass")).getText();
         String pass2 = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_rePass")).getText();
-        if (!log.isEmpty() && !pass.isEmpty() && (!registro || (registro && !pass2.isEmpty()&& pass.equals(pass2)))) {
-            if(registro){
+        if (!log.isEmpty() && !pass.isEmpty() && (!registro || (registro && !pass2.isEmpty() && pass.equals(pass2)))) {
+            if (registro) {
                 //mensaje de registro
-            }else{
+            } else {
                 //mensaje de login
             }
         }
