@@ -14,6 +14,15 @@
         <endorsed.dir2>${project.build.directory}/../../../PiedraPapelyTijera/app/libs/</endorsed.dir2>
     </properties>
     
+    <dependencies>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
+    
     <!--<build>
         <plugins>
             <plugin>
