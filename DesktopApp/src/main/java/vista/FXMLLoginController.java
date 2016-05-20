@@ -66,8 +66,7 @@ public class FXMLLoginController implements Initializable {
             HttpEntity entity1 = response1.getEntity();
             ok = EntityUtils.toString(entity1, "UTF-8");
             System.out.println("veamos");
-            ClaveComplemento keys = mapper.readValue(ok, new TypeReference<ClaveComplemento>() {
-            });
+            ClaveComplemento keys = mapper.readValue(ok, new TypeReference<ClaveComplemento>() {});
             String clave = keys.getClaves().get((int) Math.random() * keys.getClaves().size());
             String complemento = keys.getComplementos().get((int) Math.random() * keys.getComplementos().size());
             privateKey = clave + complemento;
