@@ -44,7 +44,7 @@ import static vista.DesktopApp.getStage;
  */
 public class FXMLLoginController implements Initializable {
 
-    private String privateKey;
+    private static String privateKey = "";
 
     /**
      * Initializes the controller class.
@@ -53,27 +53,31 @@ public class FXMLLoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Entramos en intialize Login");
         //Enviar solicitud de clave de cifrado
-        try {
-            String ok = "";
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            CloseableHttpResponse response1;
-            HttpPost httpPost = new HttpPost("http://localhost:8080/ServerPPTGame/seguridad");
-            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-            nvps.add(new BasicNameValuePair("op", "security"));
-            httpPost.setEntity(new UrlEncodedFormEntity(nvps));
-            response1 = getHttpClient().execute(httpPost);
-            HttpEntity entity1 = response1.getEntity();
-            ok = EntityUtils.toString(entity1, "UTF-8");
-            System.out.println("veamos");
-            ClaveComplemento keys = mapper.readValue(ok, new TypeReference<ClaveComplemento>() {});
-            String clave = keys.getClaves().get((int) Math.random() * keys.getClaves().size());
-            String complemento = keys.getComplementos().get((int) Math.random() * keys.getComplementos().size());
-            privateKey = clave + complemento;
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+        if (privateKey.isEmpty()) {
+            //SOLO ENTRA AQUI SI LA CLAVE HA SIDO VACIADA O ES LA PRIMERA VEZ EN ESTA EJECUCION, REDUCIMOS TIEMPOS DE CARGA Y AHORRAMOS TRABAJO AL SERVER
+            try {
+                String ok = "";
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                CloseableHttpResponse response1;
+                HttpPost httpPost = new HttpPost("http://localhost:8080/ServerPPTGame/seguridad");
+                List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+                nvps.add(new BasicNameValuePair("op", "security"));
+                httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+                response1 = getHttpClient().execute(httpPost);
+                HttpEntity entity1 = response1.getEntity();
+                ok = EntityUtils.toString(entity1, "UTF-8");
+                System.out.println("veamos");
+                ClaveComplemento keys = mapper.readValue(ok, new TypeReference<ClaveComplemento>() {
+                });
+                String clave = keys.getClaves().get((int) Math.random() * keys.getClaves().size());
+                String complemento = keys.getComplementos().get((int) Math.random() * keys.getComplementos().size());
+                privateKey = clave + complemento;
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -88,16 +92,14 @@ public class FXMLLoginController implements Initializable {
         if (!log.isEmpty() && !pass.isEmpty() && (!registro || (registro && !pass2.isEmpty() && pass.equals(pass2)))) {
             if (registro) {
                 //mensaje de registro
-            } else {//mensaje de login
-                
-                if (logueadoCorrectamente) {
-                    ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
-                    changeSceneRoot(loader, getStage());
-                }
+            } else//mensaje de login
+            if (logueadoCorrectamente) {
+                ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+                changeSceneRoot(loader, getStage());
             }
         } else {
-            
+
         }
     }
 
