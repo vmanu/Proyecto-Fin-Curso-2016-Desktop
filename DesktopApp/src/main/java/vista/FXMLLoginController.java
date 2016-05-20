@@ -89,11 +89,13 @@ public class FXMLLoginController implements Initializable {
         if (!log.isEmpty() && !pass.isEmpty() && (!registro || (registro && !pass2.isEmpty() && pass.equals(pass2)))) {
             if (registro) {
                 //mensaje de registro
-            } else //mensaje de login
-            if (logueadoCorrectamente) {
-                ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
-                changeSceneRoot(loader, getStage());
+            } else {//mensaje de login
+                
+                if (logueadoCorrectamente) {
+                    ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+                    changeSceneRoot(loader, getStage());
+                }
             }
         } else {
             
