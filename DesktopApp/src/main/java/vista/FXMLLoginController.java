@@ -132,6 +132,8 @@ public class FXMLLoginController implements Initializable {
             }
             if (logueadoCorrectamente) {
                 ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+                clave="";
+                complemento="";
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
                 changeSceneRoot(loader, getStage());
             }
