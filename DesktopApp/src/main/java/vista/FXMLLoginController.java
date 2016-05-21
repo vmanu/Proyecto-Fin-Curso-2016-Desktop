@@ -136,6 +136,8 @@ public class FXMLLoginController implements Initializable {
                 complemento="";
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
                 changeSceneRoot(loader, getStage());
+            }else{
+                //alert con login o pass incorrecto
             }
         } else {
 
