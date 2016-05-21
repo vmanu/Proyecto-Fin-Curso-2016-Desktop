@@ -30,6 +30,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import objetos_seguridad.PasswordHash;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
@@ -48,9 +49,10 @@ import static vista.DesktopApp.getStage;
  * @author Victor e Ivan
  */
 public class FXMLLoginController implements Initializable {
-    private final String URL_SERVIDOR="http://localhost:8080/ServerPPTGame/";
+
+    private final String URL_SERVIDOR = "http://localhost:8080/ServerPPTGame/";
     private static String clave = "";
-    private static String complemento="";
+    private static String complemento = "";
 
     /**
      * Initializes the controller class.
@@ -66,7 +68,7 @@ public class FXMLLoginController implements Initializable {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 CloseableHttpResponse response1;
-                HttpPost httpPost = new HttpPost(URL_SERVIDOR+"seguridad");
+                HttpPost httpPost = new HttpPost(URL_SERVIDOR + "seguridad");
                 List<NameValuePair> nvps = new ArrayList<NameValuePair>();
                 nvps.add(new BasicNameValuePair("op", "security"));
                 httpPost.setEntity(new UrlEncodedFormEntity(nvps));
@@ -85,53 +87,59 @@ public class FXMLLoginController implements Initializable {
             }
         }
     }
-    
+
     @FXML
     private void handleButtonLogin(ActionEvent event) {
-        System.out.println("EN LOGIN");
-        boolean logueadoCorrectamente = true;
+        System.out.println("EN LOGIN "+(clave+complemento));
+        boolean logueadoCorrectamente = false;
         boolean registro = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_rePass")).isVisible();
         String log = ((TextField) DesktopApp.getStage().getScene().lookup("#Login_User")).getText();
         String pass = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_Pass")).getText();
         String pass2 = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_rePass")).getText();
         if (!log.isEmpty() && !pass.isEmpty() && (!registro || (registro && !pass2.isEmpty() && pass.equals(pass2)))) {
-            if (registro) {
-                //mensaje de registro
-            } else {
-                try {
-                    //mensaje de login
-                    HttpPost httpPost = new HttpPost(URL_SERVIDOR+"login");
-                    List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-                    User usuario=new User(log,pass);
-                    ObjectMapper mapper = new ObjectMapper();
-                    nvps.add(new BasicNameValuePair("user", mapper.writeValueAsString(usuario)));
-                    nvps.add(new BasicNameValuePair("claveHasheada", PasswordHash.createHash(clave)));
-                    nvps.add(new BasicNameValuePair("complementoHasheado", PasswordHash.createHash(complemento)));
+            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+            User usuario = new User(log, pass);
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                nvps.add(new BasicNameValuePair("user", new String(Base64.encodeBase64(PasswordHash.cifra(mapper.writeValueAsString(usuario), (clave+complemento))))));
+                nvps.add(new BasicNameValuePair("claveHasheada", PasswordHash.createHash(clave)));
+                nvps.add(new BasicNameValuePair("complementoHasheado", PasswordHash.createHash(complemento)));
+                if (registro) {
+                    //mensaje de registro
+                    HttpPost httpPost = new HttpPost(URL_SERVIDOR + "ServletDB?op=put");
                     httpPost.setEntity(new UrlEncodedFormEntity(nvps));
                     CloseableHttpResponse response1 = getHttpClient().execute(httpPost);
                     HttpEntity entity1 = response1.getEntity();
                     logueadoCorrectamente = EntityUtils.toString(entity1, "UTF-8").equals("SI");
-                    System.out.println("veamos");
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ParseException ex) {
-                    Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InvalidKeySpecException ex) {
-                    Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+                } else {
+                    //mensaje de login
+                    HttpPost httpPost = new HttpPost(URL_SERVIDOR + "login");
+                    httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+                    CloseableHttpResponse response1 = getHttpClient().execute(httpPost);
+                    HttpEntity entity1 = response1.getEntity();
+                    logueadoCorrectamente = EntityUtils.toString(entity1, "UTF-8").equals("SI");
                 }
-                if (logueadoCorrectamente) {
-                        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
-                        changeSceneRoot(loader, getStage());
-                    }
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InvalidKeySpecException ex) {
+                Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (logueadoCorrectamente) {
+                ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+                changeSceneRoot(loader, getStage());
             }
         } else {
-            
+
         }
     }
-    
+
     @FXML
     private void handleButtonRegister(MouseEvent event) {
         PasswordField segundaPass = (PasswordField) DesktopApp.getStage().getScene().lookup("#Login_rePass");
@@ -150,7 +158,7 @@ public class FXMLLoginController implements Initializable {
             boton.setText("SIGN IN");
         }
     }
-    
+
     @FXML
     private void handleButtonBack(ActionEvent event) {
         System.out.println("EN BACK");
@@ -158,12 +166,12 @@ public class FXMLLoginController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
         changeSceneRoot(loader, DesktopApp.getStage());
     }
-    
+
     @FXML
     private void handleOnMouseOver(MouseEvent event) {
         gestionPunteroRatonOver();
     }
-    
+
     @FXML
     private void handleOnMouseOut(MouseEvent event) {
         gestionPunteroRatonOut();
