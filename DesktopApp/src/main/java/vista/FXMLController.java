@@ -48,6 +48,7 @@ import javax.websocket.ClientEndpoint;
 import utilities.MyClientEndpoint;
 import utilities.UtilidadesJavaFX;
 import static utilities.UtilidadesJavaFX.*;
+import static vista.DesktopApp.getStage;
 
 /**
  * Controlador de la interfaz grafica (eventos) datos conserva todos los datos
@@ -67,6 +68,7 @@ import static utilities.UtilidadesJavaFX.*;
 public class FXMLController implements Initializable {
 
     private static DataContainer datos;
+    private static boolean logueado;
     private final String RUTA_IMAGENES = "imagenes";
     private static MyClientEndpoint websocket;
     private static boolean segundoMensaje;
@@ -125,11 +127,16 @@ public class FXMLController implements Initializable {
         ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
         switch (((Button) event.getSource()).getId()) {
             case ID_BOTON_PLAY_MENU_PRINCIPAL:
-                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_NORMAL), bundle);
+                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_OPCIONES_NORMAL), bundle);
                 break;
             case ID_BOTON_PLAY_ONLINE_MENU_PRINCIPAL:
-//                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_ONLINE), bundle);
-                loader = new FXMLLoader(getClass().getResource(ESCENA_LOGIN), bundle);
+                PreferencesManager.getPreferencesLogin();
+                if(logueado){
+                    loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_ONLINE), bundle);
+                }else{
+                    loader = new FXMLLoader(getClass().getResource(ESCENA_LOGIN), bundle);
+                }
+                
                 break;
             case ID_BOTON_RULES_MENU_PRINCIPAL:
                 loader = new FXMLLoader(getClass().getResource(ESCENA_REGLAS), bundle);
@@ -164,38 +171,6 @@ public class FXMLController implements Initializable {
     }
 
     /**
-     * Gestiona los eventos del menu de la partida Normal (los botones), tomará
-     * diferentes acciones dependiendo del id del boton que lance el evento
-     *
-     * @param event utilizado para gestionar la obtencion del id del boton
-     * pulsado y manejar los cambios de escena requerido
-     */
-    @FXML
-    private void handleButtonsMenuNormalAction(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        FXMLLoader loader = null;
-        ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
-        switch (((Button) event.getSource()).getId()) {
-            case ID_BOTON_PLAY_MENU_JUEGO_NORMAL:
-                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
-                break;
-            case ID_BOTON_SCORES_MENU_JUEGO_NORMAL:
-                loader = new FXMLLoader(getClass().getResource(ESCENA_PUNTUACIONES), bundle);
-                break;
-            case ID_BOTON_BACKUP_MENU_JUEGO_NORMAL:
-                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_NORMAL), bundle);
-                break;
-            case ID_BOTON_BACK_MENU_JUEGO_NORMAL:
-                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
-                break;
-            default:
-                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_NORMAL), bundle);
-                break;
-        }
-        changeSceneRoot(loader, stage);
-    }
-
-    /**
      * Gestiona los eventos del menu principal (los botones), tomará diferentes
      * acciones dependiendo del id del boton que lance el evento
      *
@@ -212,7 +187,7 @@ public class FXMLController implements Initializable {
                 loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_OPCIONES_ONLINE), bundle);
                 break;
             case ID_BOTON_SCORES_MENU_JUEGO_ONLINE:
-                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_ONLINE), bundle);
+                loader = new FXMLLoader(getClass().getResource(ESCENA_PUNTUACIONES), bundle);
                 break;
             case ID_BOTON_BACK_MENU_JUEGO_ONLINE:
                 loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
@@ -276,7 +251,7 @@ public class FXMLController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         String boton = ((Button) event.getSource()).getId();
         ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
-        FXMLLoader loader = loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_NORMAL), bundle);
+        FXMLLoader loader = null;
         if (boton.equals(ID_BOTON_PLAY_OPCIONES_MENU_ONLINE)) {
             if (((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, false);
@@ -309,18 +284,10 @@ public class FXMLController implements Initializable {
                         datos.setRoundsLimit(5);
                         break;
                 }
-                player1Name = ((TextField) stage.getScene().lookup(CAMPO_JUGADOR_1_ONLINE)).getText();
-                if (!player1Name.isEmpty()) {
-                    datos.setNombreJ1(player1Name);
-                } else {
-                    cargarPantalla = false;
-                    showAlertFieldsWithExpandable(bundle, bundle.getString(JUGADOR1_NO_ESCRITO));
-                }
             }
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
-        } else //BACK
-        {
+        } else {//BACK
             if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, true);
                 cargarPantalla = false;
@@ -334,7 +301,7 @@ public class FXMLController implements Initializable {
                 datos.setTurno(true);
                 datos.setModalidadJuego(ModalidadJuego.ONLINE.ordinal());
             }
-            PreferencesManager.setPreferencesOnline(roundsOption, gameOption, player1Name);
+            PreferencesManager.setPreferencesOnline(roundsOption, gameOption/*, player1Name*/);
             changeSceneRoot(loader, stage);
         }
     }
@@ -419,7 +386,7 @@ public class FXMLController implements Initializable {
                 }
                 break;
             case ID_BOTON_BACK_OPCIONES_MENU_NORMAL:
-                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_NORMAL), bundle);
+                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
                 datos = null;
                 break;
             default:
@@ -502,6 +469,18 @@ public class FXMLController implements Initializable {
 
     public static DataContainer getDatos() {
         return datos;
+    }
+    
+    public static boolean getLogueado(){
+        return logueado;
+    }
+    
+    public static void changeLogueado(){
+        logueado=!logueado;
+    }
+    
+    public static void setLogueado(boolean nuevo){
+        logueado=nuevo;
     }
 
     /**
@@ -749,10 +728,8 @@ public class FXMLController implements Initializable {
             }
             notificacionToast(bundle.getString(TURNO).replace("X", datos.getNombreJ1()));
         } else {
-            if (datos.getModalidadJuego() != ModalidadJuego.ONLINE.ordinal()) {
-                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_NORMAL), bundle);
-            } else {
-                loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
+            loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
+            if (datos.getModalidadJuego() == ModalidadJuego.ONLINE.ordinal()) {
                 websocket.closeWebsocket();
             }
             datos.setValoresIniciales();
@@ -778,5 +755,15 @@ public class FXMLController implements Initializable {
     @FXML
     private void handleOnMouseOut(MouseEvent event) {
         gestionPunteroRatonOut();
+    }
+    
+    @FXML
+    private void handleCloseSession(MouseEvent event){
+        PreferencesManager.setPreferencesLogin(false, "");
+        logueado=false;
+        datos.setNombreJ1("");
+        ResourceBundle bundle=ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
+        FXMLLoader loader=loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
+        changeSceneRoot(loader, getStage());
     }
 }

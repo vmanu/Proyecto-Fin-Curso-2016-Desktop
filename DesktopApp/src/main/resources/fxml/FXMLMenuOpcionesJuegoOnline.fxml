@@ -49,15 +49,6 @@
                                         </RadioButton>
                                     </children>
                                 </VBox>
-                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%PutYourName" visible="false">
-                                    <font>
-                                        <Font size="24.0" />
-                                    </font>
-                                    <padding>
-                                        <Insets bottom="20.0" top="20.0" />
-                                    </padding>
-                                </Label>
-                                <TextField alignment="CENTER" minWidth="490.0" prefWidth="490.0" promptText="%PlaceholderPutName" visible="false" fx:id="TxtFieldP1Online"/>
                                 <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%ChooseNumberOfRounds" visible="false">
                                     <font>
                                         <Font size="24.0" />
@@ -94,6 +85,7 @@
                 </ScrollPane>
                 <FlowPane alignment="BOTTOM_CENTER" columnHalignment="CENTER" hgap="20.0" maxWidth="1080.0" minHeight="65.0" prefHeight="65.0" prefWidth="1080.0" prefWrapLength="640.0">
                     <children>
+                        <Label onMouseClicked="#handleCloseSession" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" text="%Close" />
                         <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoOnlineAction" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" prefHeight="25.0" prefWidth="150.0" text="%Back">
                             <id>
                                 <ConstantesIdentificadores fx:constant="ID_BOTON_BACK_OPCIONES_MENU_ONLINE"/>

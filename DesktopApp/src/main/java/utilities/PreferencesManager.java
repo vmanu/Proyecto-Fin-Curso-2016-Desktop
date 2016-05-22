@@ -12,7 +12,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import modelo.DataContainer;
 import vista.FXMLController;
+import static vista.FXMLController.getDatos;
+import static vista.FXMLController.setLogueado;
 
 /**
  * Gestiona las preferencias o ultimos usos de configuraciones relativas a las
@@ -100,11 +103,10 @@ public class PreferencesManager {
      * @param gameOption radioButton seleccionado relativo al tipo de juego
      * @param player1Name textField con el nombre del Jugador 1 (local)
      */
-    public static void setPreferencesOnline(String roundsOption, String gameOption, String player1Name) {
+    public static void setPreferencesOnline(String roundsOption, String gameOption/*, String player1Name*/) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
         prefs.put(PREFERENCIAS_RONDAS_ONLINE, roundsOption);
         prefs.put(PREFERENCIAS_JUEGOS_ONLINE, gameOption);
-        prefs.put(PREFERENCIAS_NOMBRE_JUGADOR1_ONLINE, player1Name);
     }
 
     /**
@@ -118,7 +120,17 @@ public class PreferencesManager {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
         changeStateRadioButton(nodoRound, prefs.get(PREFERENCIAS_RONDAS_ONLINE, ""));
         changeStateRadioButton(nodoGame, prefs.get(PREFERENCIAS_JUEGOS_ONLINE, ""));
-        player1.setText(prefs.get(PREFERENCIAS_NOMBRE_JUGADOR1_ONLINE, ""));
     }
 
+    public static void setPreferencesLogin(boolean accepted, String nombre){
+        Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
+        prefs.putBoolean(PREFERENCIAS_CONECTADO, accepted);
+        prefs.put(PREFERENCIAS_NOMBRE_CONECTADO, nombre);
+    }
+    
+    public static void getPreferencesLogin(){
+        Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
+        setLogueado(prefs.getBoolean(PREFERENCIAS_CONECTADO, false));
+        getDatos().setNombreJ1(prefs.get(PREFERENCIAS_NOMBRE_CONECTADO, ""));
+    }
 }

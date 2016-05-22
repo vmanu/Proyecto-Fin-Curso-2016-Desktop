@@ -41,9 +41,12 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import utilities.PreferencesManager;
 import static utilities.UtilidadesJavaFX.*;
 import static vista.DesktopApp.getHttpClient;
 import static vista.DesktopApp.getStage;
+import static vista.FXMLController.changeLogueado;
+import static vista.FXMLController.getDatos;
 
 /**
  * FXML Controller class
@@ -120,15 +123,9 @@ public class FXMLLoginController implements Initializable {
                     HttpEntity entity1 = response1.getEntity();
                     logueadoCorrectamente = EntityUtils.toString(entity1, UTF_8).equals(SI);
                 }
-            } catch (IOException ex) {
+            } catch (IOException |ParseException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
                 Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
-                Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvalidKeySpecException ex) {
-                Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
+            } catch (Exception ex){
                 Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (logueadoCorrectamente) {
@@ -136,6 +133,9 @@ public class FXMLLoginController implements Initializable {
                 clave = "";
                 complemento = "";
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_ONLINE), bundle);
+                getDatos().setNombreJ1(log);
+                PreferencesManager.setPreferencesLogin(true, log);
+                changeLogueado();
                 changeSceneRoot(loader, getStage());
             } else {
                 //alert con login o pass incorrecto

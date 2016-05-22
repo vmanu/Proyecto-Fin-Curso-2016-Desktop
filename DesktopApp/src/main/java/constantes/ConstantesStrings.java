@@ -21,7 +21,6 @@ public class ConstantesStrings {
     public static String ESCENA_JUEGO5="/fxml/FXMLJuegoGame5.fxml";
     public static String ESCENA_JUEGO9="/fxml/FXMLJuegoGame9.fxml";
     public static String ESCENA_DEVELOPER="/fxml/FXMLMenuDevelopers.fxml";
-    public static String ESCENA_MENU_NORMAL="/fxml/FXMLMenuJuegoNormal.fxml";
     public static String ESCENA_MENU_ONLINE="/fxml/FXMLMenuJuegoOnline.fxml";
     public static String ESCENA_MENU_OPCIONES_NORMAL="/fxml/FXMLMenuOpcionesNormal.fxml";
     public static String ESCENA_MENU_OPCIONES_ONLINE="/fxml/FXMLMenuOpcionesJuegoOnline.fxml";
@@ -66,6 +65,8 @@ public class ConstantesStrings {
     public static String PREFERENCIAS_RONDAS_ONLINE="roundsOnline";
     public static String PREFERENCIAS_JUEGOS_ONLINE="GameOptionOnline";
     public static String PREFERENCIAS_NOMBRE_JUGADOR1_ONLINE="playerJ1NameOnline";
+    public static String PREFERENCIAS_CONECTADO="conectado";
+    public static String PREFERENCIAS_NOMBRE_CONECTADO="nombreConectadoLogin";
     public static String FALLO_CONEXION="FalloConexion";
     public static String FALLO_CONEXION_TITLE="ErrorConexionTitle";
     public static String ESC_TO_EXIT_HINT="PulseESCToExitFullScreen";
@@ -90,4 +91,5 @@ public class ConstantesStrings {
     public static String MISSING_PASS_2="MissingPass2";
     public static String FALLO_COINCIDENCIA_PASS="MatchingFailurePass";
     public static String USER_EXCEED_SIZE="UserExceedSize";
+    
 }
