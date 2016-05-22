@@ -91,7 +91,7 @@ public class FXMLLoginController implements Initializable {
 
     @FXML
     private void handleButtonLogin(ActionEvent event) {
-        System.out.println("EN LOGIN "+(clave+complemento));
+        System.out.println("EN LOGIN " + (clave + complemento));
         boolean logueadoCorrectamente = false;
         boolean registro = ((PasswordField) DesktopApp.getStage().getScene().lookup(CAMPO_PASS_CONFIRMACION)).isVisible();
         String log = ((TextField) DesktopApp.getStage().getScene().lookup(CAMPO_USER_LOGIN)).getText();
@@ -102,7 +102,7 @@ public class FXMLLoginController implements Initializable {
             User usuario = new User(log, pass);
             ObjectMapper mapper = new ObjectMapper();
             try {
-                nvps.add(new BasicNameValuePair(USER, new String(Base64.encodeBase64(PasswordHash.cifra(mapper.writeValueAsString(usuario), (clave+complemento))))));
+                nvps.add(new BasicNameValuePair(USER, new String(Base64.encodeBase64(PasswordHash.cifra(mapper.writeValueAsString(usuario), (clave + complemento))))));
                 nvps.add(new BasicNameValuePair(CLAVE_HASHEADA, PasswordHash.createHash(clave)));
                 nvps.add(new BasicNameValuePair(COMPLEMENTO_HASHEADO, PasswordHash.createHash(complemento)));
                 if (registro) {
@@ -133,21 +133,37 @@ public class FXMLLoginController implements Initializable {
             }
             if (logueadoCorrectamente) {
                 ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
-                clave="";
-                complemento="";
+                clave = "";
+                complemento = "";
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_ONLINE), bundle);
                 changeSceneRoot(loader, getStage());
-            }else{
+            } else {
                 //alert con login o pass incorrecto
-                shootAlert(LOGIN_INCORRECT, LOGIN_INCORRECT_TITLE, false);
+                shootAlert(registro?REGISTER_INCORRECT:LOGIN_INCORRECT, registro?REGISTER_INCORRECT_TITLE:LOGIN_INCORRECT_TITLE, false);
             }
         } else {
-//Comprobar 1 a 1 todos los campos e indicar cuales estan vacios en un unico mensaje
-            StringBuffer cadena=new StringBuffer();
-            ResourceBundle bundle=ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
-            if(pass.isEmpty()){
-                cadena.append(bundle.getString(""));
+            StringBuilder cadena = new StringBuilder();
+            ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
+            boolean posibleMatchFailure = true;
+            if (log.isEmpty()) {
+                cadena.append(bundle.getString(MISSING_USER));
+            }else{
+                if(log.length()>30){
+                    cadena.append(bundle.getString(USER_EXCEED_SIZE));
+                }
             }
+            if (pass.isEmpty()) {
+                cadena.append(bundle.getString(MISSING_PASS_1));
+                posibleMatchFailure = false;
+            }
+            if (registro && pass2.isEmpty()) {
+                cadena.append(bundle.getString(MISSING_PASS_2));
+                posibleMatchFailure = false;
+            }
+            if(posibleMatchFailure&&registro&&!pass.equals(pass2)){
+                cadena.append(bundle.getString(FALLO_COINCIDENCIA_PASS));
+            }
+            showAlertFields(cadena.toString(), bundle.getString(WRONG_FIELDS), bundle.getString(WARNING), bundle.getString(WARNING_ARE));
         }
     }
 

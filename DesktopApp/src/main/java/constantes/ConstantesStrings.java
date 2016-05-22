@@ -79,8 +79,15 @@ public class ConstantesStrings {
     public static String NO="NO";
     public static String LOGIN_INCORRECT="UserOrPassWrong";
     public static String LOGIN_INCORRECT_TITLE="LoginIncorrectoTitle";
+    public static String REGISTER_INCORRECT="UserExist";
+    public static String REGISTER_INCORRECT_TITLE="LoginExistTitle";
     public static String SIGN_IN="SignIn";
     public static String SIGN_IN_LOW="SignInLow";
     public static String SIGN_UP_LOW="SignUpLow";
     public static String SIGN_UP="SignUp";
+    public static String MISSING_USER="MissingUser";
+    public static String MISSING_PASS_1="MissingPass1";
+    public static String MISSING_PASS_2="MissingPass2";
+    public static String FALLO_COINCIDENCIA_PASS="MatchingFailurePass";
+    public static String USER_EXCEED_SIZE="UserExceedSize";
 }
