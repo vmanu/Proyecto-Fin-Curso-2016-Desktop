@@ -143,6 +143,11 @@ public class FXMLLoginController implements Initializable {
             }
         } else {
 //Comprobar 1 a 1 todos los campos e indicar cuales estan vacios en un unico mensaje
+            StringBuffer cadena=new StringBuffer();
+            ResourceBundle bundle=ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
+            if(pass.isEmpty()){
+                cadena.append(bundle.getString(""));
+            }
         }
     }
 
