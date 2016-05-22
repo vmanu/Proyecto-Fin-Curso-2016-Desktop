@@ -43,4 +43,8 @@ public class ConstantesCadenasLookup {
     public static String IMAGENBUTTON_HUMANO="#humano9";
     public static String IMAGENBUTTON_ESPONJA="#esponja9";
     public static String IMAGENBUTTON_FUEGO="#fuego9";
+    public static String CAMPO_PASS_CONFIRMACION="#Login_rePass";
+    public static String CAMPO_USER_LOGIN="#Login_User";
+    public static String CAMPO_PASS="#Login_Pass";
+    public static String BOTON_LOGIN="#BotonLogin";
 }

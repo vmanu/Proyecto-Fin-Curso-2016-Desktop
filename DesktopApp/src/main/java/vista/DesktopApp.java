@@ -5,6 +5,7 @@
  */
 package vista;
 
+import static constantes.ConstantesStrings.*;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -36,13 +37,13 @@ public class DesktopApp extends Application {
     @Override
     public void start(final Stage stage) throws Exception {
         this.stage = stage;
-        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");//GESTIONA IDIOMAS
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
+        ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);//GESTIONA IDIOMAS
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setFullScreenExitHint("Para salir pulse ESC");
-        stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("ESC"));
+        stage.setFullScreenExitHint(ESC_TO_EXIT_HINT);
+        stage.setFullScreenExitKeyCombination(KeyCombination.valueOf(ESC_BUTTON));
         stage.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent event) {
@@ -53,8 +54,8 @@ public class DesktopApp extends Application {
             
         });
         httpclient=HttpClients.createDefault();
-        stage.setTitle(bundle.getString("AppName"));
-        stage.getIcons().add(new Image("/imagenes/fivegame.jpg"));
+        stage.setTitle(bundle.getString(NOMBRE_APLICACION));
+        stage.getIcons().add(new Image(IMAGEN_ICONO_APP));
         stage.show();
     }
 

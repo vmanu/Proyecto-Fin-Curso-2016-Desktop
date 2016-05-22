@@ -11,6 +11,10 @@ package constantes;
  */
 public class ConstantesStrings {
     public static String SERVICIO_WEBSOCKET="ws://servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/ppt?user=";
+    public static String URL_SERVIDOR="http://localhost:8080/ServerPPTGame/";//"http//servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/"
+    public static String URL_SEGURIDAD="seguridad";
+    public static String URL_LOGIN="login";
+    public static String UTF_8="UTF-8";
     public static String SERVICIO_STRINGS_BUNDLE="strings.UIResources";
     public static String ESCENA_MENU_PPAL="/fxml/FXMLMenuPrincipal.fxml";
     public static String ESCENA_JUEGO3="/fxml/FXMLJuegoGame3.fxml";
@@ -43,6 +47,7 @@ public class ConstantesStrings {
     public static String IMAGEN_HUMANO_AZUL="imagenes/humanazul.png";
     public static String IMAGEN_ESPONJA_AZUL="imagenes/spongeazul.png";
     public static String IMAGEN_FUEGO_AZUL="imagenes/fireazul.png";
+    public static String IMAGEN_ICONO_APP="/imagenes/fivegame.jpg";
     public static String DRAW="Draw";
     public static String WINS="wins";
     public static String CONTINUE="Continue";
@@ -61,4 +66,21 @@ public class ConstantesStrings {
     public static String PREFERENCIAS_RONDAS_ONLINE="roundsOnline";
     public static String PREFERENCIAS_JUEGOS_ONLINE="GameOptionOnline";
     public static String PREFERENCIAS_NOMBRE_JUGADOR1_ONLINE="playerJ1NameOnline";
+    public static String FALLO_CONEXION="FalloConexion";
+    public static String FALLO_CONEXION_TITLE="ErrorConexionTitle";
+    public static String ESC_TO_EXIT_HINT="PulseESCToExitFullScreen";
+    public static String ESC_BUTTON="ESC";
+    public static String NOMBRE_APLICACION="AppName";
+    public static String USER="user";
+    public static String CLAVE_HASHEADA="claveHasheada";
+    public static String COMPLEMENTO_HASHEADO="complementoHasheado";
+    public static String URL_AGREGAR_USUARIO="ServletDB?op=put";
+    public static String SI="SI";
+    public static String NO="NO";
+    public static String LOGIN_INCORRECT="UserOrPassWrong";
+    public static String LOGIN_INCORRECT_TITLE="LoginIncorrectoTitle";
+    public static String SIGN_IN="SignIn";
+    public static String SIGN_IN_LOW="SignInLow";
+    public static String SIGN_UP_LOW="SignUpLow";
+    public static String SIGN_UP="SignUp";
 }

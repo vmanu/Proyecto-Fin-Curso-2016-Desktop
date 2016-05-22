@@ -90,14 +90,14 @@ public class MyClientEndpoint extends Endpoint {
                             //CARGAR EL FXML. TODO
                             //DesktopApp.getStage().hide();
                             ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_RESULTADOS), bundle);
                             changeSceneRoot(loader, DesktopApp.getStage());
                         } else if (!eraNull) {
                             FXMLController.cambiaSegundoMensaje();
                         }
                     }
                 } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION && !datos.rondasFinalizadas()) {
-                    shootAlert("FalloConexion","ErrorConexionTitle", true);
+                    shootAlert(FALLO_CONEXION,FALLO_CONEXION_TITLE, true);
                 } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
                     try {
                         datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {

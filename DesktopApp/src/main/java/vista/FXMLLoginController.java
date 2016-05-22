@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.datapptgame.ClaveComplemento;
 import com.mycompany.datapptgame.User;
+import static constantes.ConstantesCadenasLookup.*;
+import static constantes.ConstantesStrings.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -50,7 +52,6 @@ import static vista.DesktopApp.getStage;
  */
 public class FXMLLoginController implements Initializable {
 
-    private final String URL_SERVIDOR = "http://localhost:8080/ServerPPTGame/";
     private static String clave = "";
     private static String complemento = "";
 
@@ -64,19 +65,19 @@ public class FXMLLoginController implements Initializable {
         if (clave.isEmpty()) {
             //SOLO ENTRA AQUI SI LA CLAVE HA SIDO VACIADA O ES LA PRIMERA VEZ EN ESTA EJECUCION, REDUCIMOS TIEMPOS DE CARGA Y AHORRAMOS TRABAJO AL SERVER
             try {
-                String ok = "";
+                String cc = "";
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 CloseableHttpResponse response1;
-                HttpPost httpPost = new HttpPost(URL_SERVIDOR + "seguridad");
-                List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-                nvps.add(new BasicNameValuePair("op", "security"));
-                httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+                HttpPost httpPost = new HttpPost(URL_SERVIDOR + URL_SEGURIDAD);
+//                List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+//                nvps.add(new BasicNameValuePair("op", "security"));
+//                httpPost.setEntity(new UrlEncodedFormEntity(nvps));
                 response1 = getHttpClient().execute(httpPost);
                 HttpEntity entity1 = response1.getEntity();
-                ok = EntityUtils.toString(entity1, "UTF-8");
+                cc = EntityUtils.toString(entity1, UTF_8);
                 System.out.println("veamos");
-                ClaveComplemento keys = mapper.readValue(ok, new TypeReference<ClaveComplemento>() {
+                ClaveComplemento keys = mapper.readValue(cc, new TypeReference<ClaveComplemento>() {
                 });
                 clave = keys.getClaves().get((int) Math.random() * keys.getClaves().size());
                 complemento = keys.getComplementos().get((int) Math.random() * keys.getComplementos().size());
@@ -92,32 +93,32 @@ public class FXMLLoginController implements Initializable {
     private void handleButtonLogin(ActionEvent event) {
         System.out.println("EN LOGIN "+(clave+complemento));
         boolean logueadoCorrectamente = false;
-        boolean registro = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_rePass")).isVisible();
-        String log = ((TextField) DesktopApp.getStage().getScene().lookup("#Login_User")).getText();
-        String pass = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_Pass")).getText();
-        String pass2 = ((PasswordField) DesktopApp.getStage().getScene().lookup("#Login_rePass")).getText();
+        boolean registro = ((PasswordField) DesktopApp.getStage().getScene().lookup(CAMPO_PASS_CONFIRMACION)).isVisible();
+        String log = ((TextField) DesktopApp.getStage().getScene().lookup(CAMPO_USER_LOGIN)).getText();
+        String pass = ((PasswordField) DesktopApp.getStage().getScene().lookup(CAMPO_PASS)).getText();
+        String pass2 = ((PasswordField) DesktopApp.getStage().getScene().lookup(CAMPO_PASS_CONFIRMACION)).getText();
         if (!log.isEmpty() && !pass.isEmpty() && (!registro || (registro && !pass2.isEmpty() && pass.equals(pass2)))) {
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
             User usuario = new User(log, pass);
             ObjectMapper mapper = new ObjectMapper();
             try {
-                nvps.add(new BasicNameValuePair("user", new String(Base64.encodeBase64(PasswordHash.cifra(mapper.writeValueAsString(usuario), (clave+complemento))))));
-                nvps.add(new BasicNameValuePair("claveHasheada", PasswordHash.createHash(clave)));
-                nvps.add(new BasicNameValuePair("complementoHasheado", PasswordHash.createHash(complemento)));
+                nvps.add(new BasicNameValuePair(USER, new String(Base64.encodeBase64(PasswordHash.cifra(mapper.writeValueAsString(usuario), (clave+complemento))))));
+                nvps.add(new BasicNameValuePair(CLAVE_HASHEADA, PasswordHash.createHash(clave)));
+                nvps.add(new BasicNameValuePair(COMPLEMENTO_HASHEADO, PasswordHash.createHash(complemento)));
                 if (registro) {
                     //mensaje de registro
-                    HttpPost httpPost = new HttpPost(URL_SERVIDOR + "ServletDB?op=put");
+                    HttpPost httpPost = new HttpPost(URL_SERVIDOR + URL_AGREGAR_USUARIO);
                     httpPost.setEntity(new UrlEncodedFormEntity(nvps));
                     CloseableHttpResponse response1 = getHttpClient().execute(httpPost);
                     HttpEntity entity1 = response1.getEntity();
-                    logueadoCorrectamente = EntityUtils.toString(entity1, "UTF-8").equals("SI");
+                    logueadoCorrectamente = EntityUtils.toString(entity1, UTF_8).equals(SI);
                 } else {
                     //mensaje de login
-                    HttpPost httpPost = new HttpPost(URL_SERVIDOR + "login");
+                    HttpPost httpPost = new HttpPost(URL_SERVIDOR + URL_LOGIN);
                     httpPost.setEntity(new UrlEncodedFormEntity(nvps));
                     CloseableHttpResponse response1 = getHttpClient().execute(httpPost);
                     HttpEntity entity1 = response1.getEntity();
-                    logueadoCorrectamente = EntityUtils.toString(entity1, "UTF-8").equals("SI");
+                    logueadoCorrectamente = EntityUtils.toString(entity1, UTF_8).equals(SI);
                 }
             } catch (IOException ex) {
                 Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,44 +132,45 @@ public class FXMLLoginController implements Initializable {
                 Logger.getLogger(FXMLLoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (logueadoCorrectamente) {
-                ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+                ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
                 clave="";
                 complemento="";
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuJuegoOnline.fxml"), bundle);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_ONLINE), bundle);
                 changeSceneRoot(loader, getStage());
             }else{
                 //alert con login o pass incorrecto
-                shootAlert("UserOrPassWrong", "LoginIncorrectoTitle", false);
+                shootAlert(LOGIN_INCORRECT, LOGIN_INCORRECT_TITLE, false);
             }
         } else {
-
+//Comprobar 1 a 1 todos los campos e indicar cuales estan vacios en un unico mensaje
         }
     }
 
     @FXML
     private void handleButtonRegister(MouseEvent event) {
-        PasswordField segundaPass = (PasswordField) DesktopApp.getStage().getScene().lookup("#Login_rePass");
-        Button boton = (Button) DesktopApp.getStage().getScene().lookup("#BotonLogin");
+        PasswordField segundaPass = (PasswordField) DesktopApp.getStage().getScene().lookup(CAMPO_PASS_CONFIRMACION);
+        Button boton = (Button) DesktopApp.getStage().getScene().lookup(BOTON_LOGIN);
+        ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
         if (!segundaPass.isVisible()) {
             System.out.println("A REGISTER");
             segundaPass.setManaged(true);
             segundaPass.setVisible(true);
-            ((Label) event.getSource()).setText("Sign In");
-            boton.setText("SIGN UP");
+            ((Label) event.getSource()).setText(bundle.getString(SIGN_IN_LOW));
+            boton.setText(bundle.getString(SIGN_UP));
         } else {
             System.out.println("De vuelta a Login");
             segundaPass.setManaged(false);
             segundaPass.setVisible(false);
-            ((Label) event.getSource()).setText("Sign Up");
-            boton.setText("SIGN IN");
+            ((Label) event.getSource()).setText(bundle.getString(SIGN_UP_LOW));
+            boton.setText(bundle.getString(SIGN_IN));
         }
     }
 
     @FXML
     private void handleButtonBack(ActionEvent event) {
         System.out.println("EN BACK");
-        ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
+        ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
         changeSceneRoot(loader, DesktopApp.getStage());
     }
 
