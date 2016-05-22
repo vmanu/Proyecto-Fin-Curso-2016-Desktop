@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import constantes.Constantes ?>
+<?import constantes.ConstantesIdentificadores ?>
 
 <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="608.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.FXMLController">
     <content>
@@ -34,17 +34,17 @@
                                                 <ToggleGroup fx:id="GAME_RB" />
                                             </toggleGroup>
                                             <id>
-                                                <Constantes fx:constant="ID_RADIOBUTTON_GAME_OF_3"/>
+                                                <ConstantesIdentificadores fx:constant="ID_RADIOBUTTON_GAME_OF_3"/>
                                             </id>
                                         </RadioButton>
                                         <RadioButton mnemonicParsing="false" text="%GameOf5" toggleGroup="$GAME_RB">
                                             <id>
-                                                <Constantes fx:constant="ID_RADIOBUTTON_GAME_OF_5"/>
+                                                <ConstantesIdentificadores fx:constant="ID_RADIOBUTTON_GAME_OF_5"/>
                                             </id>
                                         </RadioButton>
                                         <RadioButton mnemonicParsing="false" text="%GameOf9" toggleGroup="$GAME_RB">
                                             <id>
-                                                <Constantes fx:constant="ID_RADIOBUTTON_GAME_OF_9"/>
+                                                <ConstantesIdentificadores fx:constant="ID_RADIOBUTTON_GAME_OF_9"/>
                                             </id>
                                         </RadioButton>
                                     </children>
@@ -64,12 +64,12 @@
                                                 <ToggleGroup fx:id="PLAYER_RB" />
                                             </toggleGroup>
                                             <id>
-                                                <Constantes fx:constant="ID_RADIOBUTTON_1_PLAYERS"/>
+                                                <ConstantesIdentificadores fx:constant="ID_RADIOBUTTON_1_PLAYERS"/>
                                             </id>
                                         </RadioButton>
                                         <RadioButton mnemonicParsing="false" onAction="#handleRadioButtonsAction" text="%Player2" toggleGroup="$PLAYER_RB">
                                             <id>
-                                                <Constantes fx:constant="ID_RADIOBUTTON_2_PLAYERS"/>
+                                                <ConstantesIdentificadores fx:constant="ID_RADIOBUTTON_2_PLAYERS"/>
                                             </id>
                                             <padding>
                                                 <Insets bottom="20.0" />
@@ -98,22 +98,22 @@
                                                 <ToggleGroup fx:id="ROUND_RB" />
                                             </toggleGroup>
                                             <id>
-                                                <Constantes fx:constant="ID_RADIOBUTTON_ROUND_OF_1"/>
+                                                <ConstantesIdentificadores fx:constant="ID_RADIOBUTTON_ROUND_OF_1"/>
                                             </id>
                                         </RadioButton>
                                         <RadioButton mnemonicParsing="false" text="%Rounds3" toggleGroup="$ROUND_RB" onAction="#handleRadioButtonsAction">
                                             <id>
-                                                <Constantes fx:constant="ID_RADIOBUTTON_ROUND_OF_3"/>
+                                                <ConstantesIdentificadores fx:constant="ID_RADIOBUTTON_ROUND_OF_3"/>
                                             </id>
                                         </RadioButton>
                                         <RadioButton mnemonicParsing="false" text="%Rounds5" toggleGroup="$ROUND_RB" onAction="#handleRadioButtonsAction">
                                             <id>
-                                                <Constantes fx:constant="ID_RADIOBUTTON_ROUND_OF_5"/>
+                                                <ConstantesIdentificadores fx:constant="ID_RADIOBUTTON_ROUND_OF_5"/>
                                             </id>
                                         </RadioButton>
                                         <RadioButton mnemonicParsing="false" text="%CustomedRounds" toggleGroup="$ROUND_RB" onAction="#handleRadioButtonsAction">
                                             <id>
-                                                <Constantes fx:constant="ID_RADIOBUTTON_ROUND_CUSTOMIZED"/>
+                                                <ConstantesIdentificadores fx:constant="ID_RADIOBUTTON_ROUND_CUSTOMIZED"/>
                                             </id>
                                         </RadioButton>
                                     </children>
@@ -127,7 +127,7 @@
                     <children>
                         <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoNormalAction" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" prefHeight="25.0" prefWidth="150.0" text="%Back">
                             <id>
-                                <Constantes fx:constant="ID_BOTON_BACK_OPCIONES_MENU_NORMAL"/>
+                                <ConstantesIdentificadores fx:constant="ID_BOTON_BACK_OPCIONES_MENU_NORMAL"/>
                             </id>
                             <font>
                                 <Font name="Arial Narrow" size="18.0" />
@@ -135,7 +135,7 @@
                         </Button>
                         <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoNormalAction" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" prefHeight="25.0" prefWidth="150.0" text="%Play">
                             <id>
-                                <Constantes fx:constant="ID_BOTON_PLAY_OPCIONES_MENU_NORMAL"/>
+                                <ConstantesIdentificadores fx:constant="ID_BOTON_PLAY_OPCIONES_MENU_NORMAL"/>
                             </id>
                             <font>
                                 <Font name="Arial Narrow" size="18.0" />

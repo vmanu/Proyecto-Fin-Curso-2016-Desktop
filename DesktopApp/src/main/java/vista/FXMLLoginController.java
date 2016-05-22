@@ -138,6 +138,7 @@ public class FXMLLoginController implements Initializable {
                 changeSceneRoot(loader, getStage());
             }else{
                 //alert con login o pass incorrecto
+                shootAlert("UserOrPassWrong", "LoginIncorrectoTitle", false);
             }
         } else {
 

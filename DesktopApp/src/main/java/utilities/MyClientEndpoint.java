@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.datapptgame.MetaMessage;
 import com.mycompany.datapptgame.OpcionJuego;
 import com.mycompany.datapptgame.TypeMessage;
+import static constantes.ConstantesStrings.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -54,7 +55,7 @@ public class MyClientEndpoint extends Endpoint {
     public MyClientEndpoint(final DataContainer datos) {
         try {
             //192.168.206.1 PORTATIL - 192.168.1.104 CASA - SERVIDOR (DEFINITIVO) ws://servidor-pptgame.rhcloud.com:8000/ServerPPTGame/ppt?user=
-            URI uri = new URI("ws://servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/ppt?user=" + datos.getNombreJ1());
+            URI uri = new URI(SERVICIO_WEBSOCKET + datos.getNombreJ1());
             connectToWebSocket(uri);
         } catch (URISyntaxException ex) {
             Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,7 +89,7 @@ public class MyClientEndpoint extends Endpoint {
                         if (datos.getChosen1() != null) {
                             //CARGAR EL FXML. TODO
                             //DesktopApp.getStage().hide();
-                            ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
+                            ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLResult.fxml"), bundle);
                             changeSceneRoot(loader, DesktopApp.getStage());
                         } else if (!eraNull) {
@@ -96,7 +97,7 @@ public class MyClientEndpoint extends Endpoint {
                         }
                     }
                 } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION && !datos.rondasFinalizadas()) {
-                    UtilidadesJavaFX.shootAlert();
+                    shootAlert("FalloConexion","ErrorConexionTitle", true);
                 } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
                     try {
                         datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {

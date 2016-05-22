@@ -9,7 +9,7 @@ package constantes;
  * Clase con las constantes del programa
  * @author Victor e Ivan
  */
-public class Constantes {
+public class ConstantesIdentificadores {
     public static final String ID_BOTON_PLAY_MENU_PRINCIPAL="PlayMenuPrincipalButton";
     public static final String ID_BOTON_PLAY_ONLINE_MENU_PRINCIPAL="OnlineModeButton";
     public static final String ID_BOTON_RULES_MENU_PRINCIPAL="RulesGameButton";

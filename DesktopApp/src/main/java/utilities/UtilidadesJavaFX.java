@@ -6,6 +6,8 @@
 package utilities;
 
 import com.mycompany.datapptgame.*;
+import static constantes.ConstantesStrings.ESCENA_MENU_PPAL;
+import static constantes.ConstantesStrings.SERVICIO_STRINGS_BUNDLE;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -140,18 +142,19 @@ public class UtilidadesJavaFX {
 
     /**
      * Gestiona la emisión de un Alert concreto para cuando se ha perdido la conexion
-     * websocket con otro jugador
+     * websocket con otro jugador, o cuando el login es incorrecto
      */
-    public static void shootAlert() {
+    public static void shootAlert(final String codeOfStringMainText, final String codeOfStringTitle, final boolean cambiaPantalla) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                ResourceBundle bundle = ResourceBundle.getBundle("strings.UIResources");
-                showAlertFields(null, bundle.getString("FalloConexion"), bundle.getString("ErrorConexionTitle"), null);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMenuPrincipal.fxml"), bundle);
-                Stage stage = DesktopApp.getStage();
-                changeSceneRoot(loader, stage);
-                FXMLController.getDatos().setValoresIniciales();
+                ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
+                showAlertFields(null, bundle.getString(codeOfStringMainText), bundle.getString(codeOfStringTitle), null);
+                if(cambiaPantalla){
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
+                    changeSceneRoot(loader, DesktopApp.getStage());
+                    FXMLController.getDatos().setValoresIniciales();
+                }
             }
         });
     }

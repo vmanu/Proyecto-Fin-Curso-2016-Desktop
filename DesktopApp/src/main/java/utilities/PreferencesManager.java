@@ -5,7 +5,8 @@
  */
 package utilities;
 
-import static constantes.Constantes.*;
+import static constantes.ConstantesIdentificadores.*;
+import static constantes.ConstantesStrings.*;
 import java.util.prefs.Preferences;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -32,15 +33,15 @@ public class PreferencesManager {
      */
     public static void setPreferencesNormal(String roundsOption, String playerNumber, String gameOption, String player1Name, String player2Name, String customRounds) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
-        prefs.put("roundsNormal", roundsOption);
-        prefs.put("playerNumber", playerNumber);
-        prefs.put("GameOptionNormal", gameOption);
-        prefs.put("playerJ1Name", player1Name);
+        prefs.put(PREFERENCIAS_RONDAS_NORMAL, roundsOption);
+        prefs.put(PREFERENCIAS_NUMERO_JUGADORES_NORMAL, playerNumber);
+        prefs.put(PREFERENCIAS_JUEGOS_NORMAL, gameOption);
+        prefs.put(PREFERENCIAS_NOMBRE_JUGADOR1_NORMAL, player1Name);
         if (playerNumber.equals(ID_RADIOBUTTON_2_PLAYERS)) {
-            prefs.put("playerJ2Name", player2Name);
+            prefs.put(PREFERENCIAS_NOMBRE_JUGADOR2_NORMAL, player2Name);
         }
         if (roundsOption.equals(ID_RADIOBUTTON_ROUND_CUSTOMIZED)) {
-            prefs.put("roundCustomized", customRounds);
+            prefs.put(PREFERENCIAS_RONDAS_PERSONALIZADAS_NORMAL, customRounds);
         }
     }
     
@@ -57,19 +58,19 @@ public class PreferencesManager {
     public static void getPreferencesNormal(ObservableList<Node> nodoRound, ObservableList<Node> nodoPlayers, ObservableList<Node> nodoGame, TextField player1, TextField player2, TextField roundCustomed) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
         String roundsOption, playerNumber;
-        roundsOption = prefs.get("roundsNormal", "");
+        roundsOption = prefs.get(PREFERENCIAS_RONDAS_NORMAL, "");
         changeStateRadioButton(nodoRound, roundsOption);
-        playerNumber = prefs.get("playerNumber", "");
+        playerNumber = prefs.get(PREFERENCIAS_NUMERO_JUGADORES_NORMAL, "");
         changeStateRadioButton(nodoPlayers, playerNumber);
-        changeStateRadioButton(nodoGame, prefs.get("GameOptionNormal", ""));
-        player1.setText(prefs.get("playerJ1Name", ""));
-        player2.setText(prefs.get("playerJ2Name", ""));
+        changeStateRadioButton(nodoGame, prefs.get(PREFERENCIAS_JUEGOS_NORMAL, ""));
+        player1.setText(prefs.get(PREFERENCIAS_NOMBRE_JUGADOR1_NORMAL, ""));
+        player2.setText(prefs.get(PREFERENCIAS_NOMBRE_JUGADOR2_NORMAL, ""));
         if (playerNumber.equals(ID_RADIOBUTTON_2_PLAYERS)) {
             player2.setManaged(true);
             player2.setVisible(true);
             player1.setPrefWidth(230.0);
         }
-        roundCustomed.setText(prefs.get("roundCustomized", ""));
+        roundCustomed.setText(prefs.get(PREFERENCIAS_RONDAS_PERSONALIZADAS_NORMAL, ""));
         if (roundsOption.equals(ID_RADIOBUTTON_ROUND_CUSTOMIZED)) {
             roundCustomed.setManaged(true);
             roundCustomed.setVisible(true);
@@ -101,9 +102,9 @@ public class PreferencesManager {
      */
     public static void setPreferencesOnline(String roundsOption, String gameOption, String player1Name) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
-        prefs.put("roundsOnline", roundsOption);
-        prefs.put("GameOptionOnline", gameOption);
-        prefs.put("playerJ1NameOnline", player1Name);
+        prefs.put(PREFERENCIAS_RONDAS_ONLINE, roundsOption);
+        prefs.put(PREFERENCIAS_JUEGOS_ONLINE, gameOption);
+        prefs.put(PREFERENCIAS_NOMBRE_JUGADOR1_ONLINE, player1Name);
     }
 
     /**
@@ -115,9 +116,9 @@ public class PreferencesManager {
      */
     public static void getPreferencesOnline(ObservableList<Node> nodoRound, ObservableList<Node> nodoGame, TextField player1) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
-        changeStateRadioButton(nodoRound, prefs.get("roundsOnline", ""));
-        changeStateRadioButton(nodoGame, prefs.get("GameOptionOnline", ""));
-        player1.setText(prefs.get("playerJ1NameOnline", ""));
+        changeStateRadioButton(nodoRound, prefs.get(PREFERENCIAS_RONDAS_ONLINE, ""));
+        changeStateRadioButton(nodoGame, prefs.get(PREFERENCIAS_JUEGOS_ONLINE, ""));
+        player1.setText(prefs.get(PREFERENCIAS_NOMBRE_JUGADOR1_ONLINE, ""));
     }
 
 }
