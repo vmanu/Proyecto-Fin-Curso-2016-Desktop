@@ -136,7 +136,6 @@ public class FXMLController implements Initializable {
                 }else{
                     loader = new FXMLLoader(getClass().getResource(ESCENA_LOGIN), bundle);
                 }
-                
                 break;
             case ID_BOTON_RULES_MENU_PRINCIPAL:
                 loader = new FXMLLoader(getClass().getResource(ESCENA_REGLAS), bundle);

@@ -15,9 +15,14 @@
     <content>
         <VBox alignment="CENTER" minHeight="300.0" minWidth="500.0" prefHeight="60.0" prefWidth="1080.0">
             <children>
+                  <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" onMouseClicked="#handleCloseSession" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" prefWidth="1080.0" text="%Close">
+               <VBox.margin>
+                  <Insets right="30.0" />
+               </VBox.margin>
+            </Label>
                 <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="590.0" prefWidth="1080.0">
                     <content>
-                        <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="590.0" prefWidth="1080.0" fx:id="VBoxParentOnlineOptions" >
+                        <VBox fx:id="VBoxParentOnlineOptions" alignment="TOP_CENTER" fillWidth="false" prefHeight="590.0" prefWidth="1080.0">
                             <children>
                                 <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%ChooseOption" visible="true">
                                     <font>
@@ -85,7 +90,6 @@
                 </ScrollPane>
                 <FlowPane alignment="BOTTOM_CENTER" columnHalignment="CENTER" hgap="20.0" maxWidth="1080.0" minHeight="65.0" prefHeight="65.0" prefWidth="1080.0" prefWrapLength="640.0">
                     <children>
-                        <Label onMouseClicked="#handleCloseSession" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" text="%Close" />
                         <Button alignment="CENTER" contentDisplay="CENTER" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonsMenuOpcionesJuegoOnlineAction" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" prefHeight="25.0" prefWidth="150.0" text="%Back">
                             <id>
                                 <ConstantesIdentificadores fx:constant="ID_BOTON_BACK_OPCIONES_MENU_ONLINE"/>
