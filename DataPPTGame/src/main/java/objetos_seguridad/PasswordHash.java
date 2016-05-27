@@ -39,7 +39,7 @@ import java.security.Security;
 import java.security.spec.InvalidKeySpecException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.Cipher;
-import org.apache.commons.codec.binary.Base64;
+//import org.apache.commons.codec.binary.Base64;
 
 /*
  * PBKDF2 salted password hashing.
@@ -215,11 +215,5 @@ public class PasswordHash {
         }
         return aes;
     }
-
-    /**
-     * Tests the basic functionality of the PasswordHash class
-     *
-     * @param args ignored
-     */
 
 }

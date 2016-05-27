@@ -15,12 +15,12 @@
     </properties>
     
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.9</version>
             <type>jar</type>
-        </dependency>
+        </dependency>-->
     </dependencies>
     
     <build>
