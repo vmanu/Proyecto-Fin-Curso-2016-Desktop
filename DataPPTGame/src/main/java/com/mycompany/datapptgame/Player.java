@@ -35,9 +35,10 @@ public class Player {
         this.numPartidas=numPartidas;
     }
 
-    public Player(String name, int numPartidas) {
+    public Player(String name, int numPartidas, int numVictorias) {
         this.namePlayer = name;
         this.numPartidas=numPartidas;
+        this.numVictorias=numVictorias;
     }
 
     public String getNamePlayer() {
