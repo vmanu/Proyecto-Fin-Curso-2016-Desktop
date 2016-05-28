@@ -48,10 +48,10 @@
                             <silent>true</silent>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>make-assembly2</id>
+                    <!--<execution>
+                        <id>make-assembly2</id>-->
                         <!-- bind to the packaging phase -->
-                        <phase>package</phase> 
+                        <!--<phase>package</phase> 
                         <goals>
                             <goal>single</goal>
                         </goals>
@@ -59,7 +59,7 @@
                             <outputDirectory>${endorsed.dir}</outputDirectory>
                             <silent>true</silent>
                         </configuration>
-                    </execution>
+                    </execution>-->
                 </executions>
             </plugin>
         </plugins>
