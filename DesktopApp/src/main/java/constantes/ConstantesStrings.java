@@ -10,7 +10,7 @@ package constantes;
  * @author Victor
  */
 public class ConstantesStrings {
-    public static String SERVICIO_WEBSOCKET="ws://servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/ppt?user=";
+    public static String SERVICIO_WEBSOCKET="ws://localhost:8080/ServerPPTGame/ppt?user=";//"ws://servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/ppt?user=";
     public static String URL_SERVIDOR="http://localhost:8080/ServerPPTGame/";//"http//servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/"
     public static String URL_SEGURIDAD="seguridad";
     public static String URL_LOGIN="login";
