@@ -17,7 +17,7 @@
             <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="1080.0">
                <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" onMouseClicked="#handleCloseSession" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" text="%Close">
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" onMouseClicked="#handleCloseSession" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" text="%Close" textFill="BLUE" underline="true">
                      <HBox.margin>
                         <Insets right="30.0" />
                      </HBox.margin>

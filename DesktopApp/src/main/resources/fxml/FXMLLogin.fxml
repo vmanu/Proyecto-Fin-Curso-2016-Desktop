@@ -17,16 +17,16 @@
                   <Label text="Login" />
                   <TextField fx:id="Login_User" alignment="CENTER" promptText="login" />
                   <PasswordField fx:id="Login_Pass" alignment="CENTER" minWidth="80.0" prefWidth="80.0" promptText="pass" />
-                  <PasswordField fx:id="Login_rePass" alignment="CENTER" promptText="pass" visible="false" managed="false" />
+                  <PasswordField fx:id="Login_rePass" alignment="CENTER" managed="false" promptText="pass" visible="false" />
                   <VBox prefHeight="18.0" prefWidth="250.0">
                      <children>
-                        <Label onMouseClicked="#handleButtonRegister" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" text="%SignUp" />
+                        <Label onMouseClicked="#handleButtonRegister" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" text="%SignUpLow" textFill="BLUE" underline="true" />
                      </children>
                   </VBox>
                   <HBox alignment="CENTER" prefHeight="20.0" prefWidth="250.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#handleButtonBack" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" text="%Back" />
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonLogin" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" text="%SignIn" fx:id="BotonLogin">
+                        <Button fx:id="BotonLogin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonLogin" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" text="%SignIn">
                            <HBox.margin>
                               <Insets left="120.0" />
                            </HBox.margin></Button>
