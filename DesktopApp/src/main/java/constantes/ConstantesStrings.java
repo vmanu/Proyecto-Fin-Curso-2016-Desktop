@@ -14,6 +14,9 @@ public class ConstantesStrings {
     public static String URL_SERVIDOR="http://localhost:8080/ServerPPTGame/";//"http//servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/"
     public static String URL_SEGURIDAD="seguridad";
     public static String URL_LOGIN="login";
+    public static String URL_GET_BY_VICTORIES="ServletDB?op=getByVictories";
+    public static String URL_GET_BY_AVERAGE="ServletDB?op=getByAverage";
+    public static String URL_GET_BY_ROUNDS="ServletDB?op=getByRounds";
     public static String UTF_8="UTF-8";
     public static String SERVICIO_STRINGS_BUNDLE="strings.UIResources";
     public static String ESCENA_MENU_PPAL="/fxml/FXMLMenuPrincipal.fxml";
@@ -91,5 +94,7 @@ public class ConstantesStrings {
     public static String MISSING_PASS_2="MissingPass2";
     public static String FALLO_COINCIDENCIA_PASS="MatchingFailurePass";
     public static String USER_EXCEED_SIZE="UserExceedSize";
-    
+    public static String SCORES_STRING_NOMBRE="structureScoresNombre";
+    public static String SCORES_STRING_VICTORIAS="structureScoresVictorias";
+    public static String SCORES_STRING_RONDAS="structureScoresRondas";
 }

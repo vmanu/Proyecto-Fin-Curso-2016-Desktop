@@ -81,8 +81,6 @@ public class FXMLController implements Initializable {
     };
 
     @FXML
-    private ComboBox cbox;
-    @FXML
     private Label resultJ1;
     @FXML
     private Label resultJ2;
@@ -417,17 +415,6 @@ public class FXMLController implements Initializable {
         String urlComprobar = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
         if (datos == null) {
             datos = new DataContainer();
-        }
-        if (urlComprobar.equals("FXMLScores.fxml")) {
-            //ENTRA EN SCORES
-            List<String> list = new ArrayList<String>();
-            list.add(rb.getString(VICTORIES_OPTION));
-            list.add(rb.getString(ROUNDS_OPTION));
-            list.add(rb.getString(AVERAGE_OPTION));
-            ObservableList obList = FXCollections.observableList(list);
-            cbox.getItems().clear();
-            cbox.setItems(obList);
-            cbox.setValue(list.get(0));
         }
         if (urlComprobar.equals("FXMLResult.fxml")) {
             comunEvaluacionGanador(datos, rb);

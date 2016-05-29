@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.collections.*?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" minWidth="350.0" prefHeight="608.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.FXMLController">
+<ScrollPane fitToHeight="true" fitToWidth="true" minWidth="350.0" prefHeight="608.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.FXMLScoresController">
     <content>
         <VBox alignment="CENTER" fillWidth="false" prefHeight="608.0" prefWidth="1080.0">
             <children>
@@ -34,7 +34,7 @@
                     <content>
                         <VBox alignment="CENTER" minHeight="900.0" minWidth="350.0" prefHeight="900.0" prefWidth="900.0">
                             <children>
-                                <ListView prefHeight="900.0" prefWidth="900.0" />
+                                <ListView prefHeight="900.0" prefWidth="900.0" fx:id="listViewScores" style="alignment: center"  />
                             </children>
                         </VBox>
                     </content>

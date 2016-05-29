@@ -42,6 +42,7 @@ public class DesktopApp extends Application {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        scene.getStylesheets().add("styles/Styles.css");
         stage.setFullScreenExitHint(bundle.getString(ESC_TO_EXIT_HINT));
         stage.setFullScreenExitKeyCombination(KeyCombination.valueOf(ESC_BUTTON));
         stage.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>(){
