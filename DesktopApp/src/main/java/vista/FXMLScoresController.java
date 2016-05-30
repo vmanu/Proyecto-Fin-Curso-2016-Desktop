@@ -12,6 +12,7 @@ import com.mycompany.datapptgame.Player;
 import static constantes.ConstantesStrings.ESCENA_MENU_PPAL;
 import static constantes.ConstantesStrings.SERVICIO_STRINGS_BUNDLE;
 import static constantes.ConstantesStrings.*;
+import static constantes.conexion.ConstantesConexion.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -69,9 +70,9 @@ public class FXMLScoresController implements Initializable {
         cbox.setItems(obList);
         cbox.setValue(list.get(0));
         getUrls = new HashMap();
-        getUrls.put(rb.getString(VICTORIES_OPTION), URL_GET_BY_VICTORIES);
-        getUrls.put(rb.getString(ROUNDS_OPTION), URL_GET_BY_ROUNDS);
-        getUrls.put(rb.getString(AVERAGE_OPTION), URL_GET_BY_AVERAGE);
+        getUrls.put(rb.getString(VICTORIES_OPTION), URL_SERVLET_DB + URL_GET_BY_VICTORIES);
+        getUrls.put(rb.getString(ROUNDS_OPTION), URL_SERVLET_DB + URL_GET_BY_ROUNDS);
+        getUrls.put(rb.getString(AVERAGE_OPTION), URL_SERVLET_DB + URL_GET_BY_AVERAGE);
         cbox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue ov, String t, String t1) {
@@ -81,7 +82,7 @@ public class FXMLScoresController implements Initializable {
                 }
             }
         });
-        ObservableList<String> data = FXCollections.observableArrayList(formateaDatos(recogerDatos(URL_GET_BY_VICTORIES)));
+        ObservableList<String> data = FXCollections.observableArrayList(formateaDatos(recogerDatos(URL_SERVLET_DB + URL_GET_BY_VICTORIES)));
         listViewScores.setItems(data);
     }
 

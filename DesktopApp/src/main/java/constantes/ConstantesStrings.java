@@ -10,14 +10,6 @@ package constantes;
  * @author Victor
  */
 public class ConstantesStrings {
-    public static String SERVICIO_WEBSOCKET="ws://localhost:8080/ServerPPTGame/ppt?user=";//"ws://servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/ppt?user=";
-    public static String URL_SERVIDOR="http://localhost:8080/ServerPPTGame/";//"http//servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/"
-    public static String URL_SEGURIDAD="seguridad";
-    public static String URL_LOGIN="login";
-    public static String URL_GET_BY_VICTORIES="ServletDB?op=getByVictories";
-    public static String URL_GET_BY_AVERAGE="ServletDB?op=getByAverage";
-    public static String URL_GET_BY_ROUNDS="ServletDB?op=getByRounds";
-    public static String UTF_8="UTF-8";
     public static String SERVICIO_STRINGS_BUNDLE="strings.UIResources";
     public static String ESCENA_MENU_PPAL="/fxml/FXMLMenuPrincipal.fxml";
     public static String ESCENA_JUEGO3="/fxml/FXMLJuegoGame3.fxml";
@@ -68,19 +60,11 @@ public class ConstantesStrings {
     public static String PREFERENCIAS_RONDAS_ONLINE="roundsOnline";
     public static String PREFERENCIAS_JUEGOS_ONLINE="GameOptionOnline";
     public static String PREFERENCIAS_NOMBRE_JUGADOR1_ONLINE="playerJ1NameOnline";
-    public static String PREFERENCIAS_CONECTADO="conectado";
-    public static String PREFERENCIAS_NOMBRE_CONECTADO="nombreConectadoLogin";
     public static String FALLO_CONEXION="FalloConexion";
     public static String FALLO_CONEXION_TITLE="ErrorConexionTitle";
     public static String ESC_TO_EXIT_HINT="PulseESCToExitFullScreen";
     public static String ESC_BUTTON="ESC";
     public static String NOMBRE_APLICACION="AppName";
-    public static String USER="user";
-    public static String CLAVE_HASHEADA="claveHasheada";
-    public static String COMPLEMENTO_HASHEADO="complementoHasheado";
-    public static String URL_AGREGAR_USUARIO="ServletDB?op=put";
-    public static String SI="SI";
-    public static String NO="NO";
     public static String LOGIN_INCORRECT="UserOrPassWrong";
     public static String LOGIN_INCORRECT_TITLE="LoginIncorrectoTitle";
     public static String REGISTER_INCORRECT="UserExist";

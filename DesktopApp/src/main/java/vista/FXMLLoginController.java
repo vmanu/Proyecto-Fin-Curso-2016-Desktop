@@ -12,6 +12,7 @@ import com.mycompany.datapptgame.ClaveComplemento;
 import com.mycompany.datapptgame.User;
 import static constantes.ConstantesCadenasLookup.*;
 import static constantes.ConstantesStrings.*;
+import static constantes.conexion.ConstantesConexion.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -110,7 +111,7 @@ public class FXMLLoginController implements Initializable {
                 nvps.add(new BasicNameValuePair(COMPLEMENTO_HASHEADO, PasswordHash.createHash(complemento)));
                 if (registro) {
                     //mensaje de registro
-                    HttpPost httpPost = new HttpPost(URL_SERVIDOR + URL_AGREGAR_USUARIO);
+                    HttpPost httpPost = new HttpPost(URL_SERVIDOR + URL_SERVLET_DB + URL_AGREGAR_USUARIO);
                     httpPost.setEntity(new UrlEncodedFormEntity(nvps));
                     CloseableHttpResponse response1 = getHttpClient().execute(httpPost);
                     HttpEntity entity1 = response1.getEntity();
