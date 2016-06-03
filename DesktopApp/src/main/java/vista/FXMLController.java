@@ -16,14 +16,10 @@ import static constantes.ConstantesIdentificadores.*;
 import eu.hansolo.enzo.notification.Notification;
 import eu.hansolo.enzo.notification.Notification.Notifier;
 import eu.hansolo.enzo.notification.NotificationEvent;
-import java.util.ArrayList;
-import java.util.List;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -38,6 +34,7 @@ import com.mycompany.datapptgame.GameType;
 import com.mycompany.datapptgame.ModalidadJuego;
 import com.mycompany.datapptgame.OpcionJuego;
 import com.mycompany.datapptgame.Player;
+import com.mycompany.datapptgame.Result;
 import com.mycompany.datapptgame.RoundsNumber;
 import com.mycompany.datapptgame.TypeMessage;
 import static constantes.ConstantesCadenasLookup.*;
@@ -46,7 +43,6 @@ import java.util.HashMap;
 import utilities.PreferencesManager;
 import javax.websocket.ClientEndpoint;
 import utilities.MyClientEndpoint;
-import utilities.UtilidadesJavaFX;
 import static utilities.UtilidadesJavaFX.*;
 import static vista.DesktopApp.getStage;
 
@@ -129,9 +125,9 @@ public class FXMLController implements Initializable {
                 break;
             case ID_BOTON_PLAY_ONLINE_MENU_PRINCIPAL:
                 PreferencesManager.getPreferencesLogin();
-                if(logueado){
+                if (logueado) {
                     loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_ONLINE), bundle);
-                }else{
+                } else {
                     loader = new FXMLLoader(getClass().getResource(ESCENA_LOGIN), bundle);
                 }
                 break;
@@ -284,7 +280,8 @@ public class FXMLController implements Initializable {
             }
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
-        } else {//BACK
+        } else//BACK
+        {
             if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, true);
                 cargarPantalla = false;
@@ -294,7 +291,7 @@ public class FXMLController implements Initializable {
             }
         }
         if (cargarPantalla) {
-            if(datos!=null){
+            if (datos != null) {
                 datos.setTurno(true);
                 datos.setModalidadJuego(ModalidadJuego.ONLINE.ordinal());
             }
@@ -456,17 +453,17 @@ public class FXMLController implements Initializable {
     public static DataContainer getDatos() {
         return datos;
     }
-    
-    public static boolean getLogueado(){
+
+    public static boolean getLogueado() {
         return logueado;
     }
-    
-    public static void changeLogueado(){
-        logueado=!logueado;
+
+    public static void changeLogueado() {
+        logueado = !logueado;
     }
-    
-    public static void setLogueado(boolean nuevo){
-        logueado=nuevo;
+
+    public static void setLogueado(boolean nuevo) {
+        logueado = nuevo;
     }
 
     /**
@@ -588,7 +585,7 @@ public class FXMLController implements Initializable {
      * @param rb
      */
     private void comunEvaluacionGanador(DataContainer datos, ResourceBundle rb) {
-        switch (logicaJuego(datos.getChosen2().ordinal(), datos)) {
+        switch (logicaJuego(datos.getChosen2().ordinal(), datos, false)) {
             case 0:
                 //empata
                 winnerLabel.setText(rb.getString(DRAW));
@@ -613,14 +610,16 @@ public class FXMLController implements Initializable {
      * @param datos
      * @return
      */
-    private int logicaJuego(int chosen, DataContainer datos) {
+    private int logicaJuego(int chosen, DataContainer datos, boolean soloEvalua) {
         int res = 1;//Se cambia de 0 a 1 para evitar el if posterior
         if (chosen == datos.getOrdinalChosen1()) {
             //EMPATA
             res = 0;
         } else {
             boolean ganaChosen = false;
-            datos.avanzaRonda();
+            if (!soloEvalua) {
+                datos.avanzaRonda();
+            }
             for (int j = ((chosen + 1) % ((datos.getFactorAlgoritmo() * 2) + 1)), i = 0; i < (datos.getFactorAlgoritmo()) && !ganaChosen; i++, j = ((j + 1) % ((datos.getFactorAlgoritmo() * 2) + 1))) {
                 if (datos.getOrdinalChosen1() == j) {
                     //CHOSEN GANA
@@ -652,7 +651,7 @@ public class FXMLController implements Initializable {
                 datos.cambiaTurno();
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(bundle.getString(TURNO).replace("X", datos.getNombreJ2()));
-            } else//JUEGA MAQUINA
+            } else//JUEGA MAQUINA O ONLINE
              if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
                     datos.setIdImagenPulsada2(datos.getMapFichasMaquina().get(datos.getChosen2().toString()));
@@ -666,6 +665,8 @@ public class FXMLController implements Initializable {
                     OpcionJuego oj = new OpcionJuego();
                     oj.setOpcion(datos.getChosen1().ordinal());
                     if (datos.getChosen2() != null) {
+                        int res=logicaJuego(datos.getChosen2().ordinal(), datos, true);
+                        oj.setResult(res==0?Result.EMPATA:(res==1?Result.GANA:Result.PIERDE));
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_RESULTADOS), bundle);
                         changeSceneRoot(loader, stage);
@@ -742,14 +743,14 @@ public class FXMLController implements Initializable {
     private void handleOnMouseOut(MouseEvent event) {
         gestionPunteroRatonOut();
     }
-    
+
     @FXML
-    private void handleCloseSession(MouseEvent event){
+    private void handleCloseSession(MouseEvent event) {
         PreferencesManager.setPreferencesLogin(false, "");
-        logueado=false;
+        logueado = false;
         datos.setNombreJ1("");
-        ResourceBundle bundle=ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
-        FXMLLoader loader=loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
+        ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
+        FXMLLoader loader = loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
         changeSceneRoot(loader, getStage());
     }
 }
