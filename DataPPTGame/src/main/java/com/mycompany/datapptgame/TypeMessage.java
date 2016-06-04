@@ -20,5 +20,5 @@ package com.mycompany.datapptgame;
  * @author Victor e Ivan
  */
 public enum TypeMessage {
-    CONEXION,PARTIDA,RESPUESTA,DESCONEXION,NOMBRE
+    CONEXION,PARTIDA,RESPUESTA,DESCONEXION,NOMBRE,CONFIGURACION
 }
