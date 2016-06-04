@@ -10,8 +10,8 @@ package constantes.conexion;
  * @author Victor
  */
 public class ConstantesConexion {
-    public static final String SERVICIO_WEBSOCKET="ws://localhost:8080/ServerPPTGame/ppt?user=";//"ws://servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/ppt?user=";
-    public static final String URL_SERVIDOR="http://localhost:8080/ServerPPTGame/";//"http//servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/"
+    public static final String SERVICIO_WEBSOCKET="ws://192.168.1.104:8080/ServerPPTGame/ppt?user=";//"ws://servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/ppt?user=";
+    public static final String URL_SERVIDOR="http://192.168.1.104:8080/ServerPPTGame/";//"http//servidorpptgame.jelastic.cloudhosted.es/ServerPPTGame/"
     public static final String URL_SEGURIDAD="seguridad";
     public static final String URL_LOGIN="login";
     public static final String URL_SERVLET_DB="ServletDB?op=";
