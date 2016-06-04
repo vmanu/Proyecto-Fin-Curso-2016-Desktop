@@ -283,6 +283,7 @@ public class FXMLController implements Initializable {
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
             websocket=conectaWebsocket(datos, GameType.ANY, RoundsNumber.ANY);
+            cargarPantalla=false;
         } else//BACK
          if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, true);
@@ -413,6 +414,8 @@ public class FXMLController implements Initializable {
         String urlComprobar = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
         if (datos == null) {
             datos = new DataContainer();
+        }else{
+            System.out.println("EL ROUNDLIMIT ES: "+datos.getRoundsLimit());
         }
         if (urlComprobar.equals("FXMLResult.fxml")) {
             comunEvaluacionGanador(datos, rb);

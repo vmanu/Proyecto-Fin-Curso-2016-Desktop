@@ -9,8 +9,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.datapptgame.GameType;
 import com.mycompany.datapptgame.MetaMessage;
+import com.mycompany.datapptgame.ModalidadJuego;
 import com.mycompany.datapptgame.OpcionJuego;
+import com.mycompany.datapptgame.Player;
+import com.mycompany.datapptgame.RoundsNumber;
 import com.mycompany.datapptgame.TypeMessage;
 import static constantes.ConstantesStrings.*;
 import java.io.IOException;
@@ -98,7 +102,7 @@ public class MyClientEndpoint extends Endpoint {
                         }
                     }
                 } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION && !datos.rondasFinalizadas()) {
-                    shootAlert(FALLO_CONEXION,FALLO_CONEXION_TITLE, true);
+                    shootAlert(FALLO_CONEXION, FALLO_CONEXION_TITLE, true);
                 } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
                     try {
                         datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
@@ -110,6 +114,21 @@ public class MyClientEndpoint extends Endpoint {
                         e.printStackTrace();
                     }
 
+                } else if (mt != null) {
+                    try {
+                        //CASO CONFIGURACION (POR RANDOM)
+                        Player p=(Player) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<Player>() {
+                        });
+                        datos.setRoundsLimit(p.getNumberOfRounds()==RoundsNumber.UNA?1:(p.getNumberOfRounds()==RoundsNumber.TRES?3:5));
+                        datos.setFactorAlgoritmo(p.getTipoJuego()==GameType.JUEGO3?1:(p.getTipoJuego()==GameType.JUEGO5?2:4));
+                        datos.setTurno(true);
+                        datos.setModalidadJuego(ModalidadJuego.ONLINE.ordinal());
+                        ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
+                        FXMLLoader loader = new FXMLLoader(datos.getFactorAlgoritmo()==1?getClass().getResource(ESCENA_JUEGO3):(datos.getFactorAlgoritmo()==2?getClass().getResource(ESCENA_JUEGO5):getClass().getResource(ESCENA_JUEGO9)), bundle);
+                        changeSceneRoot(loader, DesktopApp.getStage());
+                    } catch (IOException ex) {
+                        Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });
@@ -144,8 +163,8 @@ public class MyClientEndpoint extends Endpoint {
         System.out.println("ENTRAMOS EN EL ON_OPEN");
         session = sn;
     }
-    
-    public boolean isOpen(){
+
+    public boolean isOpen() {
         return session.isOpen();
     }
 
@@ -181,7 +200,7 @@ public class MyClientEndpoint extends Endpoint {
         while (!sal) {
             if (session != null && session.isOpen()) {
                 try {
-                    System.out.println("EN SEND MESSAGE EL MENSAJE ES: "+new ObjectMapper().writeValueAsString(message));
+                    System.out.println("EN SEND MESSAGE EL MENSAJE ES: " + new ObjectMapper().writeValueAsString(message));
                     session.getBasicRemote().sendText(new ObjectMapper().writeValueAsString(message));
                 } catch (IOException ex) {
                     Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
