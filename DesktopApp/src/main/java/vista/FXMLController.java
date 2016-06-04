@@ -282,16 +282,15 @@ public class FXMLController implements Initializable {
             }
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
+            websocket=conectaWebsocket(datos, GameType.ANY, RoundsNumber.ANY);
         } else//BACK
-        {
-            if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
+         if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, true);
                 cargarPantalla = false;
             } else {
                 loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_ONLINE), bundle);
                 datos = null;
             }
-        }
         if (cargarPantalla) {
             if (datos != null) {
                 datos.setTurno(true);
@@ -428,7 +427,7 @@ public class FXMLController implements Initializable {
         if (urlComprobar.equals("FXMLMenuOpcionesNormal.fxml")) {
             PreferencesManager.getPreferencesNormal(RadioGroup_Rounds_Normal.getChildren(), RadioGroup_Player_Normal.getChildren(), RadioGroup_Games_Normal.getChildren(), TxtFieldP1, TxtFieldP2, NumberRoundsCustom);
         }
-        if(urlComprobar.equals("FXMLMenuJuegoOnline.fxml")){
+        if (urlComprobar.equals("FXMLMenuJuegoOnline.fxml")) {
             putLoginName.setText(datos.getNombreJ1());
         }
         if (urlComprobar.equals("FXMLMenuOpcionesJuegoOnline.fxml")) {
@@ -436,7 +435,8 @@ public class FXMLController implements Initializable {
             PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren(), TxtFieldP1Online);
         }
         System.out.println("modalidad juego: " + datos.getModalidadJuego() + " y online vale: " + ModalidadJuego.ONLINE.ordinal());
-        if (urlComprobar.equals(comprobarGameType.get(datos.getFactorAlgoritmo())) && datos.getRoundsCounter() == 0 && datos.getModalidadJuego() == ModalidadJuego.ONLINE.ordinal()) {
+        if ((websocket == null || (websocket!=null && !websocket.isOpen())) && urlComprobar.equals(comprobarGameType.get(datos.getFactorAlgoritmo())) && datos.getRoundsCounter() == 0 && datos.getModalidadJuego() == ModalidadJuego.ONLINE.ordinal()) {
+            System.out.println("ENTRO EN LA CREACION DEL WEBSOCKET EN INITIALIZE");
             HashMap<Integer, GameType> obtenerGameTypeFromFactor = new HashMap();
             obtenerGameTypeFromFactor.put(1, GameType.JUEGO3);
             obtenerGameTypeFromFactor.put(2, GameType.JUEGO5);
@@ -447,14 +447,10 @@ public class FXMLController implements Initializable {
             obtenerNumberOfRounds.put(3, RoundsNumber.TRES);
             obtenerNumberOfRounds.put(5, RoundsNumber.CINCO);
             obtenerNumberOfRounds.put(-1, RoundsNumber.ANY);
-            websocket = new MyClientEndpoint(datos);
-            Player player = new Player(datos.getNombreJ1(), obtenerGameTypeFromFactor.get(datos.getFactorAlgoritmo()), obtenerNumberOfRounds.get(datos.getRoundsLimit()), false, 0);
-            MetaMessage msg = new MetaMessage();
-            msg.setType(TypeMessage.CONEXION);
-            msg.setContent(player);
-            websocket.sendMessage(msg);
+            websocket=conectaWebsocket(datos, obtenerGameTypeFromFactor.get(datos.getFactorAlgoritmo()), obtenerNumberOfRounds.get(datos.getRoundsLimit()));
+            System.out.println("WEBSOCKET AHORA VALE: "+websocket);
         }
-        
+
     }
 
     public static DataContainer getDatos() {
@@ -659,7 +655,8 @@ public class FXMLController implements Initializable {
                 //TOSTADA INDICANDO TURNO SEGUNDO JUGADOR (CON NOMBRE DE JUGADOR)
                 notificacionToast(bundle.getString(TURNO).replace("X", datos.getNombreJ2()));
             } else//JUEGA MAQUINA O ONLINE
-             if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
+            {
+                if (datos.getModalidadJuego() == ModalidadJuego.UNO.ordinal()) {
                     datos.setChosen2(getEnumFromOrdinal((int) (Math.random() * (((datos.getFactorAlgoritmo()) * 2) + 1)), datos));
                     datos.setIdImagenPulsada2(datos.getMapFichasMaquina().get(datos.getChosen2().toString()));
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -672,8 +669,8 @@ public class FXMLController implements Initializable {
                     OpcionJuego oj = new OpcionJuego();
                     oj.setOpcion(datos.getChosen1().ordinal());
                     if (datos.getChosen2() != null) {
-                        int res=logicaJuego(datos.getChosen2().ordinal(), datos, true);
-                        oj.setResult(res==0?Result.EMPATA:(res==1?Result.GANA:Result.PIERDE));
+                        int res = logicaJuego(datos.getChosen2().ordinal(), datos, true);
+                        oj.setResult(res == 0 ? Result.EMPATA : (res == 1 ? Result.GANA : Result.PIERDE));
                         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_RESULTADOS), bundle);
                         changeSceneRoot(loader, stage);
@@ -681,6 +678,7 @@ public class FXMLController implements Initializable {
                     msg.setContent(oj);
                     websocket.sendMessage(msg);
                 }
+            }
         } else if (!datos.isTurno() && chosen != null) {
             datos.setChosen2(chosen);
             String fullURL = ((Image) ((ImageView) nodo).getImage()).impl_getUrl();

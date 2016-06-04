@@ -144,6 +144,10 @@ public class MyClientEndpoint extends Endpoint {
         System.out.println("ENTRAMOS EN EL ON_OPEN");
         session = sn;
     }
+    
+    public boolean isOpen(){
+        return session.isOpen();
+    }
 
     /**
      * Gestiona el evento onError del websocket

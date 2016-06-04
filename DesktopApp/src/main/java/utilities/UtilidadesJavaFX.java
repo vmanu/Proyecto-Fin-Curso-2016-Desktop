@@ -89,6 +89,7 @@ public class UtilidadesJavaFX {
     /**
      * Método encargado de los alert usados para notificar cualquier tipo de
      * fallo o alerta que deba ser mostrado al usuario
+     *
      * @param excepcion
      * @param contextText
      * @param title
@@ -141,8 +142,8 @@ public class UtilidadesJavaFX {
     }
 
     /**
-     * Gestiona la emisión de un Alert concreto para cuando se ha perdido la conexion
-     * websocket con otro jugador, o cuando el login es incorrecto
+     * Gestiona la emisión de un Alert concreto para cuando se ha perdido la
+     * conexion websocket con otro jugador, o cuando el login es incorrecto
      */
     public static void shootAlert(final String codeOfStringMainText, final String codeOfStringTitle, final boolean cambiaPantalla) {
         Platform.runLater(new Runnable() {
@@ -150,7 +151,7 @@ public class UtilidadesJavaFX {
             public void run() {
                 ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
                 showAlertFields(null, bundle.getString(codeOfStringMainText), bundle.getString(codeOfStringTitle), null);
-                if(cambiaPantalla){
+                if (cambiaPantalla) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
                     changeSceneRoot(loader, DesktopApp.getStage());
                     FXMLController.getDatos().setValoresIniciales();
@@ -158,12 +159,22 @@ public class UtilidadesJavaFX {
             }
         });
     }
-    
-    public static void gestionPunteroRatonOver(){
+
+    public static MyClientEndpoint conectaWebsocket(DataContainer datos, GameType tipoJuego, RoundsNumber numeroRondas) {
+        MyClientEndpoint websocket = new MyClientEndpoint(datos);
+        Player player = new Player(datos.getNombreJ1(), tipoJuego, numeroRondas, false, 0);
+        MetaMessage msg = new MetaMessage();
+        msg.setType(TypeMessage.CONEXION);
+        msg.setContent(player);
+        websocket.sendMessage(msg);
+        return websocket;
+    }
+
+    public static void gestionPunteroRatonOver() {
         DesktopApp.getStage().getScene().setCursor(Cursor.HAND);
     }
-    
-    public static void gestionPunteroRatonOut(){
+
+    public static void gestionPunteroRatonOut() {
         DesktopApp.getStage().getScene().setCursor(Cursor.DEFAULT);
     }
 }
