@@ -113,11 +113,10 @@ public class MyClientEndpoint extends Endpoint {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 } else if (mt != null) {
                     try {
                         //CASO CONFIGURACION (POR RANDOM)
-                        Player p=(Player) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<Player>() {
+                        Player p=mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<Player>() {
                         });
                         datos.setRoundsLimit(p.getNumberOfRounds()==RoundsNumber.UNA?1:(p.getNumberOfRounds()==RoundsNumber.TRES?3:5));
                         datos.setFactorAlgoritmo(p.getTipoJuego()==GameType.JUEGO3?1:(p.getTipoJuego()==GameType.JUEGO5?2:4));
