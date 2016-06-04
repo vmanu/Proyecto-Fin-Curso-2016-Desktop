@@ -83,6 +83,8 @@ public class FXMLController implements Initializable {
     @FXML
     private Label winnerLabel;
     @FXML
+    private Label putLoginName;
+    @FXML
     private ImageView resultImagenJ1Choosed;
     @FXML
     private ImageView resultImagenJ2Choosed;
@@ -426,7 +428,11 @@ public class FXMLController implements Initializable {
         if (urlComprobar.equals("FXMLMenuOpcionesNormal.fxml")) {
             PreferencesManager.getPreferencesNormal(RadioGroup_Rounds_Normal.getChildren(), RadioGroup_Player_Normal.getChildren(), RadioGroup_Games_Normal.getChildren(), TxtFieldP1, TxtFieldP2, NumberRoundsCustom);
         }
+        if(urlComprobar.equals("FXMLMenuJuegoOnline.fxml")){
+            putLoginName.setText(datos.getNombreJ1());
+        }
         if (urlComprobar.equals("FXMLMenuOpcionesJuegoOnline.fxml")) {
+            putLoginName.setText(datos.getNombreJ1());
             PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren(), TxtFieldP1Online);
         }
         System.out.println("modalidad juego: " + datos.getModalidadJuego() + " y online vale: " + ModalidadJuego.ONLINE.ordinal());
@@ -448,6 +454,7 @@ public class FXMLController implements Initializable {
             msg.setContent(player);
             websocket.sendMessage(msg);
         }
+        
     }
 
     public static DataContainer getDatos() {

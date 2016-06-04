@@ -127,7 +127,7 @@ public class FXMLScoresController implements Initializable {
     private void handleButtonBackAction(ActionEvent event) {
         Stage stage = DesktopApp.getStage();
         ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_ONLINE), bundle);
         changeSceneRoot(loader, stage);
     }
 

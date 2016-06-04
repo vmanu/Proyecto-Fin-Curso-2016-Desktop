@@ -15,13 +15,26 @@
     <content>
         <VBox alignment="CENTER" prefHeight="608.0" prefWidth="1080.0">
             <children>
-                <FlowPane alignment="CENTER" columnHalignment="CENTER" orientation="HORIZONTAL" prefHeight="608.0" prefWidth="1080.0" vgap="20.0" maxWidth="461.0">
+                <HBox alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="1080.0">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" fx:id="putLoginName">
+                            <HBox.margin>
+                                <Insets right="30.0" />
+                            </HBox.margin>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" onMouseClicked="#handleCloseSession" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" text="%Close" textFill="BLUE" underline="true">
+                            <HBox.margin>
+                                <Insets right="30.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+                <FlowPane alignment="CENTER" columnHalignment="CENTER" orientation="HORIZONTAL" prefHeight="560.0" prefWidth="1080.0" vgap="20.0" maxWidth="461.0">
                     <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%OnlineModeTitle">
                             <font>
                                 <Font size="24.0" />
                             </font>
-               
                         </Label>
                         <Button mnemonicParsing="false" onAction="#handleButtonsMenuOnlineAction" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" prefHeight="25.0" prefWidth="461.0" text="%Play">
                             <id>

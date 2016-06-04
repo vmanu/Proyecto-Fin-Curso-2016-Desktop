@@ -15,19 +15,25 @@
     <content>
         <VBox alignment="CENTER" minHeight="300.0" minWidth="500.0" prefHeight="60.0" prefWidth="1080.0">
             <children>
-            <HBox alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="1080.0">
-               <children>
+                <HBox alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="1080.0">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" fx:id="putLoginName">
+                            <HBox.margin>
+                                <Insets right="10.0" />
+                            </HBox.margin>
+                        </Label>
                         <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" onMouseClicked="#handleCloseSession" onMouseEntered="#handleOnMouseOver" onMouseExited="#handleOnMouseOut" text="%Close" textFill="BLUE" underline="true">
-                     <HBox.margin>
-                        <Insets right="30.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
+                            <HBox.margin>
+                                <Insets right="30.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
                 <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="590.0" prefWidth="1080.0">
                     <content>
                         <VBox fx:id="VBoxParentOnlineOptions" alignment="TOP_CENTER" fillWidth="false" prefHeight="590.0" prefWidth="1080.0">
                             <children>
+                                
                                 <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="461.0" text="%ChooseOption" visible="true">
                                     <font>
                                         <Font size="24.0" />
