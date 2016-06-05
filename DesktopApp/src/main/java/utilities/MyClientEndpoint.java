@@ -79,54 +79,70 @@ public class MyClientEndpoint extends Endpoint {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (mt != null && mt.getType() == TypeMessage.RESPUESTA) {
-                    OpcionJuego oj = null;
-                    try {
-                        oj = mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<OpcionJuego>() {
-                        });
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (oj != null) {
-                        boolean eraNull = datos.getChosen2() == null;
-                        datos.setChosen2(getEnumFromOrdinal(oj.getOpcion(), datos));
-                        datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
-                        if (datos.getChosen1() != null) {
-                            //CARGAR EL FXML. TODO
-                            //DesktopApp.getStage().hide();
-                            ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_RESULTADOS), bundle);
-                            changeSceneRoot(loader, DesktopApp.getStage());
-                        } else if (!eraNull) {
-                            FXMLController.cambiaSegundoMensaje();
+                if (mt != null) {
+                    if (mt.getType() == TypeMessage.RESPUESTA) {
+                        OpcionJuego oj = null;
+                        try {
+                            oj = mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<OpcionJuego>() {
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    }
-                } else if (mt != null && mt.getType() == TypeMessage.DESCONEXION && !datos.rondasFinalizadas()) {
-                    shootAlert(FALLO_CONEXION, FALLO_CONEXION_TITLE, true);
-                } else if (mt != null && mt.getType() == TypeMessage.NOMBRE) {
-                    try {
-                        datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
-                        }));
-                        //tarea.notify();
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else if (mt != null) {
-                    try {
-                        //CASO CONFIGURACION (POR RANDOM)
-                        Player p=mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<Player>() {
-                        });
-                        datos.setRoundsLimit(p.getNumberOfRounds()==RoundsNumber.UNA?1:(p.getNumberOfRounds()==RoundsNumber.TRES?3:5));
-                        datos.setFactorAlgoritmo(p.getTipoJuego()==GameType.JUEGO3?1:(p.getTipoJuego()==GameType.JUEGO5?2:4));
-                        datos.setTurno(true);
-                        datos.setModalidadJuego(ModalidadJuego.ONLINE.ordinal());
-                        ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
-                        FXMLLoader loader = new FXMLLoader(datos.getFactorAlgoritmo()==1?getClass().getResource(ESCENA_JUEGO3):(datos.getFactorAlgoritmo()==2?getClass().getResource(ESCENA_JUEGO5):getClass().getResource(ESCENA_JUEGO9)), bundle);
-                        changeSceneRoot(loader, DesktopApp.getStage());
-                    } catch (IOException ex) {
-                        Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+                        if (oj != null) {
+                            boolean eraNull = datos.getChosen2() == null;
+                            datos.setChosen2(getEnumFromOrdinal(oj.getOpcion(), datos));
+                            datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
+                            if (datos.getChosen1() != null) {
+                                //CARGAR EL FXML. TODO
+                                //DesktopApp.getStage().hide();
+                                ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_RESULTADOS), bundle);
+                                changeSceneRoot(loader, DesktopApp.getStage());
+                            } else if (!eraNull) {
+                                FXMLController.cambiaSegundoMensaje();
+                            }
+                        }
+                    } else if (mt.getType() == TypeMessage.DESCONEXION && !datos.rondasFinalizadas()) {
+                        shootAlert(FALLO_CONEXION, FALLO_CONEXION_TITLE, true);
+                    } else if (mt.getType() == TypeMessage.NOMBRE) {
+                        try {
+                            datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
+                            }));
+                            //tarea.notify();
+                            FXMLLoader loader = null;
+                            ResourceBundle bundle=ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
+                            switch (datos.getFactorAlgoritmo()) {
+                                case 1:
+                                    loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO3), bundle);
+                                    break;
+                                case 2:
+                                    loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO5), bundle);
+                                    break;
+                                case 4:
+                                    loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO9), bundle);
+                                    break;
+                            }
+                            changeSceneRoot(loader, DesktopApp.getStage());
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            //CASO CONFIGURACION (POR RANDOM)
+                            Player p = mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<Player>() {
+                            });
+                            datos.setRoundsLimit(p.getNumberOfRounds() == RoundsNumber.UNA ? 1 : (p.getNumberOfRounds() == RoundsNumber.TRES ? 3 : 5));
+                            datos.setFactorAlgoritmo(p.getTipoJuego() == GameType.JUEGO3 ? 1 : (p.getTipoJuego() == GameType.JUEGO5 ? 2 : 4));
+                            datos.setTurno(true);
+                            datos.setModalidadJuego(ModalidadJuego.ONLINE.ordinal());
+                            ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
+                            FXMLLoader loader = new FXMLLoader(datos.getFactorAlgoritmo() == 1 ? getClass().getResource(ESCENA_JUEGO3) : (datos.getFactorAlgoritmo() == 2 ? getClass().getResource(ESCENA_JUEGO5) : getClass().getResource(ESCENA_JUEGO9)), bundle);
+                            changeSceneRoot(loader, DesktopApp.getStage());
+                        } catch (IOException ex) {
+                            Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             }

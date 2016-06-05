@@ -246,7 +246,7 @@ public class FXMLController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         String boton = ((Button) event.getSource()).getId();
         ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
-        FXMLLoader loader = null;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_CARGANDO), bundle);;
         if (boton.equals(ID_BOTON_PLAY_OPCIONES_MENU_ONLINE)) {
             if (((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, false);
@@ -255,15 +255,15 @@ public class FXMLController implements Initializable {
                 gameOption = getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup(RADIOGROUP_JUEGOS_ONLINE)).getChildren()));
                 switch (gameOption) {
                     case ID_RADIOBUTTON_GAME_OF_3:
-                        loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO3), bundle);
+                        //loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO3), bundle);
                         datos.setFactorAlgoritmo(1);
                         break;
                     case ID_RADIOBUTTON_GAME_OF_5:
-                        loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO5), bundle);
+                        //loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO5), bundle);
                         datos.setFactorAlgoritmo(2);
                         break;
                     case ID_RADIOBUTTON_GAME_OF_9:
-                        loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO9), bundle);
+                        //loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO9), bundle);
                         datos.setFactorAlgoritmo(4);
                         break;
                 }
@@ -438,7 +438,7 @@ public class FXMLController implements Initializable {
             PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren(), TxtFieldP1Online);
         }
         System.out.println("modalidad juego: " + datos.getModalidadJuego() + " y online vale: " + ModalidadJuego.ONLINE.ordinal());
-        if ((websocket == null || (websocket!=null && !websocket.isOpen())) && urlComprobar.equals(comprobarGameType.get(datos.getFactorAlgoritmo())) && datos.getRoundsCounter() == 0 && datos.getModalidadJuego() == ModalidadJuego.ONLINE.ordinal()) {
+        if ((websocket == null || (websocket!=null && !websocket.isOpen())) && urlComprobar.equals("FXMLCargando.fxml") && datos.getRoundsCounter() == 0 && datos.getModalidadJuego() == ModalidadJuego.ONLINE.ordinal()) {
             System.out.println("ENTRO EN LA CREACION DEL WEBSOCKET EN INITIALIZE");
             HashMap<Integer, GameType> obtenerGameTypeFromFactor = new HashMap();
             obtenerGameTypeFromFactor.put(1, GameType.JUEGO3);

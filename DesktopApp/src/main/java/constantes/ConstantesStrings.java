@@ -12,6 +12,7 @@ package constantes;
 public class ConstantesStrings {
     public static final String SERVICIO_STRINGS_BUNDLE="strings.UIResources";
     public static final String ESCENA_MENU_PPAL="/fxml/FXMLMenuPrincipal.fxml";
+    public static final String ESCENA_CARGANDO="/fxml/FXMLCargando.fxml";
     public static final String ESCENA_JUEGO3="/fxml/FXMLJuegoGame3.fxml";
     public static final String ESCENA_JUEGO5="/fxml/FXMLJuegoGame5.fxml";
     public static final String ESCENA_JUEGO9="/fxml/FXMLJuegoGame9.fxml";
