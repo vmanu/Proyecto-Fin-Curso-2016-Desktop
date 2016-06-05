@@ -17,7 +17,6 @@ public class ConstantesIdentificadores {
     public static final String ID_BOTON_DEVELOPERS_MENU_PRINCIPAL="InfoDeveloperButton";
     public static final String ID_BOTON_PLAY_MENU_JUEGO_NORMAL="PlayMenuJuegoNormal";
     public static final String ID_BOTON_SCORES_MENU_JUEGO_NORMAL="ScoresMenuJuegoNormal";
-    public static final String ID_BOTON_BACKUP_MENU_JUEGO_NORMAL="BackupMenuJuegoNormal";
     public static final String ID_BOTON_BACK_MENU_JUEGO_NORMAL="BackMenuJuegoNormal";
     public static final String ID_BOTON_BACK_MENU_JUEGO_ONLINE="BackMenuJuegoOnline";
     public static final String ID_BOTON_SCORES_MENU_JUEGO_ONLINE="ScoresMenuJuegoOnline";
