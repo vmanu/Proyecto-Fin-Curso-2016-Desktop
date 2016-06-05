@@ -16,11 +16,11 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="500.0" minHeight="500.0" minWidth="350.0" prefHeight="1800.0" prefViewportHeight="17.0" prefViewportWidth="61.0" prefWidth="1080.0">
+            <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="500.0" minWidth="350.0" prefHeight="1800.0" prefViewportHeight="17.0" prefViewportWidth="61.0" prefWidth="1080.0">
                <content>
-                  <VBox alignment="CENTER" fillWidth="false" minHeight="900.0" minWidth="350.0" prefHeight="900.0" prefWidth="900.0">
+                  <VBox alignment="CENTER" fillWidth="false" minHeight="1000.0" minWidth="350.0" prefHeight="900.0" prefWidth="900.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" minHeight="900.0" minWidth="350.0" prefHeight="900.0" prefWidth="350.0" text="%RulesText" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" minHeight="1000.0" minWidth="350.0" prefHeight="900.0" prefWidth="350.0" text="%RulesText" />
                      </children>
                   </VBox>
                </content>

@@ -42,7 +42,7 @@ public class ConstantesStrings {
     public static final String IMAGEN_HUMANO_AZUL="imagenes/humanazul.png";
     public static final String IMAGEN_ESPONJA_AZUL="imagenes/spongeazul.png";
     public static final String IMAGEN_FUEGO_AZUL="imagenes/fireazul.png";
-    public static final String IMAGEN_ICONO_APP="/imagenes/fivegame.jpg";
+    public static final String IMAGEN_ICONO_APP="/imagenes/fivegame.png";
     public static final String DRAW="Draw";
     public static final String WINS="wins";
     public static final String CONTINUE="Continue";

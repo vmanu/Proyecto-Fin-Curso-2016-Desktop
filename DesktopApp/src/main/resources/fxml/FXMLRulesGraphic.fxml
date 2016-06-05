@@ -17,14 +17,20 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="500.0" minHeight="500.0" minWidth="350.0" prefHeight="1800.0" prefViewportHeight="17.0" prefViewportWidth="61.0" prefWidth="1080.0">
+            <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="500.0" minWidth="350.0" prefHeight="1800.0" prefViewportHeight="17.0" prefViewportWidth="61.0" prefWidth="1080.0">
                <content>
-                  <VBox alignment="TOP_CENTER" fillWidth="false" minHeight="900.0" minWidth="350.0" prefHeight="900.0" prefWidth="900.0">
+                  <VBox alignment="TOP_CENTER" fillWidth="false" minHeight="1300.0" minWidth="350.0" prefHeight="900.0" prefWidth="900.0">
                      <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" minWidth="350.0" prefHeight="20.0" prefWidth="350.0" text="%RelationsW3" />
+                        <ImageView fitHeight="398.0" fitWidth="495.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagenes/threegame.png" />
+                           </image>
+                        </ImageView>
                         <Label alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" minWidth="350.0" prefHeight="20.0" prefWidth="350.0" text="%RelationsW5" />
                         <ImageView fitHeight="398.0" fitWidth="495.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../imagenes/fivegame.jpg" />
+                              <Image url="@../imagenes/fivegame.png" />
                            </image>
                         </ImageView>
                         <Label alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" minWidth="350.0" prefHeight="20.0" prefWidth="350.0" text="%RelationsW9" />
