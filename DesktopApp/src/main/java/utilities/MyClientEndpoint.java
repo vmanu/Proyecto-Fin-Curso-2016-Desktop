@@ -104,6 +104,7 @@ public class MyClientEndpoint extends Endpoint {
                         }
                     } else if (mt.getType() == TypeMessage.DESCONEXION && !datos.rondasFinalizadas()) {
                         shootAlert(FALLO_CONEXION, FALLO_CONEXION_TITLE, true);
+                        closeWebsocket();
                     } else if (mt.getType() == TypeMessage.NOMBRE) {
                         try {
                             datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
