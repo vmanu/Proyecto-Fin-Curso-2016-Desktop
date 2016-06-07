@@ -106,8 +106,8 @@ public class FXMLController implements Initializable {
     private VBox RadioGroup_Games_Online;
     @FXML
     private VBox RadioGroup_Rounds_Online;
-    @FXML
-    private TextField TxtFieldP1Online;
+//    @FXML
+//    private TextField TxtFieldP1Online;
 
     /**
      * Gestiona los eventos del menu principal (los botones), tomará diferentes
@@ -435,7 +435,7 @@ public class FXMLController implements Initializable {
         }
         if (urlComprobar.equals("FXMLMenuOpcionesJuegoOnline.fxml")) {
             putLoginName.setText(datos.getNombreJ1());
-            PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren(), TxtFieldP1Online);
+            PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren());
         }
         System.out.println("modalidad juego: " + datos.getModalidadJuego() + " y online vale: " + ModalidadJuego.ONLINE.ordinal());
         if ((websocket == null || (websocket!=null && !websocket.isOpen())) && urlComprobar.equals("FXMLCargando.fxml") && datos.getRoundsCounter() == 0 && datos.getModalidadJuego() == ModalidadJuego.ONLINE.ordinal()) {

@@ -117,7 +117,7 @@ public class PreferencesManager {
      * @param nodoGame radioButtons de Tipo Juego que pueden ser seleccionados
      * @param player1 valor a poner en el textField que refiere al jugador 1 (local)
      */
-    public static void getPreferencesOnline(ObservableList<Node> nodoRound, ObservableList<Node> nodoGame, TextField player1) {
+    public static void getPreferencesOnline(ObservableList<Node> nodoRound, ObservableList<Node> nodoGame/*, TextField player1*/) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
         changeStateRadioButton(nodoRound, prefs.get(PREFERENCIAS_RONDAS_ONLINE, ""));
         changeStateRadioButton(nodoGame, prefs.get(PREFERENCIAS_JUEGOS_ONLINE, ""));
