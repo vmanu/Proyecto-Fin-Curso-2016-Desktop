@@ -282,8 +282,9 @@ public class FXMLController implements Initializable {
             }
         } else if (boton.equals(ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)) {
             //MAKE RANDOMLY THE SETTING OF THE GAME
-            websocket=conectaWebsocket(datos, GameType.ANY, RoundsNumber.ANY);
-            cargarPantalla=false;
+            websocket = conectaWebsocket(datos, GameType.ANY, RoundsNumber.ANY);
+            loader = new FXMLLoader(getClass().getResource(ESCENA_CARGANDO), bundle);
+            cargarPantalla = true;
         } else//BACK
          if (!((Button) stage.getScene().lookup("#" + ID_BOTON_RANDOMLY_OPCIONES_MENU_ONLINE)).isVisible()) {
                 setVisibilitiesStateMenuOpcionesOnline(stage, true);
@@ -414,8 +415,8 @@ public class FXMLController implements Initializable {
         String urlComprobar = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
         if (datos == null) {
             datos = new DataContainer();
-        }else{
-            System.out.println("EL ROUNDLIMIT ES: "+datos.getRoundsLimit());
+        } else {
+            System.out.println("EL ROUNDLIMIT ES: " + datos.getRoundsLimit());
         }
         if (urlComprobar.equals("FXMLResult.fxml")) {
             comunEvaluacionGanador(datos, rb);
@@ -438,7 +439,7 @@ public class FXMLController implements Initializable {
             PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren());
         }
         System.out.println("modalidad juego: " + datos.getModalidadJuego() + " y online vale: " + ModalidadJuego.ONLINE.ordinal());
-        if ((websocket == null || (websocket!=null && !websocket.isOpen())) && urlComprobar.equals("FXMLCargando.fxml") && datos.getRoundsCounter() == 0 && datos.getModalidadJuego() == ModalidadJuego.ONLINE.ordinal()) {
+        if ((websocket == null || (websocket != null && !websocket.isOpen())) && urlComprobar.equals("FXMLCargando.fxml") && datos.getRoundsCounter() == 0 && datos.getModalidadJuego() == ModalidadJuego.ONLINE.ordinal()) {
             System.out.println("ENTRO EN LA CREACION DEL WEBSOCKET EN INITIALIZE");
             HashMap<Integer, GameType> obtenerGameTypeFromFactor = new HashMap();
             obtenerGameTypeFromFactor.put(1, GameType.JUEGO3);
@@ -450,8 +451,8 @@ public class FXMLController implements Initializable {
             obtenerNumberOfRounds.put(3, RoundsNumber.TRES);
             obtenerNumberOfRounds.put(5, RoundsNumber.CINCO);
             obtenerNumberOfRounds.put(-1, RoundsNumber.ANY);
-            websocket=conectaWebsocket(datos, obtenerGameTypeFromFactor.get(datos.getFactorAlgoritmo()), obtenerNumberOfRounds.get(datos.getRoundsLimit()));
-            System.out.println("WEBSOCKET AHORA VALE: "+websocket);
+            websocket = conectaWebsocket(datos, obtenerGameTypeFromFactor.get(datos.getFactorAlgoritmo()), obtenerNumberOfRounds.get(datos.getRoundsLimit()));
+            System.out.println("WEBSOCKET AHORA VALE: " + websocket);
         }
 
     }
