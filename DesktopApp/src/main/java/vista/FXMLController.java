@@ -570,8 +570,8 @@ public class FXMLController implements Initializable {
                 ((Node) stage.getScene().lookup(IMAGEN_ELEGIDA_JUGADOR_1_JUEGO_9)).setVisible(true);
                 ((Node) stage.getScene().lookup(IMAGEN_ELEGIDA_JUGADOR_2_JUEGO_9)).setVisible(false);
                 ((ImageView) stage.getScene().lookup(IMAGENBUTTON_PIEDRA_9)).setImage(new Image(IMAGEN_PIEDRA_AZUL));
-                ((ImageView) stage.getScene().lookup(IMAGENBUTTON_PAPEL_5)).setImage(new Image(IMAGEN_PAPEL_AZUL));
-                ((ImageView) stage.getScene().lookup(IMAGENBUTTON_TIJERA_5)).setImage(new Image(IMAGEN_TIJERA_AZUL));
+                ((ImageView) stage.getScene().lookup(IMAGENBUTTON_PAPEL_9)).setImage(new Image(IMAGEN_PAPEL_AZUL));
+                ((ImageView) stage.getScene().lookup(IMAGENBUTTON_TIJERA_9)).setImage(new Image(IMAGEN_TIJERA_AZUL));
                 ((ImageView) stage.getScene().lookup(IMAGENBUTTON_AGUA)).setImage(new Image(IMAGEN_AGUA_AZUL));
                 ((ImageView) stage.getScene().lookup(IMAGENBUTTON_VIENTO)).setImage(new Image(IMAGEN_VIENTO_AZUL));
                 ((ImageView) stage.getScene().lookup(IMAGENBUTTON_ARMA)).setImage(new Image(IMAGEN_ARMA_AZUL));
