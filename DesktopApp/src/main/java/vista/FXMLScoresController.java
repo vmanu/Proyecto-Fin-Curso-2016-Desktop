@@ -9,7 +9,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.datapptgame.Player;
-import static constantes.ConstantesStrings.ESCENA_MENU_PPAL;
 import static constantes.ConstantesStrings.SERVICIO_STRINGS_BUNDLE;
 import static constantes.ConstantesStrings.*;
 import static constantes.conexion.ConstantesConexion.*;
@@ -29,7 +28,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -60,7 +58,6 @@ public class FXMLScoresController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //ENTRA EN SCORES
         List<String> list = new ArrayList<String>();
         list.add(rb.getString(VICTORIES_OPTION));
         list.add(rb.getString(ROUNDS_OPTION));
@@ -91,7 +88,6 @@ public class FXMLScoresController implements Initializable {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         List<Player> players = null;
         try {
-            //mensaje de registro
             HttpPost httpPost = new HttpPost(URL_SERVIDOR + url);
             CloseableHttpResponse response1 = DesktopApp.getHttpClient().execute(httpPost);
             HttpEntity entity1 = response1.getEntity();

@@ -33,7 +33,6 @@ import modelo.DataContainer;
 import com.mycompany.datapptgame.GameType;
 import com.mycompany.datapptgame.ModalidadJuego;
 import com.mycompany.datapptgame.OpcionJuego;
-import com.mycompany.datapptgame.Player;
 import com.mycompany.datapptgame.Result;
 import com.mycompany.datapptgame.RoundsNumber;
 import com.mycompany.datapptgame.TypeMessage;
@@ -68,13 +67,6 @@ public class FXMLController implements Initializable {
     private final String RUTA_IMAGENES = "imagenes";
     private static MyClientEndpoint websocket;
     private static boolean segundoMensaje;
-    private static HashMap<Integer, String> comprobarGameType = new HashMap() {
-        {
-            put(1, "FXMLJuegoGame3.fxml");
-            put(2, "FXMLJuegoGame5.fxml");
-            put(4, "FXMLJuegoGame9.fxml");
-        }
-    };
 
     @FXML
     private Label resultJ1;
@@ -106,8 +98,6 @@ public class FXMLController implements Initializable {
     private VBox RadioGroup_Games_Online;
     @FXML
     private VBox RadioGroup_Rounds_Online;
-//    @FXML
-//    private TextField TxtFieldP1Online;
 
     /**
      * Gestiona los eventos del menu principal (los botones), tomará diferentes
@@ -255,15 +245,12 @@ public class FXMLController implements Initializable {
                 gameOption = getSelectedRadioButtonID(((ObservableList<Node>) ((VBox) stage.getScene().lookup(RADIOGROUP_JUEGOS_ONLINE)).getChildren()));
                 switch (gameOption) {
                     case ID_RADIOBUTTON_GAME_OF_3:
-                        //loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO3), bundle);
                         datos.setFactorAlgoritmo(1);
                         break;
                     case ID_RADIOBUTTON_GAME_OF_5:
-                        //loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO5), bundle);
                         datos.setFactorAlgoritmo(2);
                         break;
                     case ID_RADIOBUTTON_GAME_OF_9:
-                        //loader = new FXMLLoader(getClass().getResource(ESCENA_JUEGO9), bundle);
                         datos.setFactorAlgoritmo(4);
                         break;
                 }
@@ -415,8 +402,6 @@ public class FXMLController implements Initializable {
         String urlComprobar = url.getPath().substring(url.getPath().lastIndexOf("/") + 1);
         if (datos == null) {
             datos = new DataContainer();
-        } else {
-            System.out.println("EL ROUNDLIMIT ES: " + datos.getRoundsLimit());
         }
         if (urlComprobar.equals("FXMLResult.fxml")) {
             comunEvaluacionGanador(datos, rb);
@@ -438,9 +423,7 @@ public class FXMLController implements Initializable {
             putLoginName.setText(datos.getNombreJ1());
             PreferencesManager.getPreferencesOnline(RadioGroup_Rounds_Online.getChildren(), RadioGroup_Games_Online.getChildren());
         }
-        System.out.println("modalidad juego: " + datos.getModalidadJuego() + " y online vale: " + ModalidadJuego.ONLINE.ordinal());
         if ((websocket == null || (websocket != null && !websocket.isOpen())) && urlComprobar.equals("FXMLCargando.fxml") && datos.getRoundsCounter() == 0 && datos.getModalidadJuego() == ModalidadJuego.ONLINE.ordinal()) {
-            System.out.println("ENTRO EN LA CREACION DEL WEBSOCKET EN INITIALIZE");
             HashMap<Integer, GameType> obtenerGameTypeFromFactor = new HashMap();
             obtenerGameTypeFromFactor.put(1, GameType.JUEGO3);
             obtenerGameTypeFromFactor.put(2, GameType.JUEGO5);
@@ -452,7 +435,6 @@ public class FXMLController implements Initializable {
             obtenerNumberOfRounds.put(5, RoundsNumber.CINCO);
             obtenerNumberOfRounds.put(-1, RoundsNumber.ANY);
             websocket = conectaWebsocket(datos, obtenerGameTypeFromFactor.get(datos.getFactorAlgoritmo()), obtenerNumberOfRounds.get(datos.getRoundsLimit()));
-            System.out.println("WEBSOCKET AHORA VALE: " + websocket);
         }
 
     }

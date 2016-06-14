@@ -12,7 +12,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import modelo.DataContainer;
 import static constantes.conexion.ConstantesConexion.*;
 import vista.FXMLController;
 import static vista.FXMLController.getDatos;
@@ -104,7 +103,7 @@ public class PreferencesManager {
      * @param gameOption radioButton seleccionado relativo al tipo de juego
      * @param player1Name textField con el nombre del Jugador 1 (local)
      */
-    public static void setPreferencesOnline(String roundsOption, String gameOption/*, String player1Name*/) {
+    public static void setPreferencesOnline(String roundsOption, String gameOption) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
         prefs.put(PREFERENCIAS_RONDAS_ONLINE, roundsOption);
         prefs.put(PREFERENCIAS_JUEGOS_ONLINE, gameOption);
@@ -117,7 +116,7 @@ public class PreferencesManager {
      * @param nodoGame radioButtons de Tipo Juego que pueden ser seleccionados
      * @param player1 valor a poner en el textField que refiere al jugador 1 (local)
      */
-    public static void getPreferencesOnline(ObservableList<Node> nodoRound, ObservableList<Node> nodoGame/*, TextField player1*/) {
+    public static void getPreferencesOnline(ObservableList<Node> nodoRound, ObservableList<Node> nodoGame) {
         Preferences prefs = Preferences.userNodeForPackage(FXMLController.class);
         changeStateRadioButton(nodoRound, prefs.get(PREFERENCIAS_RONDAS_ONLINE, ""));
         changeStateRadioButton(nodoGame, prefs.get(PREFERENCIAS_JUEGOS_ONLINE, ""));

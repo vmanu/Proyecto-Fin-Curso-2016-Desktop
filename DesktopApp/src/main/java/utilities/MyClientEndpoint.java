@@ -23,10 +23,7 @@ import java.net.URISyntaxException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.stage.Stage;
 import static constantes.conexion.ConstantesConexion.*;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
@@ -59,7 +56,6 @@ public class MyClientEndpoint extends Endpoint {
      */
     public MyClientEndpoint(final DataContainer datos) {
         try {
-            //192.168.206.1 PORTATIL - 192.168.1.104 CASA - SERVIDOR (DEFINITIVO) ws://servidor-pptgame.rhcloud.com:8000/ServerPPTGame/ppt?user=
             URI uri = new URI(SERVICIO_WEBSOCKET + datos.getNombreJ1());
             connectToWebSocket(uri);
         } catch (URISyntaxException ex) {
@@ -69,7 +65,6 @@ public class MyClientEndpoint extends Endpoint {
 
             @Override
             public void onMessage(String t) {
-                System.out.println("onMessage: " + t);
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 MetaMessage mt = null;
@@ -93,8 +88,6 @@ public class MyClientEndpoint extends Endpoint {
                             datos.setChosen2(getEnumFromOrdinal(oj.getOpcion(), datos));
                             datos.setIdImagenPulsada2(gestionaPulsadoMaquina(datos.getChosen2(), datos));
                             if (datos.getChosen1() != null) {
-                                //CARGAR EL FXML. TODO
-                                //DesktopApp.getStage().hide();
                                 ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_RESULTADOS), bundle);
                                 changeSceneRoot(loader, DesktopApp.getStage());
@@ -109,7 +102,6 @@ public class MyClientEndpoint extends Endpoint {
                         try {
                             datos.setNombreJ2((String) mapper.readValue(mapper.writeValueAsString(mt.getContent()), new TypeReference<String>() {
                             }));
-                            //tarea.notify();
                             FXMLLoader loader = null;
                             ResourceBundle bundle=ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
                             switch (datos.getFactorAlgoritmo()) {
@@ -161,7 +153,6 @@ public class MyClientEndpoint extends Endpoint {
         try {
             container.connectToServer(this, uri);
         } catch (DeploymentException | IOException ex) {
-            //LOGGER.log(Level.SEVERE, null, ex);
             System.exit(-1);
         }
     }
@@ -176,7 +167,6 @@ public class MyClientEndpoint extends Endpoint {
      */
     @Override
     public void onOpen(Session sn, EndpointConfig ec) {
-        System.out.println("ENTRAMOS EN EL ON_OPEN");
         session = sn;
     }
 
@@ -216,7 +206,6 @@ public class MyClientEndpoint extends Endpoint {
         while (!sal) {
             if (session != null && session.isOpen()) {
                 try {
-                    System.out.println("EN SEND MESSAGE EL MENSAJE ES: " + new ObjectMapper().writeValueAsString(message));
                     session.getBasicRemote().sendText(new ObjectMapper().writeValueAsString(message));
                 } catch (IOException ex) {
                     Logger.getLogger(MyClientEndpoint.class.getName()).log(Level.SEVERE, null, ex);

@@ -52,7 +52,6 @@ public class DesktopApp extends Application {
                     stage.setFullScreen(true);
                 }
             }
-            
         });
         httpclient=HttpClients.createDefault();
         stage.setTitle(bundle.getString(NOMBRE_APLICACION));

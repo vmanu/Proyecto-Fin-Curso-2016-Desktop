@@ -74,13 +74,9 @@ public class FXMLLoginController implements Initializable {
                 mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 CloseableHttpResponse response1;
                 HttpPost httpPost = new HttpPost(URL_SERVIDOR + URL_SEGURIDAD);
-//                List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-//                nvps.add(new BasicNameValuePair("op", "security"));
-//                httpPost.setEntity(new UrlEncodedFormEntity(nvps));
                 response1 = getHttpClient().execute(httpPost);
                 HttpEntity entity1 = response1.getEntity();
                 cc = EntityUtils.toString(entity1, UTF_8);
-                System.out.println("veamos");
                 ClaveComplemento keys = mapper.readValue(cc, new TypeReference<ClaveComplemento>() {
                 });
                 clave = keys.getClaves().get((int) Math.random() * keys.getClaves().size());
@@ -95,7 +91,6 @@ public class FXMLLoginController implements Initializable {
 
     @FXML
     private void handleButtonLogin(ActionEvent event) {
-        System.out.println("EN LOGIN " + (clave + complemento));
         boolean logueadoCorrectamente = false;
         boolean registro = ((PasswordField) DesktopApp.getStage().getScene().lookup(CAMPO_PASS_CONFIRMACION)).isVisible();
         String log = ((TextField) DesktopApp.getStage().getScene().lookup(CAMPO_USER_LOGIN)).getText();
@@ -174,13 +169,11 @@ public class FXMLLoginController implements Initializable {
         Button boton = (Button) DesktopApp.getStage().getScene().lookup(BOTON_LOGIN);
         ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
         if (!segundaPass.isVisible()) {
-            System.out.println("A REGISTER");
             segundaPass.setManaged(true);
             segundaPass.setVisible(true);
             ((Label) event.getSource()).setText(bundle.getString(SIGN_IN_LOW));
             boton.setText(bundle.getString(SIGN_UP));
         } else {
-            System.out.println("De vuelta a Login");
             segundaPass.setManaged(false);
             segundaPass.setVisible(false);
             ((Label) event.getSource()).setText(bundle.getString(SIGN_UP_LOW));
@@ -190,7 +183,6 @@ public class FXMLLoginController implements Initializable {
 
     @FXML
     private void handleButtonBack(ActionEvent event) {
-        System.out.println("EN BACK");
         ResourceBundle bundle = ResourceBundle.getBundle(SERVICIO_STRINGS_BUNDLE);
         FXMLLoader loader = new FXMLLoader(getClass().getResource(ESCENA_MENU_PPAL), bundle);
         changeSceneRoot(loader, DesktopApp.getStage());
